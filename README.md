@@ -16,7 +16,7 @@ Here are some ideas to get you started:
 
 - 🔭 I’m currently working on ... Catching Fish **🐟 **
 - 🌱 I’m currently learning ... **C#**//Java//**TS**//**Node .js**//Vue .js//**Tailwind CSS**//ASP .NET//**.NET Core**//**Russian Language**
-- 👯 I’m looking to collaborate on ... **MYSELF**(what)
+- 👯 I’m looking to collaborate on ... **MYSELF**(what) Actually working with **Corona.Studio**
 - 🤔 I’m looking for help with ... **Algorithms, exactly by using C#** & **How to Code Smoothly and Efficiently...**
 - 💬 Ask me about ... **Ideas about Looking Foward...**
 - 📫 How to reach me: ... **Learn Marks and show your basic and faithful respect to our comrades!**
