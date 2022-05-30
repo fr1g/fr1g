@@ -1,5 +1,11 @@
 # Прочитайте меня пожалуйста!(чё...)
 
+##### ATTENTION PLEASE:
+My **Twitter Account** shown in my profile page is actually **INVALID**
+Yup. I'm not using twitter or facebook. If you prefer to follow me on Social Network...
+Please use **VKontakte!** (@frigdec)
+
+------
 
 GitHub "Template" :
 (for EN speakers)
