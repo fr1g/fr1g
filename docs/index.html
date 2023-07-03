@@ -1,1 +1,508 @@
-hey!
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        var _consoleWarn = console.warn, isTwLoaded = false;
+        console.warn = function(...data){
+            _consoleWarn(...data);
+            if(data.toString().includes('cdn.tailwindcss.com')) isTwLoaded = true;
+        }
+    </script>    
+    <title>Feiron Iguista - Minimal Self-Intro Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://avatars.githubusercontent.com/u/53085628?s=40&v=4" rel="icon" type="favicon">
+</head>
+<style>
+    :root{
+        --o: 'o';
+        --motivate-mouse-main-color: lightskyblue;
+    }
+
+    *::selection {
+    color: rgba(218, 241, 255, 0.916);
+    background-color: var(--tw-ring-color);
+    cursor: default;
+    text-shadow: .5px;
+
+    }
+    * {
+        user-select: none;
+        -webkit-user-select: none;
+        cursor: none !important;
+    }
+
+    .selectable, .s,
+    .selectable>*, .s>*{
+        user-select: text !important;
+        -webkit-user-select: text !important;
+        color: rgb(233, 233, 233);
+    }
+    .selectable:hover, .s:hover,
+    .selectable>*:hover, .s>*:hover{
+        color: rgb(251, 250, 252) !important;
+        --motivate-mouse-main-color: bisque !important;
+    }
+
+    .h-v{
+        height: 100vh;
+    }
+    code{
+        margin-left: .12em;
+        margin-right: .12em;
+        margin-bottom: 1px;
+
+        display: inline-block;
+        
+        padding: .0081em .309em;
+        border: transparent 1px solid;
+        border-radius: .65rem;
+        background: rgba(245, 245, 245, 0.333);
+
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0.5, 0, 0.3, 1);
+        transition-duration: 190ms;
+
+        --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
+        box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+
+        word-spacing: .5em;
+        font-family: monospace;
+    }
+    /* *>code{
+        word-break: break-all;
+        line-break: strict;
+    } */
+    code:hover{
+        background: rgba(245, 245, 245, 0.399);
+
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0.5, 0, 0.3, 1);
+        transition-duration: 120ms;
+
+        --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
+        box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    }
+    spilt{
+        margin-left: 1rem;
+        content: ' ';
+    }
+    a{
+        color: rgb(194, 240, 255) !important;
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0.5, 0, 0.3, 1);
+        transition-duration: 170ms;
+
+    }
+    a::before{
+        content: '<';
+    }
+    a::after{
+        content: '>';
+    }
+    a:hover{
+        color: rgba(145, 228, 255, 0.93) !important;
+    }
+    a:active{
+        color: rgba(107, 186, 212, 0.811) !important;
+        text-decoration: dotted;
+
+    }
+    .card{
+        margin-top: .4rem;
+    }
+
+    .hide{
+        color: black;
+        background-color: black;
+        padding: 1px;
+        padding-right: 5px;
+        margin-left: 1px;
+        margin-right: 1px;
+        border-radius: 5px;
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0.5, 0, 0.3, 1);
+        transition-duration: 160ms;
+    }
+    .hide:hover{
+        color: azure !important;
+    }
+
+</style>
+<body class="bg-slate-800 transition-all text-zinc-100 pb-12">
+    <div class="w-full bg-rose-950 text-stone-100 animate-pulse hidden fixed top-0 z-50" id="errbanner"><p class="text-center">Something requested not loaded or went wrong. <a href="javascript:window.location.reload()">Try Reload</a>, or try check your client exception first?</p></div>
+    <div class="w-full bg-emerald-700 text-stone-100 animate-pulse hidden fixed top-0 z-50" id="succbanner"><p class="text-center">Success! </p></div>
+    <script>window.addEventListener("error", ()=>{setTimeout(() => {document.getElementById("errbanner").classList.remove('hidden');}, 300);});</script>
+    <div class="mx-auto w-full container mt-12">
+        <div class="gap-3.5 grid grid-cols-9">
+            <div class="bg-slate-700 hover:bg-slate-600 transition-all shadow hover:shadow-xl shadow-zinc-800 rounded-lg p-10 col-span-full grid grid-cols-7 gap-5">
+                <div class="left col-span-full lg:col-span-6">
+                    <h1 class="font-mono font-bold text-3xl first-letter:text-4xl mb-3">Hi there!_<span class="animate-pulse">👋</span></h1>
+                    <p class="my-3 font-semibold font-mono text-xl">
+                        My name is <span class="text-white underline cursor-pointer selectable text-2xl" title="Фейрон Игуиста, 符兰">Feiron Iguista</span>. I'm currently a <code>C#</code> Learner & Developer_<br>
+                        I'm a member of <a href="https://corona.studio">Corona Studio</a> (<a href="https://github.com/corona-studio" target="_blank">Github</a>), as a translator, Minecraft server operator, community administrator and web front-end developer.<br>
+                        Here is my GitHub Profile: <a href="https://github.com/fr1g">LINK</a>, and my public contact is <a href="javascript:scr('public-contact')">HERE</a>
+                    </p>    
+                </div>
+                <div class="right col-span-full lg:col-span-1 transition-all right-7 top-7 lg:right-auto lg:top-auto
+                animate-bounce shadow-lg hover:shadow-xl rounded-full lg:w-full lg:h-full 
+                w-24 h-24 float-right lg:float-none inline-block lg:block absolute lg:relative
+                " style="background-image: url('https://avatars.githubusercontent.com/u/53085628?v=4'); background-repeat: no-repeat ; background-position: center; background-size: cover;" title="My avatar of anime-like. yeah this is me."></div>
+
+                <div class="exp  col-span-full lg:col-span-4">
+                    <div class="axp border-l-2 transition-all rounded-lg opacity-90 bg-opacity-95 border-l-gray-600 bg-gray-700 hover:bg-gray-600 shadow hover:shadow-xl p-5">
+                        <p class="indent-5 first-letter:text-lg">Greetings! I'm frig and Currently I'm a college student in Wuhan. My blog <b>should</b> located at <a href="https://feiron.xyz" target="_blank">feiron.xyz</a>
+                         but unfortunately, currently it's down. When I make it come back online, will be the day my BlogFrame "Sharlog" come to public. I'm just a simple one in this world and fortunately born in someplace very
+                         peaceful and my family raise me up. I'm currently healthy and have a communism passion to build and develop my home. 
+                        </p>
+                        <p  class="indent-5 first-letter:text-lg my-1.5">
+                            I'm always trying to be better, funnier and more enabled. As usual normal people, I prefer to play games (on E-Devices of cource, but still have some hobbies beside those electronics. like saxophone, and writting. ) about 
+                             RPG, Sandbox, puzzle, PVE-FPS, OpenWorlds, and racing(Forza Horizon), simulating<span title="not in library yet, it's a bit expensive.">(MS Flight Sim.)</span>. You can see my <a href="javascript:scr('juegos')">Games Here</a>
+                              And I got interested in transportation like trains sth etc. And I said I'm XDressing person* <a href="javascript:scr('tags')">here in my tags</a>, so I got pretty a little fine photos of me as male -- and female forsure XD. In my judgement my works are not funky or gross,
+                              just taking fun. awa. not quite important I think.
+                        </p>
+                        <p   class="indent-5 first-letter:text-lg">
+                            Thought, I still have a priority in mind. People and society can develop scientifically and efficiently is always first. Doing my like mainly and realize social value of mine is charming,
+                             I think that's why I love socialism. To protect my rights, I prefer to laborate and protect my homeland, while with my motherland to boost entire world united while pluralistic.
+
+                        </p>
+                        <h5 class="font-mono font-light first-letter:text-2xl text-xl text-center my-1.5" title="uwu">So, will you prefer to be my companion?</h5>
+                        <p class="text-right font-extralight font-sans">——yours,<br>F.I.</p>
+                    </div>
+                    
+                </div>
+                <div class="exp  col-span-full lg:col-span-3">
+                    <div class="axp border-l-2 transition-all rounded-lg opacity-90 bg-opacity-95 border-l-gray-600 bg-gray-700 hover:bg-gray-600 shadow hover:shadow-xl p-5 clear-both">
+                        Page Last Update: <code class="float-right">2023-Jul-3, 23:33, UTC+8</code>
+                    </div>
+                    <div class="axp border-l-2 transition-all rounded-lg opacity-90 bg-opacity-95 border-l-gray-600 bg-gray-700 hover:bg-gray-600 shadow hover:shadow-xl p-5 clear-both mt-5">
+                        Page Tech: <code class="float-right">TailwindCSS</code><code class="float-right" title="this part of function not by me!">jQuery</code><code class="float-right">Pure H5</code>
+                    </div>
+                    <div class="axp border-l-2 transition-all rounded-lg opacity-90 bg-opacity-95 border-l-gray-600 bg-gray-700 hover:bg-gray-600 shadow hover:shadow-xl p-5 clear-both mt-5">
+                        Page Info: This is simply a page to show informations, to introduce.
+                    </div>
+                    <div class="axp border-l-2 transition-all rounded-lg opacity-90 bg-opacity-95 border-l-gray-600 bg-gray-700 hover:bg-gray-600 shadow hover:shadow-xl p-5 clear-both mt-5">
+                        Got some dizzy in my expression? I will explain in <a href="javascript:scr('foot')">Footnote</a>, and sorry for my cause of misunderstanding,&nbsp;<span class="italic" title="И русский язык">I'm always not good in English</span>.
+                    </div>
+                    <div class="axp border-l-2 transition-all rounded-lg opacity-90 bg-opacity-95 border-l-gray-600 bg-gray-700 hover:bg-gray-600 shadow hover:shadow-xl p-5 clear-both mt-5">
+                        Everyone developing relationships with me requires a patient of waiting for my observation. I believe you will need to observe me too. That won't cause p2p hurtings and prevent something disgraceful happen.<br>
+                        And... for sure, I need to know YOUr character more!
+                    </div>
+
+                </div>
+                
+            </div>
+
+            <div class="bg-slate-700 hover:bg-slate-600 transition-all shadow hover:shadow-xl shadow-zinc-800 rounded-lg p-10 col-span-full lg:col-span-4">
+                <h1 class="font-mono font-bold text-2xl first-letter:text-3xl mb-3">Currently Skill(s)...</h1>
+                <p class="flex-auto">
+                    <code>Skript</code>
+                    <code title="CSS, JS">HTML</code>
+                    <code>JS</code>
+                    <code>CSS:Tailwind</code>
+                    <code>CSS:Bootstrap</code>
+                    <code title="also still learning">Blazor</code>
+                    <code title="but really hate it">Java</code>
+                    
+                </p>
+                <p class="mt-3">Can never say that I'm totally able to use sth. here cus LEARN TILL OLD! Everything still on going!</p>
+            </div>
+    
+            <div class="bg-slate-700 hover:bg-slate-600 transition-all shadow hover:shadow-xl shadow-zinc-800 rounded-lg p-10 col-span-full lg:col-span-5">
+                <h1 class="font-mono font-bold text-2xl first-letter:text-3xl mb-3">Also Learning:</h1>
+                <p class="flex-auto">
+                    <code>Razor</code>
+                    <code>NL:Russian</code>
+                    <code>NL:Latin</code>
+                    <code>NL:Japanese</code>
+                    <code>Swift</code>
+                    <code>TypeScript</code>
+                    <code>BukkitAPI</code>
+                    <code>Linux(Kali)</code>
+                    <code>WPF</code>
+                    <code>AvaloniaUI</code>
+                </p>
+                <p class="mt-3">Still finding something that I interested in! And I will pretty do hard on it if this can help people! </p>
+
+            </div>
+
+            <div class="bg-slate-700 hover:bg-slate-600 transition-all shadow hover:shadow-xl shadow-zinc-800 rounded-lg p-10 col-span-full lg:col-span-2" id="tags">
+                <h1 class="font-mono font-bold text-2xl first-letter:text-3xl mb-3">Self Tagging =</h1>
+                <p>Althought A person cannot be concluded by tiny tags, but this can help you know about me roughly quick. Just like a computer drawing a circle starts from <b>polygons</b> till nearly a round.</p>
+                <p class="flex-auto mt-3">
+                    <code>Marxist</code>
+                    <code>Liberal-Arts</code>
+                    <code>AntiImperialism</code>
+                    <code>Inves.&Verif.</code>
+                    <code>XDressing</code>
+                    <code>AntiLiberalism</code>
+                    <code>Socialist</code>
+                    <code>Passion</code>
+                    <code title="World Humain-Unity?">WHU</code>
+                    <code>Classical</code>
+                    <code>Party!</code>
+                </p>
+            </div>  
+            <div class="bg-slate-700 hover:bg-slate-600 transition-all shadow hover:shadow-xl shadow-zinc-800 rounded-lg p-10 col-span-full lg:col-span-7">
+                <h1 class="font-mono font-bold text-2xl first-letter:text-3xl mb-3">Working on---</h1>
+                <p class="mb-3">Recently doing something around C# and H5, perhaps this situation will keep to the future. After I became a teacher maybe I will try to develop something'n my own hand, and contribute some opensources? If they don't give me the cold-shoulder because my codes. www</p>
+                <div class="card inline-block border-l-2 transition-all rounded-lg opacity-90 bg-opacity-95 border-l-gray-600 bg-gray-700 hover:bg-gray-600 shadow hover:shadow-xl p-5">
+                    <h3 class="font-semibold font-sans text-2xl clear-both ">Sharlog <code class="float-right font-sans">WIP</code></h3>
+                    <p class="flex-auto"><br>A Blazor Share-oriented Blog Framework.</p>
+                </div>
+                <div class="card inline-block border-l-2 transition-all rounded-lg opacity-90 bg-opacity-95 border-l-gray-600 bg-gray-700 hover:bg-gray-600 shadow hover:shadow-xl p-5">
+                    <h3 class="font-semibold font-sans text-2xl clear-both ">PyskVolist <code class="float-right font-sans">WIP</code></h3>
+                    <p class="flex-auto"><br>A vocabulary list generator for Russian Language teaching, but not only for Russian languange...</p>
+                </div>
+                <div class="card inline-block border-l-2 transition-all rounded-lg opacity-90 bg-opacity-95 border-l-gray-600 bg-gray-700 hover:bg-gray-600 shadow hover:shadow-xl p-5">
+                    <h3 class="font-semibold font-sans text-2xl clear-both ">Mladilink <code class="float-right font-sans">WIP</code></h3>
+                    <p class="flex-auto"><br>A Short-link forwarder work with <code>kami.su</code> domain!</p>
+                </div>
+                <div class="card inline-block border-l-2 transition-all rounded-lg opacity-90 bg-opacity-95 border-l-gray-600 bg-gray-700 hover:bg-gray-600 shadow hover:shadow-xl p-5">
+                    <h3 class="font-semibold font-sans text-2xl clear-both "><a target="_blank" href="https://github.com/fr1g/CalendarRealCount">CalendarRealCount</a> <code class="float-right font-sans">MIT</code></h3>
+                    <p class="flex-auto"><br>A simple Skript script to let your Minecraft server count days as real life XD</p>
+                </div>
+                <p class="mt-3">But currently I'm working on some team works. They're usually saved as <b><i>private repos</i></b> so there won't show them.</p>
+            </div>
+
+            <div class="bg-slate-700 hover:bg-slate-600 transition-all shadow hover:shadow-xl shadow-zinc-800 rounded-lg p-10 col-span-full lg:col-span-6" id="juegos">
+                <h1 class="font-mono font-bold text-2xl first-letter:text-3xl mb-3">Intro of games I play!</h1>
+                <div class="gap-2.5 grid grid-cols-3">
+                    <div class="sect inline-block border-l-2 transition-all rounded-lg opacity-90 bg-opacity-95 border-l-gray-600 bg-gray-700 hover:bg-gray-600 shadow hover:shadow-xl p-5">
+                        <h3 class="font-semibold font-sans text-2xl clear-both ">Platforms</h3>
+                        <p class="flex-auto">
+                            XBox: <code title="click to copy" onclick="copyit(event, 'FrigAuraAero', 'XBox Codename')">FrigAuraAero</code><br>
+                            Steam: <code title="click to copy" onclick="copyit(event, '437861204', 'Steam Friend ID')">mafuloandctvs</code><br>
+                        </p>
+                    </div>    
+                    <div class="sect inline-block border-l-2 transition-all rounded-lg opacity-90 bg-opacity-95 border-l-gray-600 bg-gray-700 hover:bg-gray-600 shadow hover:shadow-xl p-5">
+                        <h3 class="font-semibold font-sans text-2xl clear-both ">Ex.Games</h3>
+                        <p class="flex-auto">
+                            Forza Horizon 4&5: <code  title="click to copy" onclick="copyit(event, 'FrigAuraAero', 'XBox Codename')">^XBox</code><br>
+                            GTA OL: <code title="click to copy" onclick="copyit(event, 'AshFeiron', 'Rockstar SocialClub')">AshFeiron</code><br>
+                            Genshin(CN): <code title="click to copy" onclick="copyit(event, '109899623', 'Genshin Impact CN Official UID')">Fuiki</code><br>
+                            Minecraft: <code title="click to copy" onclick="copyit(event, 'francoisifrig', 'Minecraft Java User Text-ID')">francoisifrig</code><br>
+                            
+                        </p>
+                    </div>    
+                    <div class="sect inline-block border-l-2 transition-all rounded-lg opacity-90 bg-opacity-95 border-l-gray-600 bg-gray-700 hover:bg-gray-600 shadow hover:shadow-xl p-5">
+                        <h3 class="font-semibold font-sans text-2xl clear-both ">owo</h3>
+                        <p class="flex-auto">
+                            Hey if any game is cheap and funny please let me know! If can play with others without E-sports combats that will be pretty nice!<br>
+                            <i class="mt-1.5">/* Yeah I really hate ESPORTS. And fighting with rough words.+ */</i>
+                        </p>
+                    </div>    
+                </div>
+            </div>
+
+            <div class="bg-slate-700 hover:bg-slate-600 transition-all shadow hover:shadow-xl shadow-zinc-800 rounded-lg p-10 col-span-full lg:col-span-3" id="public-contact">
+                <h1 class="font-mono font-bold text-2xl first-letter:text-3xl mb-3">Connect mne;</h1>
+                <table class="table-fixed border-collapse border-transparent min-w-full rounded-lg shadow hover:shadow-xl p-1.5 w-full transition-all">
+                    <caption class="caption-top w-full mb-0.5">
+                        All of my public socialNet
+                    </caption>
+                    <thead class="bg-slate-800">
+                      <tr class="">
+                        <th class="border-r border-slate-500 rounded-tl-lg">Plat.</th>
+                        <th class="rounded-tr-lg">Acco.</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-t border-slate-500 bg-opacity-40 bg-slate-500">
+                            <td class="text-center" title="VKontakte">VK</td>
+                            <td class="border-l border-slate-500 pl-1"><a target="_blank" href="https://vk.com/frigdec">@frigdec</a></td>
+                        </tr>
+                        <tr class="border-t border-slate-500 bg-opacity-40 bg-slate-600">
+                            <td class="text-center" title="哔哩哔哩！">Bilibili</td>
+                            <td class="border-l border-slate-500 pl-1"><a target="_blank" href="https://space.bilibili.com/3494365330672357">法產沃斯科貨艦</a></td>
+                        </tr>
+
+                        <tr class="border-t border-slate-500 bg-opacity-40 bg-slate-500">
+                            <td class="text-center" title="HiNative">HiNative</td>
+                            <td class="border-l border-slate-500 pl-1"><a target="_blank" href="https://hinative.com/profiles/7692599">frigeso</a></td>
+                        </tr>
+
+
+                        <!-- add more beneath / 500/600 -->
+                        <tr class="border-t border-slate-500 bg-opacity-40 bg-slate-600">
+                            <td class="text-center rounded-bl-lg" title="The most-usually used Email">Email</td>
+                            <td class="border-l rounded-br-lg border-slate-500 pl-1"><a href="mailto:frigeso@icloud.com">frigeso@icloud.com</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="mt-3"><b>Attention! </b>I have NEITHER TWITTER NOR FACEBOOK. If you need other method of contact, please use one of them first and let me observe you for a while. </p>
+            </div>
+
+            <div class="bg-slate-700 hover:bg-slate-600 transition-all shadow hover:shadow-xl shadow-zinc-800 rounded-lg p-10 col-span-full " id="foot">
+                <h1 class="font-mono font-bold text-2xl first-letter:text-3xl mb-3">Footnote</h1>
+                <ul class="list-inside list-disc">
+                    <li class="font-light italic first-letter:text-lg ">This is the Footnote of this page.</li>
+                    <li class="font-light italic first-letter:text-lg ">Do you know... that this page ONLY use outer resources except the HTML page itself? others're all by CDNs! </li>
+                    <li class="font-light italic first-letter:text-lg ">*: I'm ordinary. JUST XDRESSING (dressing like another gender), NOT a trans, EVEN MORE UNLIKELY one who trying seek privileges <span class="hide">by using dark methods like lying or something else st*pid</span></li>
+                    <li class="font-light italic first-letter:text-lg ">+: Just hate it. for no reason. <span class="hide">someone maybe using these kinds of games as a venting tools and they're really rude on this. Of course here's some reason from <b>CHEATING</b>...</span></li>
+                </ul>
+            </div>
+    
+        </div>        
+    </div>
+
+    <div id="backtotop" class="transition-all rounded-xl fixed bottom-6 right-6 px-3 py-1 font-sans  
+    bg-emerald-500 animate-none shadow
+    hover:bg-emerald-400 hover:animate-none hover:shadow-xl
+    active:bg-emerald-600 active:shadow-lg active:animate-pulse "
+    >&tridot;<span class="hidden lg:inline-block">&nbsp;Top</span></div>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.js"></script>
+<script>
+    document.getElementById('backtotop').addEventListener('click', () => {scr('errbanner', false)});
+</script>
+<div class="mouse-cursor cursor-outer" style="visibility: visible; transform: translate(1px, 1px);"></div>
+<div class="mouse-cursor cursor-inner" style="visibility: visible; transform: translate(1px, 1px);"></div>
+<script> // I took this from something alike a wp theme, dont know the origin, if that's your work and dont hope me use it here or need me add something as copyright, please let me know!
+jQuery(document).ready(function($){
+	var myCursor = jQuery('.mouse-cursor');
+	if (myCursor.length) {
+		if ($('body')) {
+			const e = document.querySelector('.cursor-inner'),
+			t = document.querySelector('.cursor-outer');
+			let n,
+			i = 0,
+			o = !1;
+			window.onmousemove = function(s) {
+				o || (t.style.transform = "translate(" + s.clientX + "px, " + s.clientY + "px)"),
+				e.style.transform = "translate(" + s.clientX + "px, " + s.clientY + "px)",
+				n = s.clientY,
+				i = s.clientX
+                // t.classList.add('animate-ping')
+			},
+			$('body').on("mouseenter", "a, .cursor-pointer",
+			function() {
+				e.classList.add('cursor-hover'),
+				t.classList.add('cursor-hover')
+			}),
+			$('body').on("mouseleave", "a, .cursor-pointer",
+			function() {
+				$(this).is("a") && $(this).closest(".cursor-pointer").length || (e.classList.remove('cursor-hover'), t.classList.remove('cursor-hover'))
+			}),
+			e.style.visibility = "visible",
+			t.style.visibility = "visible"
+		}
+	}
+})
+</script>
+<style>
+.mouse-cursor {
+	position: fixed;
+	left: 0;
+	top: 0;
+	pointer-events: none;
+	border-radius: 50%;
+	-webkit-transform: translateZ(0);
+	transform: translateZ(0);
+	visibility: hidden;
+    animation: pulse 2s cubic-bezier(0.3, 0, 0.6, 1) infinite !important;
+    
+}
+.cursor-inner {
+	margin-left: -3px;
+	margin-top: -3px;
+	width: 6px;
+	height: 6px;
+	z-index: 10000001;
+	background: var(--motivate-mouse-main-color);
+	-webkit-transition: width .3s ease-in-out,height .3s ease-in-out,margin .3s ease-in-out,opacity .3s ease-in-out;
+	transition: width .3s ease-in-out,height .3s ease-in-out,margin .3s ease-in-out,opacity .3s ease-in-out;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite !important;
+
+}
+.cursor-inner.cursor-hover {
+	margin-left: -18px;
+	margin-top: -18px;
+	width: 36px;
+	height: 36px;
+	background: var(--motivate-mouse-main-color);
+	opacity: .3;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite !important;
+
+}
+.cursor-outer {
+	margin-left: -15px;
+	margin-top: -15px;
+	width: 30px;
+	height: 30px;
+	border: 2px solid var(--motivate-mouse-main-color);
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	z-index: 10000000;
+	opacity: .5;
+	-webkit-transition: all .08s ease-out;
+	transition: all .08s ease-out;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite !important;
+
+}
+.cursor-outer.cursor-hover {
+	opacity: 0;
+    animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite !important;
+
+}
+.main-wrapper[data-magic-cursor=hide] .mouse-cursor {
+	display: none;
+	opacity: 0;
+	visibility: hidden;
+	position: absolute;
+	z-index: -1111
+}
+
+.shine{
+    background-color: rgba(255, 255, 233, 0.5555555555555555514) !important;
+}
+</style>
+<script>
+    const scr = (id, shine = true) => {
+        var to = document.getElementById(id);
+        window.scrollTo({top: to.offsetTop, behavior: "smooth"});
+        if(shine){
+            setTimeout(() => {
+                to.classList.add('shine');
+            }, 810);
+            setTimeout(() => {
+                to.classList.remove('shine');
+            }, 1145);
+        }
+        delete to;
+        return;
+    }
+
+    const copyit = (event, content, ps = '') => {
+        var ee = event.target;
+        let copy = (e) => {
+            e.preventDefault()
+            e.clipboardData.setData('text/plain', content)
+            document.removeEventListener('copy', copy)
+        }
+        document.addEventListener('copy', copy);
+        document.execCommand("Copy");
+        success(`Action: Click to copy: ${ps} ${content}`);
+
+    }
+
+    var banner = document.getElementById('succbanner');
+
+    const success = (msg) => {
+        banner.firstElementChild.innerHTML = `Success! ${msg}`;
+        banner.classList.replace('hidden', 'block');
+        setTimeout(() => {
+            banner.classList.replace('block', 'hidden');
+            banner.firstElementChild.innerHTML = "Success! ";
+        }, 1919 * 5.14 * 0.810);
+    }
+
+    window.onload = () => {
+        if(!isTwLoaded) alert('This page is not fully loaded its resource via CDN. Please check your internet connection and try again, just for its style.');
+    }
+</script>
+</html>
