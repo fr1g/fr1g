@@ -27,12 +27,19 @@
     /* background-color: var(--tw-ring-color); */
     cursor: default;
     text-shadow: .5px;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.5, 0, 0.3, 1);
+    transition-duration: 90ms;
 
     }
     * {
         user-select: none;
         -webkit-user-select: none;
         cursor: none !important;
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0.5, 0, 0.3, 1);
+        transition-duration: 114ms;
+
     }
 
     .selectable, .s,
@@ -40,6 +47,10 @@
         user-select: text !important;
         -webkit-user-select: text !important;
         color: rgb(233, 233, 233);
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0.5, 0, 0.3, 1);
+        transition-duration: 90ms;
+
     }
     .selectable:hover, .s:hover,
     .selectable>*:hover, .s>*:hover{
