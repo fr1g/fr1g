@@ -1,10 +1,12 @@
 # Прочитайте меня пожалуйста!(чё...)
 
 ##### ATTENTION PLEASE:
-My **Twitter Account** shown in my profile page is actually **INVALID**
+My **Twitter Account** shown in my profile page is actually **INVALID**<br>
 Yup. I'm not using twitter or facebook. If you prefer to follow me on Social Network...
 Please use **VKontakte!** (@frigdec)
 
+------
+Here's my minimal self-intro: <a href="https://gio.kami.su">min.feiron.xyz</a>
 ------
 
 GitHub "Template" :
