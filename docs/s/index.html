@@ -45,11 +45,12 @@
                 <input id="srchIn" style="width: 66vw;" placeholder="Search on ..." class="bg-transparent mr-3 border-0 border-transparent text-xl bg-opacity-40 rounded outline-none outline-transparent p-0 m-0 text-white  transition-all " />
             </span>
             <span id="srch-btn" class="block transition-all -translate-x-1 border border-transparent bg-opacity-40 rounded-lg cursor-pointer" onclick="SearchAction(srch_bar.value);">
-                <i class="bi bi-search"></i>
+                <i class="bi bi-search" id="S"></i>
             </span>
         </div>
 
         <script>
+            if(!window.location.href.toString().includes('gio.')) document.getElementById('S').innerHTML = 'S';
             var srch_btn = document.getElementById('srch-btn'),
             srch_box = document.getElementById('item3'),
             srch_bar = document.getElementById('srchIn'),
@@ -87,8 +88,12 @@
             }
             window.addEventListener('keydown', (e) => 
             {
+                console.log(`last-operation-typing: ${isLastOperationTyping}, event-return: ${e.isComposing}, keydown: ${e.key.toString()}`);
                 switch(e.key.toString())
                 {
+                    case " ":
+                        isLastOperationTyping = true;
+                        return;
                     case "Enter":
                         if(!isSearching) break;
                         if(isLastOperationTyping) break;
