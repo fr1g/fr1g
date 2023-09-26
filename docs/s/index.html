@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KAHOME! - gio.kami.su</title>
+    <title>KAHOME! - gio.kami.su/s Start Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./../assets/fonts/icons/bi-1-11-1/bootstrap-icons.css">
 </head>
@@ -44,7 +44,7 @@
             <span class="w-full block">
                 <input id="srchIn" style="width: 66vw;" placeholder="Search on ..." class="bg-transparent mr-3 border-0 border-transparent text-xl bg-opacity-40 rounded outline-none outline-transparent p-0 m-0 text-white  transition-all " />
             </span>
-            <span id="srch-btn" class="block transition-all -translate-x-1 border border-transparent bg-opacity-40 rounded-lg cursor-pointer" onclick="SearchAction(srch_bar.value);">
+            <span id="srch-btn" class="block transition-all -translate-x-1.5 border border-transparent bg-opacity-40 rounded-lg cursor-pointer" onclick="SearchAction(srch_bar.value);">
                 <i class="bi bi-search" id="S"></i>
             </span>
         </div>
@@ -88,21 +88,22 @@
             }
             window.addEventListener('keydown', (e) => 
             {
-                console.log(`last-operation-typing: ${isLastOperationTyping}, event-return: ${e.isComposing}, keydown: ${e.key.toString()}`);
-                switch(e.key.toString())
+                console.log(`last-operation-typing: ${isLastOperationTyping}, event-return: ${e.isComposing}, keydown(code): ${e.key.toString()}(${e.code})`);
+                switch(e.code)
                 {
-                    case " ":
+                    case "Space":
                         isLastOperationTyping = true;
                         return;
                     case "Enter":
-                        if(!isSearching) break;
-                        if(isLastOperationTyping) break;
+                        if(!isSearching || isLastOperationTyping | e.isComposing) break;
                         setTimeout(() => {
                             SearchAction(srch_bar.value);
                         }, 100);
                         break;
+                    default:
+                        isLastOperationTyping = e.isComposing;
+                        return;
                 }
-                isLastOperationTyping = e.isComposing;
             });
 
 
