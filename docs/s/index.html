@@ -42,19 +42,22 @@
         <div id="item3" class="mx-auto my-16 xmide-x opacity-80 flex
          transition-all clear-both bg-zinc-200 active:bg-opacity-50 text-white border border-zinc-300 border-opacity-40 bg-opacity-40 px-5 py-2 rounded-lg shadow-sm hover:shadow-md cursor-text">
             <span class="w-full block">
-                <input id="srchIn" style="width: 66vw;" placeholder="Search on ..." class="bg-transparent mr-3 border-0 border-transparent text-xl bg-opacity-40 rounded outline-none outline-transparent p-0 m-0 text-white  transition-all " />
+                <input id="srchIn" style="width: 66vw;" placeholder="Search on ..." class="bg-transparent -translate-x-2 border-0 border-transparent text-xl bg-opacity-40 rounded outline-none outline-transparent p-0 m-0 text-white  transition-all " />
             </span>
-            <span id="srch-btn" class="block transition-all -translate-x-1.5 border border-transparent bg-opacity-40 rounded-lg cursor-pointer" onclick="SearchAction(srch_bar.value);">
+            <script>
+                var srch_btn = document.getElementById('srch-btn'),
+                srch_box = document.getElementById('item3'),
+                srch_bar = document.getElementById('srchIn'),
+                isLastOperationTyping = false;
+            </script>
+            <span id="srch-btn" class="block transition-all min-h-full min-w-full -translate-x-1.5 border border-transparent bg-opacity-40 rounded-lg cursor-pointer px-2" onclick="SearchAction(srch_bar.value);">
                 <i class="bi bi-search" id="S"></i>
             </span>
         </div>
 
         <script>
             if(!window.location.href.toString().includes('gio.')) document.getElementById('S').innerHTML = 'S';
-            var srch_btn = document.getElementById('srch-btn'),
-            srch_box = document.getElementById('item3'),
-            srch_bar = document.getElementById('srchIn'),
-            isLastOperationTyping = false;
+
             srch_bar.setAttribute('placeholder', srch_bar.getAttribute('placeholder').replace('...', UsingEngine.split('#')[1]).concat('! '));
             var isSearching = false;
             srch_bar.addEventListener('focus', () => {
@@ -69,7 +72,7 @@
             });
 
             srch_box.addEventListener('click', (e) => {
-                if(e.target.id.toString().includes('srch-btn') || e.target.classList.toString().includes('search')) return;
+                if(e.target.id.toString().includes('srch-btn') || e.target.id.toString().includes('S')) SearchAction(srch_bar.value);
                 srch_bar.focus();
             }, 33);
 
