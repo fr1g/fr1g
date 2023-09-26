@@ -50,11 +50,11 @@
                 srch_bar = document.getElementById('srchIn'),
                 isLastOperationTyping = false;
             </script>
-            <span id="srch-btn" class="block transition-all min-h-full min-w-full -translate-x-1.5 border border-transparent bg-opacity-40 rounded-lg cursor-pointer px-2" onclick="SearchAction(srch_bar.value);">
+            <span id="srch-btn" class="block transition-all min-h-full max-w-full -translate-x-3 border border-transparent bg-opacity-40 rounded-lg cursor-pointer px-2" onclick="SearchAction(srch_bar.value);">
                 <i class="bi bi-search" id="S"></i>
             </span>
-        </div>
 
+        </div>
         <script>
             if(!window.location.href.toString().includes('gio.')) document.getElementById('S').innerHTML = 'S';
 
@@ -63,12 +63,12 @@
             srch_bar.addEventListener('focus', () => {
                 isSearching = true;
                 SEC('item3', 'shadow-md shadow-stone-100 hover:shadow-stone-200 text-white xmide', 'shadow-sm xmide-x');
-
+                SEC('srch-btn', '-translate-x-0.5', '-translate-x-3');
             });
             srch_bar.addEventListener('blur', () => {
                 isSearching = false;
                 SEC('item3', 'shadow-sm xmide-x', 'shadow-md shadow-stone-100 hover:shadow-stone-200 text-white xmide');
-
+                SEC('srch-btn', '-translate-x-3', '-translate-x-0.5');
             });
 
             srch_box.addEventListener('click', (e) => {
@@ -131,5 +131,18 @@
         </script>
 
 </div>
+<style>
+    a{
+        color: rgb(96, 177, 249, 0.6);
+    }
+    a:hover{
+        color: rgba(165, 209, 251, 0.85);
+    }
+    a:active{
+        color: rgb(57, 158, 252);
+    }
+</style>
+<h1 class="fixed mb-3 bottom-0 opacity-70 italic font-semibold text-center text-sm animate-pulse mx-auto w-screen">Generated same with <a target="_blank" href="https://gio.kami.su">gio.kami.su</a></h1>
+
 </body>
 </html>
