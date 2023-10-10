@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- dev-only: -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./../../assets/output.css">
+    <link rel="stylesheet" href="./../../assets/extra.css">
+</head>
+<script>
+    const AvaliableMethods = [
+        { name: "EEE", link: "localhost:5555/docs"}, 
+        { name: "Azul Zulu", link: "https://www.azul.com/downloads/?package=jdk#zulu"}, 
+        { name: "Alibaba Dragonwell", link: "https://dragonwell-jdk.io/#/index"}, 
+        // { name: "", link: ""}, 
+    ];
+</script>
+<body class="bg-yellow-100 text-stone-950 dark:bg-yellow-900 dark:text-stone-50">
+    <div class="container min-w-full p-5" >
+        <div class="grid grid-cols-2 gap-6">
+            <div class="rounded-lg transition-all min-h-mostscreen w-full shadow hover:shadow-lg bg-opacity-70 hover:bg-opacity-100 bg-yellow-200 dark:bg-yellow-500" id="guide">
+
+            </div>
+            <div class="rounded-lg transition-all min-h-mostscreen w-full shadow hover:shadow-lg bg-opacity-70 hover:bg-opacity-100 bg-yellow-200 dark:bg-yellow-500" id="frame">
+                <!-- <iframe src="https://www.azul.com/downloads/?package=jdk#zulu" class="h-full w-full" width="100%" frameborder="0"></iframe> -->
+                <div class="w-full h-full" id="insert">
+
+                </div>
+                <script>
+                    var req = new XMLHttpRequest();
+                    req.open('get', AvaliableMethods[0].link);
+                    req.setRequestHeader('Access-Control-Allow-Origin', '*');
+                    var currReqStat = req.readyState
+                    req.onreadystatechange = () => {
+                        if(currReqStat != 4) return;
+                        document.getElementById('insert').append(req.responseXML);
+                    }
+                    req.send();
+                    
+                </script>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
