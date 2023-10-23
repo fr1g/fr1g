@@ -22,6 +22,18 @@
     </style>
 </head>
 <body class="full" style="background-color: rgb(50, 50, 50);">
-    <iframe src="http://api.corona.studio:9095/" frameborder="0" class="in"></iframe>
+    <iframe src="https://maps.corona.studio:3001" frameborder="0" class="in"></iframe>
 </body>
+<script>
+    window.addEventListener("keydown", (e) => {
+        var key = e.code.toString();
+        console.log(key);
+        switch(key){
+            case "f12":
+                e.preventDefault();
+                console.log('f12');
+                break;
+        }
+    })
+</script>
 </html>
