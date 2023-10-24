@@ -7,6 +7,8 @@
     <style>
         *{
             user-select: none;
+            padding: 0%;
+            margin: 0;
         }
         .full{
             min-width: 100vw;
@@ -25,6 +27,7 @@
     <iframe src="https://maps.corona.studio:3001" frameborder="0" class="in"></iframe>
 </body>
 <script>
+    var frame = document.getElementsByClassName('in')[0];
     window.addEventListener("keydown", (e) => {
         var key = e.code.toString();
         console.log(key);
@@ -34,6 +37,14 @@
                 console.log('f12');
                 break;
         }
-    })
+    });
+    var content = frame.contentWindow;
+    content.onload = () => {
+        parent.console.log('loaded');
+        for(var candidate of content.document.getElementsByClassName('svg-button')) if(candidate.getAttribute('title').toString().includes('Free-Flight')) candidate.remove();
+        for(var candidate of content.document.getElementsByClassName('simple-button')) if(candidate.firstElementChild.innerHTML.includes('Free-Flight')) candidate.remove();
+        for(var candidate of content.document.getElementsByClassName('label')) if(candidate.innerHTML.includes('简体中文')) candidate.click();
+    };
+
 </script>
 </html>
