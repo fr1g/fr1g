@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>服务状态 - Corona Studio</title>
+    <style>
+        *{
+            user-select: none;
+            padding: 0;
+            margin: 0;
+        }
+        .full{
+            min-width: 100vw;
+            min-height: 100vh;
+            width: 100vw;
+            height: 100vh;
+        }
+        .in{
+            width: 100%;
+            height: 100%;
+            background-color: #00000000;
+        }
+    </style>
+</head>
+<body class="full" style="background-color: rgb(50, 50, 50);">
+    <iframe src="https://api.corona.studio:3001/status/cs" frameborder="0" class="in"></iframe>
+</body>
+</html>
