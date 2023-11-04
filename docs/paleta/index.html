@@ -334,11 +334,13 @@
 
     plate.addEventListener("click", (e) => {
         if(e.target.classList.toString().includes('copyable')) copyit(e);
+        else if(e.target.classList.toString().includes('e-card')) PushToast(`This card poster is: ${e.target.getAttribute('title')}`);
+        
     }, true);
 
     const PushNewCard = (card) => {
         plate.innerHTML += `
-        <div title="${card.poster} (${(card.contact == "" ? "Null" : card.contact)})" class="ccc grid grid-cols-2 min-w-full gap-2 p-2 border-zinc-600 bg-zinc-600 hover:bg-zinc-500 shadow-md hover:shadow-lg active:shadow-xl transition-all rounded-xl">
+        <div title="${card.poster} (${(card.contact == "" ? "Null" : card.contact)})" class="ccc e-card grid grid-cols-2 min-w-full gap-2 p-2 border-zinc-600 bg-zinc-600 hover:bg-zinc-500 shadow-md hover:shadow-lg active:shadow-xl transition-all rounded-xl">
                 <div title="Text colour: ${card.text}" class="m-1 flex rounded-lg justify-center content-center items-center align-middle" style="background-color: ${card.hex}; color: ${card.text};">
                     <span class="m-1">${card.name}</span>
                 </div>
