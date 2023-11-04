@@ -30,8 +30,8 @@
                 <span style="text-shadow: 2px 2px 3px rgba(60, 54, 54, 0.737);" class="text-lg opacity-60 animate-pulse">Click Colour Code (like #000000) to copy! </span>
             </h1>
         </div>   
-        <div class="p-2 m-4 border-zinc-600 bg-zinc-600 hover:bg-zinc-500 shadow-md hover:shadow-lg active:shadow-xl transition-all rounded-xl">
-            <span style="text-shadow: 2px 2px 3px rgba(60, 54, 54, 0.737); filter: invert(1);" class="text-lg opacity-60 m-2 md:hidden block">It is <b>Unrecommended</b> to use this tool on mobiles. Try using on a Tablet or PC. </span>
+        <div class="p-2 m-4 border-zinc-600 bg-zinc-600 hover:bg-zinc-500 shadow-md hover:shadow-lg active:shadow-xl transition-all rounded-xl md:hidden block">
+            <span style="text-shadow: 2px 2px 3px rgba(60, 54, 54, 0.737); filter: invert(1);" class="text-lg opacity-60 m-2 ">It is <b>Unrecommended</b> to use this tool on mobiles. Try using on a Tablet or PC. </span>
         </div>        
         <div class="p-2 m-4 px-5 border-zinc-600 bg-zinc-600 hover:bg-zinc-500 shadow-md hover:shadow-lg active:shadow-xl transition-all rounded-xl">
             <input id="insert-input"
@@ -237,7 +237,7 @@
 
     window.addEventListener('keydown', (e) => {
         if(!e.key.toString().includes('nter')) return;
-        ExecuteInput();
+        input.blur();
     });
 
     input.addEventListener('blur', () => { if(input.value.replace(' ', '')) ExecuteInput() })
@@ -278,15 +278,15 @@
                     g = parseInt(splited[1]),
                     b = parseInt(splited[2]);
                 if(splited.length == 4) 
-                    return `${RGB_HEX(r, g, b)}${(parseInt(255 * (parseFloat(splited[3]) * 100), 10).toString(16)).length < 2 ? `0${(parseInt(255 * (parseFloat(splited[3]) * 100), 10).toString(16))}` : (parseInt(255 * (parseFloat(splited[3]) * 100), 10).toString(16))}`; // alpha
+                    return `${RGB_HEX(r, g, b)}${(parseInt(255 * (parseFloat(splited[3])), 10).toString(16)).length < 2 ? `0${(parseInt(255 * (parseFloat(splited[3])), 10).toString(16))}` : (parseInt(255 * (parseFloat(splited[3])), 10).toString(16))}`; // alpha
                 else 
                     return RGB_HEX(r, g, b);
-            }else return Yield("Wrong Format of Color code: RGB/A. ");
+            }else return Yield("Wrong Format of Color code: RGB/A?. ");
         }
     }
 
     const RGB_HEX = (r, g, b) => {
-        return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`; // slice?
+        return (`#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`.toUpperCase()); // slice?
     }
 
     const HEX_RGB = (hex, opacity = 'FF') => {
@@ -294,7 +294,7 @@
             green = parseInt(`0x${hex.slice(3, 5)}`),
             blue = parseInt(`0x${hex.slice(5, 7)}`);
         if(opacity == 'FF') return `${red}, ${green}, ${blue}`;
-        else return `${red}, ${green}, ${blue}, ${parseInt(`0x${opacity}`) / 100}`;
+        else return `${red}, ${green}, ${blue}, ${(parseInt(`${opacity}`, 16) / 255).toFixed(2)}`;
     }
 
     const ProcPercentage = (per) => {
@@ -343,7 +343,7 @@
                     <span class="m-1">${card.name}</span>
                 </div>
                 <div>
-                    <p class="pb-0.5  copyable font-semibold p-1 text-center shadow-none hover:shadow-sm active:shadow align-middle bg-transparent hover:bg-zinc-300 active:bg-zinc-600 bg-opacity-10 hover:bg-opacity-20 active:bg-opacity-40 transition-all rounded-md cursor-pointer" style="color: #f8f8f8cc; "  title="HEX code">${card.hex}</p>
+                    <p class="pb-0.5  copyable font-semibold p-1 text-center shadow-none hover:shadow-sm active:shadow align-middle bg-transparent hover:bg-zinc-300 active:bg-zinc-600 bg-opacity-10 hover:bg-opacity-20 active:bg-opacity-40 transition-all rounded-md cursor-pointer" style="color: #f8f8f8cc; "  title="HEX code">${card.hex.toUpperCase()}</p>
                     <p class="pt-0.5  copyable font-semibold p-1 text-center shadow-none hover:shadow-sm active:shadow align-middle bg-transparent hover:bg-zinc-300 active:bg-zinc-600 bg-opacity-10 hover:bg-opacity-20 active:bg-opacity-40 transition-all rounded-md cursor-pointer" style="color: #f8f8f8cc; "  title="RGB code">${(card.rgb.includes('?') ? HEX_RGB(card.hex) : card.rgb)}</p>
                 </div>
             </div>
