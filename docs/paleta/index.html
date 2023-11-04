@@ -21,23 +21,26 @@
     </style>
 </head>
 <body class="bg-zinc-700">
-    <div class="container min-w-full px-8 py-7">
+    <div class="container min-w-full md:px-8 md:py-7 px-1 py-1">
         <div class="p-2 m-4 border-zinc-600 bg-zinc-600 hover:bg-zinc-500 shadow-md hover:shadow-lg active:shadow-xl transition-all rounded-xl">
             <h1 class="m-5 text-zinc-50 text-3xl font-semibold select-none">
                 <span style="text-shadow: 5px 0 5px rgba(117, 113, 113, 0.787);">Paleta!</span>
                 <br>
-                <span style="text-shadow: 2px 2px 3px rgba(60, 54, 54, 0.737);" class="text-xl opacity-60">Insert command "usage" below to show full tips. </span><br>
+                <span style="text-shadow: 2px 2px 3px rgba(60, 54, 54, 0.737);" class="text-xl opacity-60">Insert command "usage" below to show full tips. <span class="md:inline hidden">[Enter]</span><span class="inline md:hidden">[Blur(tap on anywhere else)]</span> to execute.</span><br>
                 <span style="text-shadow: 2px 2px 3px rgba(60, 54, 54, 0.737);" class="text-lg opacity-60 animate-pulse">Click Colour Code (like #000000) to copy! </span>
             </h1>
+        </div>   
+        <div class="p-2 m-4 border-zinc-600 bg-zinc-600 hover:bg-zinc-500 shadow-md hover:shadow-lg active:shadow-xl transition-all rounded-xl">
+            <span style="text-shadow: 2px 2px 3px rgba(60, 54, 54, 0.737); filter: invert(1);" class="text-lg opacity-60 m-2 md:hidden block">It is <b>Unrecommended</b> to use this tool on mobiles. Try using on a Tablet or PC. </span>
         </div>        
         <div class="p-2 m-4 px-5 border-zinc-600 bg-zinc-600 hover:bg-zinc-500 shadow-md hover:shadow-lg active:shadow-xl transition-all rounded-xl">
             <input id="insert-input"
-                   placeholder="Insert HEX or RGB here and [Enter] to submit." 
+                   placeholder="Insert HEX or RGB and [Enter/Blur] to submit." 
                    class="transition-all text-zinc-100 rounded-lg min-w-full 
                           inline mx-auto text-lg h-max p-1 px-3 m-3
                           bg-zinc-400 bg-opacity-0 hover:bg-opacity-30 active:bg-opacity-50 focus:bg-opacity-40 " />
         </div>
-        <div class="grid grid-cols-3 gap-2.5 p-4 pt-1.5 mb-12" id="plate-root">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-2.5 p-4 pt-1.5 mb-48 md:mb-12" id="plate-root">
             <!--  -->
         </div>
     </div>
@@ -234,6 +237,12 @@
 
     window.addEventListener('keydown', (e) => {
         if(!e.key.toString().includes('nter')) return;
+        ExecuteInput();
+    });
+
+    input.addEventListener('blur', () => { if(input.value.replace(' ', '')) ExecuteInput() })
+
+    const ExecuteInput = () => {
         let insert = input.value.replace(' ', '').toUpperCase(), _tcolor = 'white';
         if(insert.includes('::')) {
             _tcolor = insert.split('::')[1];
@@ -242,8 +251,8 @@
         let judged = JudgeNewColor(insert).toString();
         if(judged == 'false') return;
         if(insert.includes("#")) InsertNewColor('UserInsert', _tcolor, insert, judged, 'user', 'none');
-        else InsertNewColor('UserInsert', _tcolor, judged, insert, 'user', 'null')
-    });
+        else InsertNewColor('UserInsert', _tcolor, judged, insert, 'user', 'null');
+    }
 
     const PrintUsageToast = () => {
         PushToast(usageText, 'bg-indigo-300', 1, 10000);
