@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paleta - Reading-friendly background-colour palette </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="shortcut icon" href="./favicon.png" type="image/x-icon">
+    <style>
+        .ccc{
+            animation: ccce .7s ease ;
+        }
+        @keyframes ccce {
+            from{
+                transform: translateY(1000%);
+            }
+            to{
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-zinc-700">
+    <div class="container min-w-full px-8 py-7">
+        <div class="p-2 m-4 border-zinc-600 bg-zinc-600 hover:bg-zinc-500 shadow-md hover:shadow-lg active:shadow-xl transition-all rounded-xl">
+            <h1 class="m-5 text-zinc-50 text-3xl font-semibold select-none">
+                <span style="text-shadow: 5px 0 5px rgba(117, 113, 113, 0.787);">Paleta!</span>
+                <br>
+                <span style="text-shadow: 2px 2px 3px rgba(60, 54, 54, 0.737);" class="text-xl opacity-60">Insert command "usage" below to show full tips. </span><br>
+                <span style="text-shadow: 2px 2px 3px rgba(60, 54, 54, 0.737);" class="text-lg opacity-60 animate-pulse">Click Colour Code (like #000000) to copy! </span>
+            </h1>
+        </div>        
+        <div class="p-2 m-4 px-5 border-zinc-600 bg-zinc-600 hover:bg-zinc-500 shadow-md hover:shadow-lg active:shadow-xl transition-all rounded-xl">
+            <input id="insert-input"
+                   placeholder="Insert HEX or RGB here and [Enter] to submit." 
+                   class="transition-all text-zinc-100 rounded-lg min-w-full 
+                          inline mx-auto text-lg h-max p-1 px-3 m-3
+                          bg-zinc-400 bg-opacity-0 hover:bg-opacity-30 active:bg-opacity-50 focus:bg-opacity-40 " />
+        </div>
+        <div class="grid grid-cols-3 gap-2.5 p-4 pt-1.5 mb-12" id="plate-root">
+            <!--  -->
+        </div>
+    </div>
+    <div id="footer" class="bottom-0 fixed -z-10 text-zinc-100 opacity-80 min-w-full p-3" >
+        <p class="min-w-full text-center font-light select-none text-sm mb-3 opacity-80"> Reading-friendly background-colour palette by <a class="transition-all text-blue-500 hover:text-blue-400 active:text-blue-600" target="_blank" href="./..">Feiron Iguista</a>. Colour-reference: <a class="transition-all text-blue-500 hover:text-blue-400 active:text-blue-600" target="_blank" href="https://www.tailwindcss.cn/docs/customizing-colors">TailwindCSS Docs: Color</a>
+        <br><a class="transition-all text-blue-500 hover:text-blue-400 active:text-blue-600" target="_blank" href="mailto:frigeso@icloud.com">Send me Email</a> if you found some colour is nice and want it pinned here.</p>
+    </div>
+
+
+
+    <!-- POPUP TOAST -->
+    <div id="popup-container">
+        <div class="PopUpToastArea fixed w-full m-2 text-center bottom-0 pb-3" id="pa">
+            <!-- -->
+        </div>
+        <style>
+            :root{
+                --toast-span: .78s;
+                --toast-pos: 21vh;
+                /* POPUP TOAST CONFIGURATION */
+            }
+        
+            input{
+                outline: 0;
+            }
+        
+            .toast-initial{
+                transform: translateY(var(--toast-pos));
+                animation: cubic-bezier(0.075, 0.82, 0.165, 1) popupAnimate var(--toast-span) forwards;
+        
+            }
+
+            .toast-leave{
+                animation: cubic-bezier(0.075, 0.82, 0.165, 1) popupLeave var(--toast-span) forwards;
+
+            }
+        
+            @keyframes popupAnimate {
+                0%{
+                    transform: translateY(var(--toast-pos));
+                }
+                100%{
+                    transform: translateY(calc(-1 * var(--toast-pos)));
+                }
+            }
+
+            @keyframes popupLeave{
+                0%{
+                    transform: translateY(calc(-1 * var(--toast-pos)));
+                }
+                100%{
+                    transform: translateY(calc(var(--toast-pos) * 1.2));
+                }
+            }
+        </style>
+        <script>
+            const PopUpToastContainerClass = "toast-initial fixed p-3 #COLOR# shadow rounded-lg mx-auto max-w-max left-0 right-0 inline-block";
+            const PopUpToastInnerClass = "inline-block px-2.5 mx-auto font-semibold text-lg";
+            var PopupArea = document.getElementById('pa');
+        
+            function PushToast(str, ucolor = "bg-emerald-400", later = 0, disappear = 3200){
+                let color = ucolor;
+                setTimeout(() => {
+                    switch(color){
+                        case "normal":
+                            // do nothing on the color
+                            break;
+                        case "warn":
+                            color = "bg-yellow-400";
+                            break;
+                        case "err":
+                            color = "bg-rose-400";
+                            break;
+                        default:
+                            break;
+                    }
+                    let containerC = PopUpToastContainerClass.replace('#COLOR#', color);
+                    let nPopToast = document.createElement('div');
+                    let nPopToastText = document.createElement('p');
+                    nPopToastText.innerHTML = str;
+                    nPopToast.appendChild(nPopToastText);
+                    for(let ii of containerC.split(" ")){
+                        nPopToast.classList.add(ii);
+                    }
+                    for(let ii of PopUpToastInnerClass.split(" ")){
+                        nPopToastText.classList.add(ii);
+                    }
+                    PopupArea.appendChild(nPopToast);
+        
+                    setTimeout(() => {
+                        nPopToast.classList.replace('toast-initial', 'toast-leave')
+                    }, disappear);
+                    setTimeout(() => {
+                        PopupArea.removeChild(nPopToast);
+                        delete nPopToast;
+                    }, 787 + disappear);
+        
+                }, later);
+            };
+            
+        </script>
+    </div>
+</body>
+<script>
+    var plate = document.getElementById("plate-root"),
+        input = document.getElementById('insert-input');
+    const colors = [
+    {
+            name: "White",
+            hex: "#FFFFFF",
+            rgb: "255, 255, 255",
+            text: "black",
+            poster: "frig",
+            contact: ""
+        },
+        {
+            name: "Black",
+            hex: "#000000",
+            rgb: "0, 0, 0",
+            text: "ghostwhite",
+            poster: "frig",
+            contact: ""
+        },
+        {
+            name: "Slate",
+            hex: "#e2e8f0",
+            rgb: "?",
+            text: "#020617",
+            poster: "Tailwind",
+            contact: "https://tailwindcss.com"
+        },
+        {
+            name: "Gray",
+            hex: "#e5e7eb",
+            rgb: "?",
+            text: "#030712",
+            poster: "Tailwind",
+            contact: "https://tailwindcss.com"
+        },
+        {
+            name: "Zinc",
+            hex: "#e4e4e7",
+            rgb: "?",
+            text: "#09090b",
+            poster: "Tailwind",
+            contact: "https://tailwindcss.com"
+        },
+        {
+            name: "Neutral",
+            hex: "#e5e5e5",
+            rgb: "?",
+            text: "#0a0a0a",
+            poster: "Tailwind",
+            contact: "https://tailwindcss.com"
+        },
+        {
+            name: "Stone",
+            hex: "#e7e5e4",
+            rgb: "?",
+            text: "#0c0a09",
+            poster: "Tailwind",
+            contact: "https://tailwindcss.com"
+        },
+        {
+            name: "Red/Fecaca",
+            hex: "#fecaca",
+            rgb: "?",
+            text: "#450a0a",
+            poster: "Tailwind",
+            contact: "https://tailwindcss.com"
+        },
+        {
+            name: "Oránge",
+            hex: "#fed7aa",
+            rgb: "?",
+            text: "431407",
+            poster: "Tailwind",
+            contact: "https://tailwindcss.com"
+        },
+    ],
+    usageText = `Here's an input bar, and you can input: \n
+    HEX like #3f3f3f or HEXA like #3f3f3f0A; \n
+    or \n
+    RGB like 39, 39, 39(recommended) // rgb(39, 39, 39) or RGBA like (11, 45, 14, 0.1919810). \n
+    After the Colour Code, you can use :: to add parameters after. \n
+    The parameter should be a colour, or CSS colour code. \n
+    This will be the Colour of preview text, as a reference of colour matching. \n
+    Mouse hovering over each content of card, you can see the info of each part. \n
+    Like poster info, colour code explain, and match-colour of text. \n
+    You can click on every Colour Code contained in the cards to copy the code. \n
+    This tips will disappear in 10 seconds, and you can shut it immediately by Refresh the Page. `;
+
+// TODO: 
+
+    window.addEventListener('keydown', (e) => {
+        if(!e.key.toString().includes('nter')) return;
+        let insert = input.value.replace(' ', '').toUpperCase(), _tcolor = 'white';
+        if(insert.includes('::')) {
+            _tcolor = insert.split('::')[1];
+            insert = insert.split('::')[0];
+        }else if(insert.includes('USAGE')) return PrintUsageToast();
+        let judged = JudgeNewColor(insert).toString();
+        if(judged == 'false') return;
+        if(insert.includes("#")) InsertNewColor('UserInsert', _tcolor, insert, judged, 'user', 'none');
+        else InsertNewColor('UserInsert', _tcolor, judged, insert, 'user', 'null')
+    });
+
+    const PrintUsageToast = () => {
+        PushToast(usageText, 'bg-indigo-300', 1, 10000);
+    }
+
+    const JudgeNewColor = (susCode) => {
+        if((typeof susCode).toString() != "string") return;
+        if(susCode.slice(0, 1) == "#"){ // guess this is a hex code, translate to RGB/A
+            susCode = susCode.toUpperCase();
+            if(susCode.length == (6 + 1) || susCode.length == (8 + 1)){
+                if(susCode.length == (6 + 1)) return HEX_RGB(susCode);
+                else return HEX_RGB(susCode.slice(0, 7), susCode.slice(7, 9))
+            }else return Yield("Wrong Format of Color code: HEX. ");
+        }else{ // or, this is RGB, translate to HEX
+            let splited = susCode.replace(' ', '')
+                                 .replace('(', '')
+                                 .replace(')', '')
+                                 .replace('rgb', '')
+                                 .replace('a', '')
+                                 .split(',');
+            if(splited.length == 3 || splited.length == 4){
+                let r = parseInt(splited[0]),
+                    g = parseInt(splited[1]),
+                    b = parseInt(splited[2]);
+                if(splited.length == 4) 
+                    return `${RGB_HEX(r, g, b)}${(parseInt(255 * (parseFloat(splited[3]) * 100), 10).toString(16)).length < 2 ? `0${(parseInt(255 * (parseFloat(splited[3]) * 100), 10).toString(16))}` : (parseInt(255 * (parseFloat(splited[3]) * 100), 10).toString(16))}`; // alpha
+                else 
+                    return RGB_HEX(r, g, b);
+            }else return Yield("Wrong Format of Color code: RGB/A. ");
+        }
+    }
+
+    const RGB_HEX = (r, g, b) => {
+        return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`; // slice?
+    }
+
+    const HEX_RGB = (hex, opacity = 'FF') => {
+        let red = parseInt(`0x${hex.slice(1, 3)}`),
+            green = parseInt(`0x${hex.slice(3, 5)}`),
+            blue = parseInt(`0x${hex.slice(5, 7)}`);
+        if(opacity == 'FF') return `${red}, ${green}, ${blue}`;
+        else return `${red}, ${green}, ${blue}, ${parseInt(`0x${opacity}`) / 100}`;
+    }
+
+    const ProcPercentage = (per) => {
+        return parseFloat(per) / 100;
+    }
+
+    const Yield = (str) => {
+        PushToast(str, "err");
+        return false;
+    }
+    
+    const InsertNewColor = (_name = 'UnNamed', _text = 'white', _hex = '#333333', _rgb = '?', _poster = 'unset', _contact = 'unset', isInit = false) => {
+        let _color = {
+                name: _name,
+                hex: _hex,
+                rgb: (_rgb.includes('?') ? HEX_RGB(_hex) : _rgb),
+                text: _text,
+                poster: _poster,
+                contact: _contact,
+            };
+        colors.push(_color);
+        PushNewCard(_color);
+        if(!isInit) console.log(`Copyable Colour Info JSON: \n%c${JSON.stringify(_color)}`, 'color: #3f3f3f; margin: 5px; border: 1px gray solid; border-radius: 5px; padding: 6px');
+    }
+
+    const copyit = (event) => {
+        var ee = event.target;
+        let copy = (e) => {
+            e.preventDefault()
+            e.clipboardData.setData('text/plain', ee.innerHTML)
+            document.removeEventListener('copy', copy)
+        }
+        document.addEventListener('copy', copy);
+        document.execCommand("Copy");
+        PushToast(`Successfully copy: ${ee.innerHTML}`);
+    }
+
+    plate.addEventListener("click", (e) => {
+        if(e.target.classList.toString().includes('copyable')) copyit(e);
+    }, true);
+
+    const PushNewCard = (card) => {
+        plate.innerHTML += `
+        <div title="${card.poster} (${(card.contact == "" ? "Null" : card.contact)})" class="ccc grid grid-cols-2 min-w-full gap-2 p-2 border-zinc-600 bg-zinc-600 hover:bg-zinc-500 shadow-md hover:shadow-lg active:shadow-xl transition-all rounded-xl">
+                <div title="Text colour: ${card.text}" class="m-1 flex rounded-lg justify-center content-center items-center align-middle" style="background-color: ${card.hex}; color: ${card.text};">
+                    <span class="m-1">${card.name}</span>
+                </div>
+                <div>
+                    <p class="pb-0.5  copyable font-semibold p-1 text-center shadow-none hover:shadow-sm active:shadow align-middle bg-transparent hover:bg-zinc-300 active:bg-zinc-600 bg-opacity-10 hover:bg-opacity-20 active:bg-opacity-40 transition-all rounded-md cursor-pointer" style="color: #f8f8f8cc; "  title="HEX code">${card.hex}</p>
+                    <p class="pt-0.5  copyable font-semibold p-1 text-center shadow-none hover:shadow-sm active:shadow align-middle bg-transparent hover:bg-zinc-300 active:bg-zinc-600 bg-opacity-10 hover:bg-opacity-20 active:bg-opacity-40 transition-all rounded-md cursor-pointer" style="color: #f8f8f8cc; "  title="RGB code">${(card.rgb.includes('?') ? HEX_RGB(card.hex) : card.rgb)}</p>
+                </div>
+            </div>
+        `;
+    }
+
+    window.onload = () => {
+        RefreshAllCards();
+    }
+
+    const RefreshAllCards = () => {
+        plate.innerHTML = '';
+        for(var c of colors){
+            PushNewCard(c);
+        }
+    }
+</script>
+</html>
