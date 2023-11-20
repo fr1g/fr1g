@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paleta - Reading-friendly background-colour palette </title>
+
+    <script src="./default.js"></script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="shortcut icon" href="./favicon.png" type="image/x-icon">
     <style>
@@ -21,16 +24,16 @@
     </style>
 </head>
 <body class="bg-zinc-700">
-    <div class="container min-w-full md:px-8 md:py-7 px-1 py-1">
+    <div class="container min-w-full lg:px-8 lg:py-7 px-1 py-1">
         <div class="p-2 m-4 border-zinc-600 bg-zinc-600 hover:bg-zinc-500 shadow-md hover:shadow-lg active:shadow-xl transition-all rounded-xl">
             <h1 class="m-5 text-zinc-50 text-3xl font-semibold select-none">
                 <span style="text-shadow: 5px 0 5px rgba(117, 113, 113, 0.787);">Paleta!</span>
                 <br>
-                <span style="text-shadow: 2px 2px 3px rgba(60, 54, 54, 0.737);" class="text-xl opacity-60">Insert command "usage" below to show full tips. <span class="md:inline hidden">[Enter]</span><span class="inline md:hidden">[Blur(tap on anywhere else)]</span> to execute.</span><br>
+                <span style="text-shadow: 2px 2px 3px rgba(60, 54, 54, 0.737);" class="text-xl opacity-60">Insert command "usage" below to show full tips. <span class="lg:inline hidden">[Enter]</span><span class="inline lg:hidden">[Blur(tap on anywhere else)]</span> to execute.</span><br>
                 <span style="text-shadow: 2px 2px 3px rgba(60, 54, 54, 0.737);" class="text-lg opacity-60 animate-pulse">Click Colour Code (like #000000) to copy! </span>
             </h1>
         </div>   
-        <div class="p-2 m-4 border-zinc-600 bg-zinc-600 hover:bg-zinc-500 shadow-md hover:shadow-lg active:shadow-xl transition-all rounded-xl md:hidden block">
+        <div class="p-2 m-4 border-zinc-600 bg-zinc-600 hover:bg-zinc-500 shadow-md hover:shadow-lg active:shadow-xl transition-all rounded-xl lg:hidden block">
             <span style="text-shadow: 2px 2px 3px rgba(60, 54, 54, 0.737); filter: invert(1);" class="text-lg opacity-60 m-2 ">It is <b>Unrecommended</b> to use this tool on mobiles. Try using on a Tablet or PC. </span>
         </div>        
         <div class="p-2 m-4 px-5 border-zinc-600 bg-zinc-600 hover:bg-zinc-500 shadow-md hover:shadow-lg active:shadow-xl transition-all rounded-xl">
@@ -40,7 +43,7 @@
                           inline mx-auto text-lg h-max p-1 px-3 m-3
                           bg-zinc-400 bg-opacity-0 hover:bg-opacity-30 active:bg-opacity-50 focus:bg-opacity-40 " />
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-2.5 p-4 pt-1.5 mb-48 md:mb-12" id="plate-root">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-1 lg:gap-2.5 p-4 pt-1.5 mb-56 lg:mb-24" id="plate-root">
             <!--  -->
         </div>
     </div>
@@ -52,7 +55,7 @@
 
 
     <!-- POPUP TOAST -->
-    <div id="popup-container">
+    <div id="popup-container select-none">
         <div class="PopUpToastArea fixed w-full m-2 text-center bottom-0 pb-3" id="pa">
             <!-- -->
         </div>
@@ -61,6 +64,10 @@
                 --toast-span: .78s;
                 --toast-pos: 21vh;
                 /* POPUP TOAST CONFIGURATION */
+            }
+
+            .shine{
+                background-color: rgba(255, 255, 233, 0.5555555555555555514) !important;
             }
         
             input{
@@ -97,7 +104,7 @@
             }
         </style>
         <script>
-            const PopUpToastContainerClass = "toast-initial fixed p-3 #COLOR# shadow rounded-lg mx-auto max-w-max left-0 right-0 inline-block";
+            const PopUpToastContainerClass = "toast-initial fixed p-3 #COLOR# border opacity-95 shadow-xl hover:shadow-2xl rounded-lg mx-auto max-w-max left-0 right-0 inline-block";
             const PopUpToastInnerClass = "inline-block px-2.5 mx-auto font-semibold text-lg";
             var PopupArea = document.getElementById('pa');
         
@@ -145,93 +152,14 @@
     </div>
 </body>
 <script>
+    const LT = 'kamisu-paleta-palette', DF = 'kamisu-paleta-pd';
+    const ResetPalettesStoraged = () => {
+        window.localStorage.removeItem(LT);
+    }
     var plate = document.getElementById("plate-root"),
-        input = document.getElementById('insert-input');
-    const colors = [
-    {
-            name: "White",
-            hex: "#FFFFFF",
-            rgb: "255, 255, 255",
-            text: "black",
-            poster: "frig",
-            contact: ""
-        },
-        {
-            name: "Black",
-            hex: "#000000",
-            rgb: "0, 0, 0",
-            text: "ghostwhite",
-            poster: "frig",
-            contact: ""
-        },
-        {
-            name: "Slate",
-            hex: "#e2e8f0",
-            rgb: "?",
-            text: "#020617",
-            poster: "Tailwind",
-            contact: "https://tailwindcss.com"
-        },
-        {
-            name: "Gray",
-            hex: "#e5e7eb",
-            rgb: "?",
-            text: "#030712",
-            poster: "Tailwind",
-            contact: "https://tailwindcss.com"
-        },
-        {
-            name: "Zinc",
-            hex: "#e4e4e7",
-            rgb: "?",
-            text: "#09090b",
-            poster: "Tailwind",
-            contact: "https://tailwindcss.com"
-        },
-        {
-            name: "Neutral",
-            hex: "#e5e5e5",
-            rgb: "?",
-            text: "#0a0a0a",
-            poster: "Tailwind",
-            contact: "https://tailwindcss.com"
-        },
-        {
-            name: "Stone",
-            hex: "#e7e5e4",
-            rgb: "?",
-            text: "#0c0a09",
-            poster: "Tailwind",
-            contact: "https://tailwindcss.com"
-        },
-        {
-            name: "Red/Fecaca",
-            hex: "#fecaca",
-            rgb: "?",
-            text: "#450a0a",
-            poster: "Tailwind",
-            contact: "https://tailwindcss.com"
-        },
-        {
-            name: "Oránge",
-            hex: "#fed7aa",
-            rgb: "?",
-            text: "#431407",
-            poster: "Tailwind",
-            contact: "https://tailwindcss.com"
-        },
-    ],
-    usageText = `Here's an input bar, and you can input: \n
-    HEX like #3f3f3f or HEXA like #3f3f3f0A; \n
-    or \n
-    RGB like 39, 39, 39(recommended) // rgb(39, 39, 39) or RGBA like (11, 45, 14, 0.1919810). \n
-    After the Colour Code, you can use :: to add parameters after. \n
-    The parameter should be a colour, or CSS colour code. \n
-    This will be the Colour of preview text, as a reference of colour matching. \n
-    Mouse hovering over each content of card, you can see the info of each part. \n
-    Like poster info, colour code explain, and match-colour of text. \n
-    You can click on every Colour Code contained in the cards to copy the code. \n
-    This tips will disappear in 10 seconds, and you can shut it immediately by Refresh the Page. `;
+        input = document.getElementById('insert-input'),
+        isSearching = false;
+    var colors = [];
 
 // TODO: 
 
@@ -240,18 +168,81 @@
         input.blur();
     });
 
-    input.addEventListener('blur', () => { if(input.value.replace(' ', '')) ExecuteInput() })
+    input.addEventListener('blur', () => { if(input.value.replaceAll(' ', '')) ExecuteInput() })
 
     const ExecuteInput = () => {
-        let insert = input.value.replace(' ', '').toUpperCase(), _tcolor = 'white';
+        let insert = input.value.replaceAll(' ', '').toUpperCase(), _tcolor = '?', _coname = 'UserInsert';
         if(insert.includes('::')) {
-            _tcolor = insert.split('::')[1];
-            insert = insert.split('::')[0];
-        }else if(insert.includes('USAGE')) return PrintUsageToast();
+            let isplit = insert.split('::'), asplit;
+            insert = isplit[0];
+            if(isplit.includes('@')){
+                _tcolor = isplit[1];
+                _coname = isplit[2];
+            }
+        }else if(insert.includes('/'))
+        {
+            if(insert == '/USAGE')  PrintUsageToast();
+            if((insert == '/RELOAD') || (insert == '/REFRESH')) return RefreshAllCards();
+            if(insert == '/DEFAULT')  AppendDefault();
+            if(insert == '/RESET')  return ClearLocal();
+            if(insert == '/CLEAR') ClearRam();
+            if(insert == '/SAVE')  SaveAll();
+            if(insert.includes('/SEARCH')) SearchCard(insert.split(':')[1]);
+            if(insert == '/WIPE') Wipe();
+
+            input.value = '';
+            input.blur();
+            return;
+        } 
         let judged = JudgeNewColor(insert).toString();
         if(judged == 'false') return;
-        if(insert.includes("#")) InsertNewColor('UserInsert', _tcolor, insert, judged, 'user', 'none');
-        else InsertNewColor('UserInsert', _tcolor, judged, insert, 'user', 'null');
+        else{
+            if(!insert.includes('#')) {
+                let _tmp = insert;
+                insert = judged;
+                judged = _tmp;
+                delete _tmp;
+            }
+
+
+            InsertNewColor(_coname, _tcolor, insert, judged.replaceAll(' ', ''), 'user', 'none');
+        }
+        // if(insert.includes("#")) InsertNewColor(_coname, _tcolor, insert, judged, 'user', 'none');
+        // else InsertNewColor(_coname, _tcolor, judged, insert, 'user', 'null');
+    }
+
+    // var ContainedDefaults = localStorage.getItem(DF);
+    const AppendDefault = () => {
+        // if(!ContainedDefaults) Yield('Already pushed once! ');
+        PushToast('Successfully sent Default cards into render! ', 'bg-green-200', 1000);
+        if(colors.toString().includes(`wipped`)) colors = [];
+        colors = colors.concat(default_colors);
+        // ContainedDefaults = true;
+        // localStorage.setItem(DF, 1);
+        SaveAll();
+        RefreshAllCards();
+    }    
+
+    const ClearLocal = () => {
+        colors = [];
+        Yield('Submitted Clear, reloading... ');
+        localStorage.removeItem(DF);
+        localStorage.removeItem(LT);
+        window.location.reload();
+    }    
+    
+    const Wipe = () => {
+        colors = ['wipped'];
+        SaveAll();
+        PushToast('Wipped, this do overwrite localStorage');
+        RefreshAllCards();
+        localStorage.setItem(LT, "wipped");
+    }
+
+    const ClearRam = () => {
+        colors = [];
+        PushToast('Board cleared! Be careful of Reload or Window Blur or any acts of SAVING, this will OVERWRITE!!! ');
+        RefreshAllCards();
     }
 
     const PrintUsageToast = () => {
@@ -267,11 +258,11 @@
                 else return HEX_RGB(susCode.slice(0, 7), susCode.slice(7, 9))
             }else return Yield("Wrong Format of Color code: HEX. ");
         }else{ // or, this is RGB, translate to HEX
-            let splited = susCode.replace(' ', '')
-                                 .replace('(', '')
-                                 .replace(')', '')
-                                 .replace('rgb', '')
-                                 .replace('a', '')
+            let splited = susCode.replaceAll(' ', '')
+                                 .replaceAll('(', '')
+                                 .replaceAll(')', '')
+                                 .replaceAll('rgb', '')
+                                 .replaceAll('a', '')
                                  .split(',');
             if(splited.length == 3 || splited.length == 4){
                 let r = parseInt(splited[0]),
@@ -285,7 +276,50 @@
         }
     }
 
+    const SearchCard = (indicate, operate = 'shine') => {
+        if(!indicate.includes('#')) indicate = RGB_HEX_FULL(indicate);
+        indicate = indicate.toUpperCase().replace('#', 'Z');
+        let _reference = colors[colors.findIndex(item => item.hex == `#${indicate}`)],
+            _rendered = document.getElementsByClassName(`${indicate}X`);
+        
+
+        console.log(_reference);
+        console.log(_rendered);
+        // if too many just shine each but only scroll to first one
+        // okay... FORGET THE MULTIRESULT!!!!!!!
+    }
+
+    const SaveAll = () => {
+        window.localStorage.setItem(LT, JSON.stringify(colors));
+        PushToast('Success Saved! ',  'bg-blue-200')
+    }
+
+    const Scroll = (elem) => {
+        window.scrollTo({top: elem.offsetTop, behavior: "smooth"});
+        return;
+    }
+
+    const Shine = (elem) => {
+
+        setTimeout(() => {
+            elem.classList.add('shine');
+        }, 810);
+        setTimeout(() => {
+            elem.classList.remove('shine');
+        }, 1145);
+    
+    }
+
     const RGB_HEX = (r, g, b) => {
+        return (`#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`.toUpperCase()); // slice?
+    }
+
+    const RGB_HEX_FULL = (rgb) => {
+        let ahex = rgb.split(',');
+        let r = parseInt(ahex[0]),
+            g = parseInt(ahex[1]),
+            b = parseInt(ahex[2]);
+
         return (`#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`.toUpperCase()); // slice?
     }
 
@@ -302,22 +336,27 @@
     }
 
     const Yield = (str) => {
+        if(isSearching) return false;
         PushToast(str, "err");
         return false;
     }
     
-    const InsertNewColor = (_name = 'UnNamed', _text = 'white', _hex = '#333333', _rgb = '?', _poster = 'unset', _contact = 'unset', isInit = false) => {
+    const InsertNewColor = (_name = 'UnNamed', _text = '?', _hex = '#333333', _rgb = '?', _poster = 'unset', _contact = 'unset', isInit = false) => {
         let _color = {
                 name: _name,
-                hex: _hex,
+                hex: (_hex.includes('?') ? RGB_HEX(_rgb) : _hex),
                 rgb: (_rgb.includes('?') ? HEX_RGB(_hex) : _rgb),
-                text: _text,
+                text: (_text == '?' ? GuessTextColour(_rgb) : _text),
                 poster: _poster,
                 contact: _contact,
             };
         colors.push(_color);
         PushNewCard(_color);
         if(!isInit) console.log(`Copyable Colour Info JSON: \n%c${JSON.stringify(_color)}`, 'color: #3f3f3f; margin: 5px; border: 1px gray solid; border-radius: 5px; padding: 6px');
+    }
+
+    const GuessTextColour = (__rgb) => {
+        return ((parseInt(eval((__rgb.includes('#') ? HEX_RGB(__rgb) : __rgb).replaceAll(',', '+').replaceAll(',', '+'))) / 3) >= 139 ? 'black' : 'white');
     }
 
     const copyit = (event) => {
@@ -339,21 +378,62 @@
     }, true);
 
     const PushNewCard = (card) => {
-        plate.innerHTML += `
-        <div title="${card.poster} (${(card.contact == "" ? "Null" : card.contact)})" class="ccc e-card grid grid-cols-2 min-w-full gap-2 p-2 border-zinc-600 bg-zinc-600 hover:bg-zinc-500 shadow-md hover:shadow-lg active:shadow-xl transition-all rounded-xl">
-                <div title="Text colour: ${card.text}" class="m-1 flex rounded-lg justify-center content-center items-center align-middle" style="background-color: ${card.hex}; color: ${card.text};">
-                    <span class="m-1">${card.name}</span>
+
+        if(card.rgb != '?' & card.hex == '?') {
+            enx = card.rgb.split(',');
+            card.hex = RGB_HEX(parseInt(enx[0]), parseInt(enx[1]), parseInt(enx[2]));
+            // card.hex =
+        }
+
+        try{
+            plate.innerHTML += `
+                <div title="${card.poster} (${(card.contact == "" ? "Null" : card.contact)})" class="ccc  ${(card.hex.toUpperCase().replace('#', 'Z'))}X  e-card grid grid-cols-2 min-w-full gap-1.5 p-1.5 border-zinc-600 bg-zinc-600 hover:bg-zinc-500 shadow-md hover:shadow-lg active:shadow-xl transition-all rounded-xl">
+                    <div title="Text colour: ${card.text}" class="m-1 flex rounded-lg justify-center content-center items-center align-middle" style="background-color: ${card.hex}; color: ${card.text};">
+                        <span class="m-1">${card.name}</span>
+                    </div>
+                    <div class="grid grid-cols-4 gap-0.5">
+                        <div class="text-sm col-span-3">
+                            <p class="pb-0.5  copyable font-semibold p-1 text-center shadow-none hover:shadow-sm active:shadow align-middle bg-transparent hover:bg-zinc-300 active:bg-zinc-600 bg-opacity-10 hover:bg-opacity-20 active:bg-opacity-40 transition-all rounded-md cursor-pointer" style="color: #f8f8f8cc; "  title="HEX code">${(card.hex.toUpperCase())}</p>
+                            <p class="pt-0.5  copyable font-semibold p-1 text-center shadow-none hover:shadow-sm active:shadow align-middle bg-transparent hover:bg-zinc-300 active:bg-zinc-600 bg-opacity-10 hover:bg-opacity-20 active:bg-opacity-40 transition-all rounded-md cursor-pointer" style="color: #f8f8f8cc; "  title="RGB code">${(card.rgb.includes('?') ? HEX_RGB(card.hex) : card.rgb)}</p>
+                        </div>
+                        <div class="w-full h-full p-2">
+                            <div class="cursor-not-allowed rounded-lg bg-rose-300 bg-opacity-30 hover:bg-opacity-50 active:bg-opacity-60  transition-all w-full h-full" title="DELETE">
+                                <p class="translate-y-0.5 pt-0.5 px-auto text-slate-800 select-none text-center font-semibold text-lg">&times;</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <p class="pb-0.5  copyable font-semibold p-1 text-center shadow-none hover:shadow-sm active:shadow align-middle bg-transparent hover:bg-zinc-300 active:bg-zinc-600 bg-opacity-10 hover:bg-opacity-20 active:bg-opacity-40 transition-all rounded-md cursor-pointer" style="color: #f8f8f8cc; "  title="HEX code">${card.hex.toUpperCase()}</p>
-                    <p class="pt-0.5  copyable font-semibold p-1 text-center shadow-none hover:shadow-sm active:shadow align-middle bg-transparent hover:bg-zinc-300 active:bg-zinc-600 bg-opacity-10 hover:bg-opacity-20 active:bg-opacity-40 transition-all rounded-md cursor-pointer" style="color: #f8f8f8cc; "  title="RGB code">${(card.rgb.includes('?') ? HEX_RGB(card.hex) : card.rgb)}</p>
-                </div>
-            </div>
-        `;
+            `;
+        }catch(ex){
+            if(ex.toString().includes('Upper')) console.log('Perhaps currently did /wipe/... will show this %cException: InvalidObjectPropertyMethodExecutionException', 'color: red; font-weight: bold; font-size: large;');
+        }
+
     }
 
+
+
+
+
+    //
     window.onload = () => {
+        let Visited = window.localStorage.getItem(LT).replace('[]', '');
+        console.log(Visited)
+        if(Boolean(Visited)) colors = JSON.parse(Visited);
+        else {
+            PushToast('We use window.localStorage to storage your palettes. It is harmless! :)', 'bg-teal-300');
+            colors = colors.concat(default_colors);
+
+        }
+
         RefreshAllCards();
+    }
+
+    window.onblur = () => {
+        SaveAll();
+    }
+
+    window.onbeforeunload = () => {
+        SaveAll();
     }
 
     const RefreshAllCards = () => {
@@ -361,6 +441,15 @@
         for(var c of colors){
             PushNewCard(c);
         }
+    }
+
+
+
+
+
+    const ForceReset = () => {
+        localStorage.clear();
+        window.location.reload()
     }
 </script>
 </html>
