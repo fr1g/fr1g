@@ -35,8 +35,10 @@
         const RunDarkCheck = () => {
             if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
             } else {
                 document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
             }
         }
         RunDarkCheck();
@@ -65,7 +67,7 @@
                         <option class="bg-transparent" value="utf-8">UTF-8</option>
                     </select>
                     <button type="submit" class="rounded-lg border shadow-sm hover:shadow-md active:shadow transition bg-emerald-500 bg-opacity-70 hover:bg-opacity-60 active:bg-opacity-50 px-3 py-1  mx-1 font-semibold" title="展示">GO</button>
-                    <span onclick="Dark()" class="rounded-lg border shadow-sm hover:shadow-md active:shadow transition bg-yellow-500 bg-opacity-70 hover:bg-opacity-60 active:bg-opacity-50 px-3 py-1.5 mx-1  font-semibold" title="切换深浅色模式">DARK</span>
+                    <span class="rounded-lg border shadow-sm hover:shadow-md active:shadow transition bg-yellow-500 bg-opacity-70 hover:bg-opacity-60 active:bg-opacity-50 px-3 py-1.5 mx-1  font-semibold" id="db" title="切换深浅色模式。按住ctrl点击来跟随系统。">DARK</span>
                     <span onclick="Reset()" class="rounded-lg border shadow-sm hover:shadow-md active:shadow transition bg-red-500 bg-opacity-70 hover:bg-opacity-60 active:bg-opacity-50 px-3 py-1.5 mx-1  font-semibold" title="重置">RE</span>
                 </form>
             </div>
@@ -210,6 +212,15 @@
         reader.readAsText(Instance.FileInstance, document.getElementById('decode').value);
         // RunMainProcess();
     });
+
+    document.getElementById('db').addEventListener('click', (e) => {
+        if(e.ctrlKey){
+            localStorage.removeItem('theme');
+            PushToast('由于你点击按钮时候按住了【唱跳Rap篮球】（也就是ctrl键）<br>所以深色模式现在重新跟随你的浏览器设置了。', 'dark:bg-stone-700 bg-stone-400', 1, 3456);
+            RunDarkCheck();
+        }else Dark();
+    });
+
     document.getElementById('bylink').addEventListener('submit', (e) => {
         e.preventDefault();
         if(IsThisAValidUrl())
@@ -318,7 +329,7 @@
         document.getElementById('solver').reset();
         document.getElementById('bylink').reset();
         TitleArea.innerHTML = 'untitled';
-        localStorage.removeItem('theme');
+        // localStorage.removeItem('theme');
         // ?
     }
     
