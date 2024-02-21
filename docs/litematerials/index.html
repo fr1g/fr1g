@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Materials Better, Litematica!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
+    <style>
+        .reverse{
+            filter: invert(0.9);
+        }
+        #inputed::file-selector-button{
+            border-radius: .5rem;
+            border-color: rgba(175, 175, 175, 0.29);
+            opacity: .8;
+            transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 100ms;
+        }
+        #inputed::file-selector-button:hover{
+            opacity: .9;
+        }
+        #inputed::file-selector-button:active{
+            opacity: .7;
+        }
+
+        *{
+            user-select: none;
+        }
+    </style>
+    <script>
+        const RunDarkCheck = () => {
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        }
+        RunDarkCheck();
+    </script>
+</head>
+<body class="bg-zinc-200 dark:bg-zinc-800 text-zinc-950 dark:text-zinc-50 transition p-1.5 md:p-3">
+    <h1 class="absolute -top-10">Show Materials Better, Litematica!</h1>
+    <div class="container mx-auto rounded-lg shadow-lg bg-zinc-50 dark:bg-zinc-900 p-3 w-full m-8 mt-16 hover:shadow-xl transition ">
+        <h2 id="ttl" class="mb-3.5 mt-1 p-3 text-3xl font-semibold indent-1">untitled</h2>
+        <div class="grid grid-cols-5 gap-0 m-5" id="insert">
+
+
+            
+
+            
+        </div>
+
+        <div class="upl mt-3.5 p-3" id="uploadContainer">
+            <h3 class="text-xl font-semibold indent-2 mb-1.5">选择TXT文件并选择它的编码：</h3>
+            <div class="formwrap px-1.5">
+                <form action="" id="solver">
+                    <input type="file" name="txt" id="inputed" required accept=".txt" class="rounded-lg border-2" />
+                    <label for="decode" class="pl-1.5">DECODING with: </label>
+                    <select name="decode" id="decode" required class="border-2 bg-transparent rounded-lg px-2 py-1 mx-1">
+                        <option class="bg-transparent" value="gb18030">GB18030(zh-HanS)</option>
+                        <option class="bg-transparent" value="utf-8">UTF-8</option>
+                    </select>
+                    <button type="submit" class="rounded-lg border shadow-sm hover:shadow-md active:shadow transition bg-emerald-500 bg-opacity-70 hover:bg-opacity-60 active:bg-opacity-50 px-3 py-1  mx-1 font-semibold" title="展示">GO</button>
+                    <span onclick="Dark()" class="rounded-lg border shadow-sm hover:shadow-md active:shadow transition bg-yellow-500 bg-opacity-70 hover:bg-opacity-60 active:bg-opacity-50 px-3 py-1.5 mx-1  font-semibold" title="切换深浅色模式">DARK</span>
+                    <span onclick="Reset()" class="rounded-lg border shadow-sm hover:shadow-md active:shadow transition bg-red-500 bg-opacity-70 hover:bg-opacity-60 active:bg-opacity-50 px-3 py-1.5 mx-1  font-semibold" title="重置">RE</span>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <h6 class="text-center my-6 px-1.5 text-sm opacity-50">
+        由于导出的文件太难看了所以做了个这玩意。另外，你应该用电脑看这个网页。
+    </h6>
+</body>
+
+<script>// +----------+-------+---------+--------------+ [1]: name [3]: main
+    const SeparatorMatcher = /[+][-]+[+][-]+[+][-]+[+][-]+[+]/;
+    var Instance = {
+        Title: '',
+        Data: [],
+        Raw: '',
+        Table: '',
+        FileInstance: null
+    }
+    var uploader = document.getElementById('inputed'),
+        insert = document.getElementById('insert'),
+        TitleArea = document.getElementById('ttl'),
+        reader = new FileReader();
+
+    document.getElementById('solver').addEventListener('submit', (e) => {
+        e.preventDefault();
+        reader.readAsText(Instance.FileInstance, document.getElementById('decode').value);
+        // RunMainProcess();
+    });
+    uploader.addEventListener('change', (e) => {
+        Instance.FileInstance = e.target.files[0];
+    });
+    reader.addEventListener('load', (e) => {
+        Instance.Raw = e.currentTarget.result;
+        RunSpliter(Instance.Raw);
+        ApplyHTML();
+    });
+
+    const RunSpliter = (txt) => {
+        let _tmp = txt.replaceAll(' ', '').split(SeparatorMatcher);
+        Instance.Title = _tmp[1].replaceAll('|', ' ').replace("'", " '");
+        Instance.Table = _tmp[3];
+        Instance.Data = Instance.Table.replace('\r\n|').split('|\r\n|');
+    }
+
+    const Dark = () => {
+        if(document.documentElement.classList.contains('dark')){
+            document.documentElement.classList.remove('dark');
+            localStorage.theme = 'light';
+
+        }else{
+            document.documentElement.classList.add('dark');
+            localStorage.theme = 'dark';
+        }
+    }
+
+    const Reset = () => {
+        Instance = {
+            Title: '',
+            Data: [],
+            Raw: '',
+            Table: '',
+            FileInstance: null
+        };
+        insert.innerHTML = '';
+        document.getElementById('solver').reset();
+        TitleArea.innerHTML = 'untitled';
+        localStorage.removeItem('theme');
+        // ?
+    }
+    
+    const ApplyHTML = () => {
+        TitleArea.innerHTML = Instance.Title;
+        insert.innerHTML = `
+                <div class="text-xl font-semibold pb-3 indent-2">编号</div>
+                <div class="text-xl font-semibold pb-3 indent-2">项目</div>
+                <div class="text-xl font-semibold pb-3 indent-2">总计</div>
+                <div class="text-xl font-semibold pb-3 indent-2">缺少</div>
+                <div class="text-xl font-semibold pb-3 indent-2">持有</div>`;
+        let sign = -1;
+        for(let each of Instance.Data){
+            sign++;
+            if(sign == 0) continue;
+            let split = each.split('|');
+
+            insert.innerHTML += `
+            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2">${sign}</div>
+            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2">${split[0]}</div>
+            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2">${split[1]}</div>
+            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2">${split[2]}</div>
+            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2">${split[3]}</div>`;
+
+        }
+        insert.innerHTML += '<div class="border-t-2 col-span-full"> </div>';
+
+    }
+
+</script>
+</html>
