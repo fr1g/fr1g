@@ -43,7 +43,7 @@
     </script>
 </head>
 <body class="bg-zinc-200 dark:bg-zinc-800 text-zinc-950 dark:text-zinc-50 transition p-1.5 md:p-3">
-    <h1 class="absolute -top-10">Show Materials Better, Litematica!</h1>
+    <h1 class="absolute -top-10" style="font-size: 0;">Show Materials Better, Litematica! <a href="#" id="LINKHANDLER" target="_blank">~</a></h1>
     <div class="container mx-auto rounded-lg shadow-lg bg-zinc-50 dark:bg-zinc-900 p-3 w-full m-8 mt-16 hover:shadow-xl transition ">
         <h2 id="ttl" class="mb-3.5 mt-1 p-3 text-3xl font-semibold indent-1">untitled</h2>
         <div class="grid grid-cols-5 gap-0 m-5" id="insert">
@@ -55,7 +55,7 @@
         </div>
 
         <div class="upl mt-3.5 p-3" id="uploadContainer">
-            <h3 class="text-xl font-semibold indent-2 mb-1.5">选择TXT文件并选择它的编码：</h3>
+            <h3 class="text-xl font-semibold indent-2 my-1.5">选择TXT文件并选择它的编码：</h3>
             <div class="formwrap px-1.5">
                 <form action="" id="solver">
                     <input type="file" name="txt" id="inputed" required accept=".txt" class="rounded-lg border-2" />
@@ -70,11 +70,122 @@
                 </form>
             </div>
 
+            <h3 class="text-xl font-semibold indent-2 mt-2 mb-0.5">
+                或者使用在线文件：<br>
+                <span class="text-sm font-normal opacity-75 pl-2.5 align-top">- 只要它在浏览器地址框里输入并访问后展示的是纯文本那就可以放在这里尝试获取。</span>
+            </h3>
+            <div class="formwrap px-1.5 ">
+                <form action="" id="bylink">
+                    <input required type="url" class="border-2 bg-transparent rounded-lg px-2 py-1 mx-1" name="link" id="link" placeholder="输入完整的链接。" />
+                    <button id="linkbutton" onclick="IsThisAValidUrl()" type="submit" class="rounded-lg border shadow-sm hover:shadow-md active:shadow transition bg-blue-400 bg-opacity-70 hover:bg-opacity-60 active:bg-opacity-50 px-3 py-1  mx-1 font-semibold" title="获取">GET</button>
+                    <span onclick="CheckLink()" class="rounded-lg border shadow-sm hover:shadow-md active:shadow transition bg-indigo-300 bg-opacity-70 hover:bg-opacity-60 active:bg-opacity-50 px-3 py-1.5 mx-1  font-semibold" title="检查">CHK</span>
+                </form>
+                <p class="text-sm font-normal opacity-70 pl-1 pt-0.5">- 无论哪个方式都需要在上面选择一个编码。默认是简体中文GB18030，已经帮你选好了。</p>
+            </div>
+
         </div>
     </div>
     <h6 class="text-center my-6 px-1.5 text-sm opacity-50">
-        由于导出的文件太难看了所以做了个这玩意。另外，你应该用电脑看这个网页。
+        由于Litematica导出的文本文件太难看了所以做了个这玩意。另外，你应该用电脑看这个网页。Handwork by Feiron Iguista!<br>
+        另外，<a class="transition-all text-blue-500 hover:text-blue-400 active:text-blue-600" target="_blank" href="https://gio.kami.su/">主站这里有法棍的自我介绍（英文）</a>
     </h6>
+
+    <!-- POPUP TOAST -->
+    <div id="popup-container select-none">
+        <div class="PopUpToastArea fixed w-full m-2 text-center bottom-0 pb-3" id="pa">
+            <!-- -->
+        </div>
+        <style>
+            :root{
+                --toast-span: .78s;
+                --toast-pos: 21vh;
+                /* POPUP TOAST CONFIGURATION */
+            }
+
+            .shine{
+                background-color: rgba(255, 255, 233, 0.5555555555555555514) !important;
+            }
+        
+            input{
+                outline: 0;
+            }
+        
+            .toast-initial{
+                transform: translateY(var(--toast-pos));
+                animation: cubic-bezier(0.075, 0.82, 0.165, 1) popupAnimate var(--toast-span) forwards;
+        
+            }
+
+            .toast-leave{
+                animation: cubic-bezier(0.075, 0.82, 0.165, 1) popupLeave var(--toast-span) forwards;
+
+            }
+        
+            @keyframes popupAnimate {
+                0%{
+                    transform: translateY(var(--toast-pos));
+                }
+                100%{
+                    transform: translateY(calc(-1 * var(--toast-pos)));
+                }
+            }
+
+            @keyframes popupLeave{
+                0%{
+                    transform: translateY(calc(-1 * var(--toast-pos)));
+                }
+                100%{
+                    transform: translateY(calc(var(--toast-pos) * 1.2));
+                }
+            }
+        </style>
+        <script>
+            const PopUpToastContainerClass = "toast-initial fixed p-3 #COLOR# border opacity-95 shadow-xl hover:shadow-2xl rounded-lg mx-auto max-w-max left-0 right-0 inline-block";
+            const PopUpToastInnerClass = "block px-2.5 mx-auto font-semibold text-lg";
+            var PopupArea = document.getElementById('pa');
+        
+            function PushToast(str, ucolor = "bg-emerald-400", later = 0, disappear = 3200){
+                let color = ucolor;
+                setTimeout(() => {
+                    switch(color){
+                        case "normal":
+                            // do nothing on the color
+                            break;
+                        case "warn":
+                            color = "bg-orange-400";
+                            break;
+                        case "err":
+                            color = "bg-rose-400";
+                            break;
+                        default:
+                            break;
+                    }
+                    let containerC = PopUpToastContainerClass.replace('#COLOR#', color);
+                    let nPopToast = document.createElement('div');
+                    let nPopToastText = document.createElement('p');
+                    nPopToastText.innerHTML = str;
+                    nPopToast.appendChild(nPopToastText);
+                    for(let ii of containerC.split(" ")){
+                        nPopToast.classList.add(ii);
+                    }
+                    for(let ii of PopUpToastInnerClass.split(" ")){
+                        nPopToastText.classList.add(ii);
+                    }
+                    PopupArea.appendChild(nPopToast);
+        
+                    setTimeout(() => {
+                        nPopToast.classList.replace('toast-initial', 'toast-leave')
+                    }, disappear);
+                    setTimeout(() => {
+                        PopupArea.removeChild(nPopToast);
+                        delete nPopToast;
+                    }, 787 + disappear);
+        
+                }, later);
+            };
+            
+        </script>
+    </div>
 </body>
 
 <script>// +----------+-------+---------+--------------+ [1]: name [3]: main
@@ -89,13 +200,52 @@
     var uploader = document.getElementById('inputed'),
         insert = document.getElementById('insert'),
         TitleArea = document.getElementById('ttl'),
-        reader = new FileReader();
+        inlink = document.getElementById('link'),
+        linkBtn = document.getElementById('linkbutton'),
+        reader = new FileReader(),
+        req = new XMLHttpRequest(); // ?cnm 
 
     document.getElementById('solver').addEventListener('submit', (e) => {
         e.preventDefault();
         reader.readAsText(Instance.FileInstance, document.getElementById('decode').value);
         // RunMainProcess();
     });
+    document.getElementById('bylink').addEventListener('submit', (e) => {
+        e.preventDefault();
+        if(IsThisAValidUrl())
+        try{        
+            let file = getFileFromUrl(inlink.value, 'got.txt').then(_ => {
+            Instance.FileInstance = _;
+            reader.readAsText(Instance.FileInstance, document.getElementById('decode').value);
+
+            }).catch(ex => {
+                console.error(ex);
+                PushToast('获取失败', 'err');
+            });
+        }catch(ex){
+            console.error(ex);
+            PushToast('获取失败', 'err');
+        }
+        // req.open('get', inlink.value);
+        // req.onreadystatechange = (ee) => {
+        //     if(req.readyState == 4) {
+        //         console.log(req.response)
+        //         let _tmp = req.response,
+        //         encoder = new TextEncoder(document.getElementById('decode').value), decoder = new TextDecoder(document.getElementById('decode').value);
+        //         console.log(encoder)
+        //         console.log(decoder)
+        //         _tmp = encoder.encode(_tmp);
+        //         Instance.Raw = decoder.decode(_tmp);
+        //         console.log(Instance.Raw)
+        //         RunSpliter(Instance.Raw);
+        //         ApplyHTML();
+        //     }
+        // } 锟斤拷！！！
+        // req.send();
+        
+    });
+// try by link: https://gio.kami.su/litematerials/uploaded/material_list_2024-02-22_00.10.58.txt
+
     uploader.addEventListener('change', (e) => {
         Instance.FileInstance = e.target.files[0];
     });
@@ -104,6 +254,39 @@
         RunSpliter(Instance.Raw);
         ApplyHTML();
     });
+
+    function getFileFromUrl(url, fileName) {
+        PushToast('正在尝试获取在线文件', 'bg-blue-300', 1, 3000)
+        return new Promise(async (resolve, reject) => {
+            const response = await fetch(url).catch(ex => {console.error(ex); PushToast('获取失败：链接错误', 'err');});
+            const blob = await response.blob().catch(ex => {console.error(ex); PushToast('获取失败：内容非预期', 'err');});
+            let file = new File([blob], fileName, { type: 'text/plain' });
+            resolve(file);
+        }).catch(ex => {
+            console.error(ex);
+            PushToast('获取失败', 'err');
+        }); // method copied from https://segmentfault.com/a/1190000044026984  THANK YOU VERY MUCH FOR YOU SAVED ME FROM KUNJINKAO.
+    }
+
+    const IsThisAValidUrl = () => {
+        if(inlink.value.match(/https?:\/\/[-a-z0-9]+(\.[-a-z0-9]+)*\.[a-zA-Z]{2,}\/[-a-zA-Z0-9_:@&?=+,.!/~*'%$]*/) ?? false){
+            PushToast('看起来这是个链接。<br>你需要在3秒后弹出的窗口里检查其是否仅包含文本。', 'bg-indigo-500', 1, 6000);
+            return true;
+        }else {
+            PushToast('这是个链接？必须是【https://】开头然后接上一段网址！', 'warn', 1, 5000);
+            return false; 
+        }
+
+    }
+
+    const CheckLink = () => {
+        if(IsThisAValidUrl()){
+            document.getElementById('LINKHANDLER').setAttribute('href', inlink.value);
+            setTimeout(() => {
+                document.getElementById('LINKHANDLER').click();
+            }, 4567);
+        }
+    }
 
     const RunSpliter = (txt) => {
         let _tmp = txt.replaceAll(' ', '').split(SeparatorMatcher);
@@ -133,6 +316,7 @@
         };
         insert.innerHTML = '';
         document.getElementById('solver').reset();
+        document.getElementById('bylink').reset();
         TitleArea.innerHTML = 'untitled';
         localStorage.removeItem('theme');
         // ?
@@ -153,15 +337,15 @@
             let split = each.split('|');
 
             insert.innerHTML += `
-            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2">${sign}</div>
-            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2">${split[0]}</div>
-            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2">${split[1]}</div>
-            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2">${split[2]}</div>
-            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2">${split[3]}</div>`;
+            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2 border-zinc-300/50">${sign    }</div>
+            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2 border-zinc-300/50">${split[0]}</div>
+            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2 border-zinc-300/50">${split[1]}</div>
+            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2 border-zinc-300/50">${split[2]}</div>
+            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2 border-zinc-300/50">${split[3]}</div>`;
 
         }
-        insert.innerHTML += '<div class="border-t-2 col-span-full"> </div>';
-
+        insert.innerHTML += '<div class="border-t-2 col-span-full border-zinc-300/50"> </div>';
+        PushToast('完成');
     }
 
 </script>
