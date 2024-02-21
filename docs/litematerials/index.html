@@ -60,9 +60,9 @@
             <h3 class="text-xl font-semibold indent-2 my-1.5">选择TXT文件并选择它的编码：</h3>
             <div class="formwrap px-1.5">
                 <form action="" id="solver">
-                    <input type="file" name="txt" id="inputed" required accept=".txt" class="rounded-lg border-2" />
+                    <input type="file" name="txt" id="inputed" required accept=".txt" class="shadow-sm rounded-lg border-2" />
                     <label for="decode" class="pl-1.5">DECODING with: </label>
-                    <select name="decode" id="decode" required class="border-2 bg-transparent rounded-lg px-2 py-1 mx-1">
+                    <select name="decode" id="decode" required class="shadow-sm border-2 bg-transparent rounded-lg px-2 py-1 mx-1">
                         <option class="bg-transparent" value="gb18030">GB18030(zh-HanS)</option>
                         <option class="bg-transparent" value="utf-8">UTF-8</option>
                     </select>
@@ -78,11 +78,14 @@
             </h3>
             <div class="formwrap px-1.5 ">
                 <form action="" id="bylink">
-                    <input required type="url" class="border-2 bg-transparent rounded-lg px-2 py-1 mx-1" name="link" id="link" placeholder="输入完整的链接。" />
-                    <button id="linkbutton" onclick="IsThisAValidUrl()" type="submit" class="rounded-lg border shadow-sm hover:shadow-md active:shadow transition bg-blue-400 bg-opacity-70 hover:bg-opacity-60 active:bg-opacity-50 px-3 py-1  mx-1 font-semibold" title="获取">GET</button>
-                    <span onclick="CheckLink()" class="rounded-lg border shadow-sm hover:shadow-md active:shadow transition bg-indigo-300 bg-opacity-70 hover:bg-opacity-60 active:bg-opacity-50 px-3 py-1.5 mx-1  font-semibold" title="检查">CHK</span>
+                    <div class="flex">
+                        <input required type="url" class="border-2 block grow shadow-sm bg-transparent rounded-lg px-2 py-1 mx-1" name="link" id="link" placeholder="输入完整的链接。" />
+                        <button id="linkbutton" onclick="IsThisAValidUrl()" type="submit" class=" block rounded-lg border shadow-sm hover:shadow-md active:shadow transition bg-blue-400 bg-opacity-70 hover:bg-opacity-60 active:bg-opacity-50 px-3 py-1  mx-1 font-semibold" title="获取">GET</button>
+                        <span onclick="CheckLink()" class="rounded-lg block  border shadow-sm hover:shadow-md active:shadow transition bg-indigo-300 bg-opacity-70 hover:bg-opacity-60 active:bg-opacity-50 px-3 py-1.5 mx-1  font-semibold" title="检查">CHK</span>
+                        <span onclick="Share()" class="rounded-lg block  border shadow-sm hover:shadow-md active:shadow transition bg-lime-300 bg-opacity-70 hover:bg-opacity-60 active:bg-opacity-50 px-3 py-1.5 mx-1  font-semibold" title="分享">ŠAR</span>    
+                    </div>
                 </form>
-                <p class="text-sm font-normal opacity-70 pl-1 pt-0.5">- 无论哪个方式都需要在上面选择一个编码。默认是简体中文GB18030，已经帮你选好了。</p>
+                <p class="text-sm font-normal opacity-70 pl-1 pt-0.5">- 无论哪个方式都需要在上面选择一个编码。默认是简体中文GB18030，已经帮你选好了。另外，分享功能(ŠAR)仅支持在线文件。</p>
             </div>
 
         </div>
@@ -281,7 +284,6 @@
 
     const IsThisAValidUrl = () => {
         if(inlink.value.match(/https?:\/\/[-a-z0-9]+(\.[-a-z0-9]+)*\.[a-zA-Z]{2,}\/[-a-zA-Z0-9_:@&?=+,.!/~*'%$]*/) ?? false){
-            PushToast('看起来这是个链接。<br>你需要在3秒后弹出的窗口里检查其是否仅包含文本。', 'bg-indigo-500', 1, 6000);
             return true;
         }else {
             PushToast('这是个链接？必须是【https://】开头然后接上一段网址！', 'warn', 1, 5000);
@@ -292,6 +294,7 @@
 
     const CheckLink = () => {
         if(IsThisAValidUrl()){
+            PushToast('看起来这是个链接。<br>你需要在3秒后弹出的窗口里检查其是否仅包含文本。', 'bg-indigo-500', 1, 6000);
             document.getElementById('LINKHANDLER').setAttribute('href', inlink.value);
             setTimeout(() => {
                 document.getElementById('LINKHANDLER').click();
@@ -359,5 +362,36 @@
         PushToast('完成');
     }
 
+    const Share = () => {
+        let share = `${(`${window.location.href}`.substring(0, `${window.location.href}`.indexOf('?')))}?xxcharset=${document.getElementById('decode').value}&&xxlink=${inlink.value ?? 'unset'}`;
+        PushToast('成功复制到了剪贴板。<br>如果没有，那么就把浏览器现在的地址栏复制走。', 'bg-lime-400', 1, 3210);
+        window.history.pushState({type: 'share'}, '', share);
+        navigator.clipboard.writeText(share);
+    }
+
+window.onload = () => {
+    let params = (`${window.location.href}`.substring(`${window.location.href}`.indexOf('?'))).replace('?', '').split('&&');
+
+    // process on params certainly
+    if(params[0] == window.location.href) return;
+    else {
+        let charset = 'utf-8', linking = null;
+        for(param of params){
+            if(param.includes('xxcharset=')){
+                charset = param.replace('xxcharset=', '');
+            }
+            if(param.includes('xxlink=')){
+                linking = param.replace('xxlink=', '');
+            }
+        }
+        inlink.value = linking;
+        document.getElementById('decode').value = charset;
+        if(linking != null && linking != 'unset') linkBtn.click();
+        console.log(`link params info: charset: ${charset}; link: ${linking}`);
+    }
+    // function ProcessPresetTarget(){
+    //     console.log(params == window.location.href)
+    // }()
+}
 </script>
 </html>
