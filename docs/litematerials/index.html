@@ -210,6 +210,10 @@
         reader = new FileReader(),
         req = new XMLHttpRequest(); // ?cnm 
 
+    // inlink.addEventListener('change', (e) => {
+
+    // });
+
     document.getElementById('solver').addEventListener('submit', (e) => {
         e.preventDefault();
         reader.readAsText(Instance.FileInstance, document.getElementById('decode').value);
@@ -283,6 +287,10 @@
     }
 
     const IsThisAValidUrl = () => {
+        if(inlink.value.includes('%') ?? false){
+            console.log('converting');
+            inlink.value = decodeURIComponent(inlink.value);
+        }
         if(inlink.value.match(/https?:\/\/[-a-z0-9]+(\.[-a-z0-9]+)*\.[a-zA-Z]{2,}\/[-a-zA-Z0-9_:@&?=+,.!/~*'%$]*/) ?? false){
             return true;
         }else {
