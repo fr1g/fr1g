@@ -371,7 +371,7 @@
     }
 
     const Share = () => {
-        let share = `${(`${window.location.href}`.substring(0, `${window.location.href}`.indexOf('?')))}?xxcharset=${document.getElementById('decode').value}&&xxlink=${inlink.value ?? 'unset'}`;
+        let share = `${(window.location.href.toString().includes('?') ? `${window.location.href}`.substring(0, `${window.location.href}`.indexOf('?')) : window.location.href)}?xxcharset=${document.getElementById('decode').value}&&xxlink=${inlink.value ?? 'unset'}`;
         PushToast('成功复制到了剪贴板。<br>如果没有，那么就把浏览器现在的地址栏复制走。', 'bg-lime-400', 1, 3210);
         window.history.pushState({type: 'share'}, '', share);
         navigator.clipboard.writeText(share);
