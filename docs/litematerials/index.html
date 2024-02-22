@@ -42,16 +42,42 @@
             }
         }
         RunDarkCheck();
+        var Instance = {
+            Title: '',
+            Data: [],
+            Raw: '',
+            Table: '',
+            FileInstance: null
+        }
+
     </script>
 </head>
 <body class="bg-zinc-200 dark:bg-zinc-800 text-zinc-950 dark:text-zinc-50 transition p-1.5 md:p-3">
     <h1 class="absolute -top-10" style="font-size: 0;">Show Materials Better, Litematica! <a href="#" id="LINKHANDLER" target="_blank">~</a></h1>
+    <i id="start" class ></i>
     <div class="container mx-auto rounded-lg shadow-lg bg-zinc-50 dark:bg-zinc-900 p-3 w-full m-8 mt-16 hover:shadow-xl transition ">
         <h2 id="ttl" class="mb-3.5 mt-1 p-3 text-3xl font-semibold indent-1">untitled</h2>
         <div class="grid grid-cols-5 gap-0 m-5" id="insert">
 
 
-            
+            <div class="col-span-full">
+                <h3 class="first-letter:text-2xl text-xl">选择一个本地的由LiteMatica导出/写入的 “放置材料列表” txt文件，或者输入指向该文件的在线副本的链接来开始。这个工具处理任务完全在本地进行。</h3>
+                <p> <br>
+                    一般而言，简体中文的导出文件可以直接按照默认的编码（GB18030）打开。暂时还不支持自己输入编码的名称，因为我没写也不打算写一个编码名称匹配（用于防止有的小可爱忘记输入横杠[-]，或者大小写乱输。我不知道乱输的话JS本身能不能猜测正确。）<br>
+                    你可以将你的在线TXT分析结果通过【ŠAR】分享键来复制链接到剪贴板。<br>
+                    页面上的分析结果将在你刷新/关闭标签页/关闭浏览器后消失。你可以用一些截图工具来保存这种更便于阅读的表格，或者直接把你的分享链接存起来。<br>
+                    物品名称跟随你导出文件的内容，而后者跟随游戏本身的本地化翻译文本。也就是说，如果你使用梗体中文语言包，那么导出的也是梗体。展示在这里的也是梗体。<br>
+                    上文很好地解释了为什么下方的潜影盒计算器不能自动推测单个堆叠上限。因为我没空为全部翻译文本打表然后匹配物品ID。倘若哪天LiteMatica导出文件也带物品ID了，那我必然（或许）会做堆叠上限猜测。<br>
+                    红色的【RE】按钮会重置全局显示，包括计算器的。<br>
+                    另外，不得不说一句，<br>
+                    <span class="text-lg font-semibold">法棍真可爱UwU~</span>
+
+                    <br>
+                    <br>
+                    <hr>
+                </p>
+
+            </div>
 
             
         </div>
@@ -88,11 +114,150 @@
                 <p class="text-sm font-normal opacity-70 pl-1 pt-0.5">- 无论哪个方式都需要在上面选择一个编码。默认是简体中文GB18030，已经帮你选好了。另外，分享功能(ŠAR)仅支持在线文件。</p>
             </div>
 
+            <h3 class="text-xl font-semibold indent-2 mt-2 mb-0.5">
+                盒子计算器（半自动）：<br>
+                <span class="text-sm font-normal opacity-75 pl-2.5 align-top">- 你得手动为物品指定堆叠数量，默认是64。如果你恰好加载了一个列表，那么在物品总需求处输入#+&lt;本页列表中的编号&gt;即可调用物品的名称和数量。比如：#1 代表你列表中第一个物品。这里只计算总需求，而不会减去已经持有量。</span>
+            </h3>
+            <div class="formwrap px-1.5 ">
+                <h6 class="mb-1.5">物品：<span id="got-item-name" class="text-lg font-semibold">?</span></h6>
+                <form id="calc-form" action="">
+                    <label for="require">需求总量</label>
+                    <input type="text" class="border-2 shadow-sm bg-transparent rounded-lg px-2 py-1 mx-1" id="require" required />
+                    <label for="multiplier">单组堆叠</label>
+                    <input type="number" required value="64" id="multiplier" class="border-2 shadow-sm bg-transparent rounded-lg px-2 py-1 mx-1" />
+                    <span>：需求(<span id="actuallyNeed">?</span>)总共是 <span class="text-lg font-semibold" id="sets">?</span> 组，相当于 <span class="text-lg font-semibold" id="boxes">?</span> 个盒子。</span>
+                    <button id="calc" type="submit" class="rounded-lg border shadow-sm hover:shadow-md active:shadow transition bg-fuchsia-400 bg-opacity-70 hover:bg-opacity-60 active:bg-opacity-50 px-3 py-1  mx-1 font-semibold" title="计算并将结果复制到剪贴板。">CALC</button>
+                    <span onclick="ClearCalculator()" class="rounded-lg border shadow-sm hover:shadow-md active:shadow transition bg-pink-200 bg-opacity-70 hover:bg-opacity-60 active:bg-opacity-50 px-3 py-1.5 mx-1  font-semibold" title="清空">ERAS</span>    
+                </form>
+            </div>
+
+            <script>
+                var CalculateInstance = {
+                    Total: -1,
+                    Stack: 1,
+                    Sets: '?',
+                    Boxes: '?',
+                    Item: '?',
+
+                    _use_box: '', 
+                    _use_slots: '', 
+                    _stacks: ''
+
+                }
+                // 出于懒得翻的原因所以在这里直接写了
+                var require = document.getElementById('require'),
+                    multiplier = document.getElementById('multiplier'),
+                    iactual = document.getElementById('actuallyNeed'),
+                    iitem = document.getElementById('got-item-name'),
+                    isets = document.getElementById('sets'),
+                    iboxs = document.getElementById('boxes'),
+                    calcForm = document.getElementById('calc-form'),
+                    slotName = '格',
+                    setName = '组',
+                    withName = '又',
+                    asName = '即',
+                    singleName = '个';
+
+                const ClearCalculator = () => {
+                    calcForm.reset();
+
+                    CalculateInstance = {
+                        Total: -1,
+                        Stack: 1,
+                        Sets: '?',
+                        Boxes: '?',
+                        Item: '?',
+
+                        _use_box: '', 
+                        _use_slots: '', 
+                        _stacks: ''
+
+                    }
+
+                    isets.innerHTML = CalculateInstance.Sets;
+                    iboxs.innerHTML = CalculateInstance.Boxes;
+                    iitem.innerHTML = CalculateInstance.Item;
+
+                    iactual.innerHTML = '?';
+
+                    PushToast('已清空。');
+
+                }
+
+                calcForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    CalculateInstance.Stack = parseInt(multiplier.value);
+                    if(CalculateInstance.Total == -1 || CalculateInstance.Stack <= 0) {
+                        PushToast('无效值', 'err');
+                        return;
+                    }
+                    Calculate();
+                    isets.innerHTML = CalculateInstance.Sets;
+                    iboxs.innerHTML = CalculateInstance.Boxes;
+                    let titlename = document.getElementById('ttl').innerHTML;
+                    let _tmp = `项目【${titlename.includes("'") ? (titlename.substring((titlename.indexOf("'") + 1), (titlename.lastIndexOf("'")))) : titlename}】的材料 “${CalculateInstance.Item}”：总计需求 [${CalculateInstance.Total}] 个，等于 [${((CalculateInstance._use_slots - 1) < 1 ? (CalculateInstance.Stack == 1 ? 1 : 0) : (CalculateInstance.Stack == 1 ? CalculateInstance._use_slots : CalculateInstance._use_slots - 1))}] 组${((CalculateInstance._use_slots - 1)) < 1 ? asName : withName} [${CalculateInstance.Stack == 1 ? CalculateInstance._use_slots : (CalculateInstance.Total % CalculateInstance.Stack)}${singleName}] 个，需要使用 [${Math.ceil(CalculateInstance._use_box)}] 个盒子装载。`;
+                    window.navigator.clipboard.writeText(_tmp);
+                    PushToast(`已经将结果描述文本复制到了剪贴板。预览：<br>${_tmp}`, 'bg-green-600', 3, 5600);
+                });
+
+                require.addEventListener('change', (e) => {
+                    let isQuery = e.target.value.toString().includes('#');
+                    if(isQuery){
+                        if(Instance.FileInstance == null){
+                            PushToast('无效值：没有加载物品列表', 'err');
+                            return;
+                        }else{
+                            let searching = e.target.value.toString().replace('#', ''),
+                                elements = document.getElementsByClassName(`item-id-${searching}`);
+                            if(elements.length < 4) {
+                                PushToast(`无效值：物品列表中不存在序号，或无法转换：${searching}`, 'err');
+                                return;
+                            }
+                            CalculateInstance.Item = elements[1].innerHTML;
+                            CalculateInstance.Total = parseInt(elements[2].innerHTML);
+                            // console.log(CalculateInstance)
+                        }
+                    } else {
+                        CalculateInstance.Item = '?';
+                        try {
+                            CalculateInstance.Total = parseInt(require.value);
+                            if(`${parseInt(require.value)}` == 'NaN') {
+                                PushToast(`无效值：无法转换为正整数：${require.value}`, 'err');
+                                return;
+                            }
+                        } catch (ex) {
+                            console.error(ex);
+                            PushToast(`无效值：无法转换为正整数：${require.value}`, 'err');
+                            return;
+                        }
+                    }
+
+                    CalculateInstance.Stack = parseInt(multiplier.value);
+
+                    iitem.innerHTML = CalculateInstance.Item;
+                    iactual.innerHTML = CalculateInstance.Total;
+                });
+
+
+                const Calculate = () => { // total 128 items for 64 per stack equals 2 (2) stacks and require 1 box
+                    CalculateInstance._stacks = (CalculateInstance.Total / CalculateInstance.Stack).toFixed(3);
+
+                    CalculateInstance._use_slots = Math.ceil(CalculateInstance._stacks);
+                    CalculateInstance._use_box = (CalculateInstance._use_slots / 27).toFixed(2);
+
+                    CalculateInstance.Sets = `${CalculateInstance._stacks} [${((CalculateInstance._use_slots - 1) < 1 ? (CalculateInstance.Stack == 1 ? 1 : 0) : (CalculateInstance.Stack == 1 ? CalculateInstance._use_slots : CalculateInstance._use_slots - 1))}${setName}, ${((CalculateInstance._use_slots - 1)) < 1 ? asName : withName}${CalculateInstance.Stack == 1 ? CalculateInstance._use_slots : (CalculateInstance.Total % CalculateInstance.Stack)}${singleName}](${CalculateInstance._use_slots}${slotName})`;
+                    CalculateInstance.Boxes = `${CalculateInstance._use_box} (${Math.ceil(CalculateInstance._use_box)})`;
+                }
+            </script>
+
+
         </div>
     </div>
     <h6 class="text-center my-6 px-1.5 text-sm opacity-50">
-        由于Litematica导出的文本文件太难看了所以做了个这玩意。另外，你应该用电脑看这个网页。Handwork by Feiron Iguista!<br>
-        另外，<a class="transition-all text-blue-500 hover:text-blue-400 active:text-blue-600" target="_blank" href="https://gio.kami.su/">主站这里有法棍的自我介绍（英文）</a>
+        由于Litematica导出的文本文件太难看了所以做了个这玩意。这整个东西的实现方法都很简单粗暴，也没有什么优化。<br>
+        另外，你应该用电脑看这个网页。Handwork by Feiron Iguista!<br>
+        另外，<a class="transition-all text-blue-500 hover:text-blue-400 active:text-blue-600" target="_blank" href="https://gio.kami.su/">主站这里有法棍的自我介绍（英文）</a><br>
+        <a class="transition-all text-blue-500 hover:text-blue-400 active:text-blue-600" target="_blank" href="https://github.com/fr1g/fr1g/blob/main/docs/litematerials/index.html">在Github查看本页源代码 》</a>
     </h6>
 
     <!-- POPUP TOAST -->
@@ -191,17 +356,27 @@
             
         </script>
     </div>
+
+    <div id="controller" class="bottom-0 right-1 fixed p-3.5">
+        <div class="grid grid-cols-2 gap-1.5 m-1.5 mx-auto my-auto w-full h-full">
+            <div class="bg-sky-400 px-2.5 transition shadow rounded-lg opacity-75 hover:opacity-95 active:opacity-85 dark:opacity-75 dark:hover:opacity-95 dark:active:opacity-85 py-0.5" onclick="Scroll('start')">开头</div>
+            <div class="bg-emerald-400 px-2.5 transition shadow rounded-lg opacity-75 hover:opacity-95 active:opacity-85 dark:opacity-75 dark:hover:opacity-95 dark:active:opacity-85 py-0.5" onclick="Scroll('end')">结尾</div>
+        </div>
+    </div>
+
+    <div class="h-1 w-1 opacity-0 mb-80" ></div>
+    <i id="end" class ></i>
 </body>
 
 <script>// +----------+-------+---------+--------------+ [1]: name [3]: main
-    const SeparatorMatcher = /[+][-]+[+][-]+[+][-]+[+][-]+[+]/;
-    var Instance = {
-        Title: '',
-        Data: [],
-        Raw: '',
-        Table: '',
-        FileInstance: null
+    const Scroll = (id) => {
+        let to = document.getElementById(id);
+        window.scrollTo({top: to.offsetTop, behavior: "smooth"});
+        delete to;
+        return;
     }
+
+    const SeparatorMatcher = /[+][-]+[+][-]+[+][-]+[+][-]+[+]/;
     var uploader = document.getElementById('inputed'),
         insert = document.getElementById('insert'),
         TitleArea = document.getElementById('ttl'),
@@ -336,9 +511,31 @@
             Table: '',
             FileInstance: null
         };
-        insert.innerHTML = '';
+        insert.innerHTML = `
+            <div class="col-span-full">
+                <h3 class="first-letter:text-2xl text-xl">选择一个本地的由LiteMatica导出/写入的 “放置材料列表” txt文件，或者输入指向该文件的在线副本的链接来开始。这个工具处理任务完全在本地进行。</h3>
+                <p> <br>
+                    一般而言，简体中文的导出文件可以直接按照默认的编码（GB18030）打开。暂时还不支持自己输入编码的名称，因为我没写也不打算写一个编码名称匹配（用于防止有的小可爱忘记输入横杠[-]，或者大小写乱输。我不知道乱输的话JS本身能不能猜测正确。）<br>
+                    你可以将你的在线TXT分析结果通过【ŠAR】分享键来复制链接到剪贴板。<br>
+                    页面上的分析结果将在你刷新/关闭标签页/关闭浏览器后消失。你可以用一些截图工具来保存这种更便于阅读的表格，或者直接把你的分享链接存起来。<br>
+                    物品名称跟随你导出文件的内容，而后者跟随游戏本身的本地化翻译文本。也就是说，如果你使用梗体中文语言包，那么导出的也是梗体。展示在这里的也是梗体。<br>
+                    上文很好地解释了为什么下方的潜影盒计算器不能自动推测单个堆叠上限。因为我没空为全部翻译文本打表然后匹配物品ID。倘若哪天LiteMatica导出文件也带物品ID了，那我必然（或许）会做堆叠上限猜测。<br>
+                    红色的【RE】按钮会重置全局显示，包括计算器的。<br>
+                    另外，不得不说一句，<br>
+                    <span class="text-lg font-semibold">法棍真可爱UwU~</span>
+
+                    <br>
+                    <br>
+                    <hr>
+                </p>
+
+            </div>
+        `;
         document.getElementById('solver').reset();
         document.getElementById('bylink').reset();
+        
+        ClearCalculator();
+
         TitleArea.innerHTML = 'untitled';
         window.history.pushState({type: 'reset'}, '', `${(window.location.href.toString().includes('?') ? `${window.location.href}`.substring(0, `${window.location.href}`.indexOf('?')) : window.location.href)}`);
         // localStorage.removeItem('theme');
@@ -360,11 +557,11 @@
             let split = each.split('|');
 
             insert.innerHTML += `
-            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2 border-zinc-300/50">${sign    }</div>
-            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2 border-zinc-300/50">${split[0]}</div>
-            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2 border-zinc-300/50">${split[1]}</div>
-            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2 border-zinc-300/50">${split[2]}</div>
-            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2 border-zinc-300/50">${split[3]}</div>`;
+            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2 border-zinc-300/50 item-id-${sign}">${sign    }</div>
+            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2 border-zinc-300/50 item-id-${sign}">${split[0]}</div>
+            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2 border-zinc-300/50 item-id-${sign}">${split[1]}</div>
+            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2 border-zinc-300/50 item-id-${sign}">${split[2]}</div>
+            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2 border-zinc-300/50 item-id-${sign}">${split[3]}</div>`;
 
         }
         insert.innerHTML += '<div class="border-t-2 col-span-full border-zinc-300/50"> </div>';
@@ -384,7 +581,7 @@ window.onload = () => {
     // process on params certainly
     if(params[0] == window.location.href) return;
     else {
-        let charset = 'utf-8', linking = null;
+        let charset = 'gb18030', linking = null;
         for(param of params){
             if(param.includes('xxcharset=')){
                 charset = param.replace('xxcharset=', '');
