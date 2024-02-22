@@ -340,6 +340,7 @@
         document.getElementById('solver').reset();
         document.getElementById('bylink').reset();
         TitleArea.innerHTML = 'untitled';
+        window.history.pushState({type: 'reset'}, '', `${(window.location.href.toString().includes('?') ? `${window.location.href}`.substring(0, `${window.location.href}`.indexOf('?')) : window.location.href)}`);
         // localStorage.removeItem('theme');
         // ?
     }
