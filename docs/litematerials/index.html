@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Show Materials Better, Litematica!</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+
     <script>
         tailwind.config = {
             darkMode: 'class'
@@ -62,15 +64,17 @@
 
 
             <div class="col-span-full">
-                <h3 class="first-letter:text-2xl text-xl">选择一个本地的由LiteMatica导出/写入的 “放置材料列表” txt文件，或者输入指向该文件的在线副本的链接来开始。这个工具处理任务完全在本地进行。</h3>
+                <h2 class="text-5xl align-bottom mb-5 font-bold font-serif">Litematerials <img src="./favicon.png" alt="icon" width="3.9%" class="inline-block rounded-full -translate-y-1.5"></h2>
+                <h3 class="first-letter:text-2xl first-letter:font-semibold text-xl">选择一个本地的由LiteMatica导出/写入的 “放置材料列表” txt文件，或者输入指向该文件的在线副本的链接来开始。这个工具处理任务完全在本地进行。</h3>
                 <p> <br>
-                    一般而言，简体中文的导出文件可以直接按照默认的编码（GB18030）打开。暂时还不支持自己输入编码的名称，因为我没写也不打算写一个编码名称匹配（用于防止有的小可爱忘记输入横杠[-]，或者大小写乱输。我不知道乱输的话JS本身能不能猜测正确。）<br>
-                    你可以将你的在线TXT分析结果通过【ŠAR】分享键来复制链接到剪贴板。<br>
-                    页面上的分析结果将在你刷新/关闭标签页/关闭浏览器后消失。你可以用一些截图工具来保存这种更便于阅读的表格，或者直接把你的分享链接存起来。<br>
-                    物品名称跟随你导出文件的内容，而后者跟随游戏本身的本地化翻译文本。也就是说，如果你使用梗体中文语言包，那么导出的也是梗体。展示在这里的也是梗体。<br>
-                    上文很好地解释了为什么下方的潜影盒计算器不能自动推测单个堆叠上限。因为我没空为全部翻译文本打表然后匹配物品ID。倘若哪天LiteMatica导出文件也带物品ID了，那我必然（或许）会做堆叠上限猜测。<br>
-                    红色的【RE】按钮会重置全局显示，包括计算器的。<br>
-                    另外，不得不说一句，<br>
+                    一般而言，简体中文的导出文件可以直接按照默认的编码（GB18030）打开。暂时还不支持自己输入编码的名称，因为我没写也不打算写一个编码名称匹配（用于防止有的小可爱忘记输入横杠[-]，或者大小写乱输。我不知道乱输的话JS本身能不能猜测正确。） 目前已经支持了GB18030、UTF-8、Big-5.<br><br>
+                    · 在选择完本地文件后记得点GO来加载（在线文件填了链接后是点GET）
+                    · 你可以将你的在线TXT分析结果通过【ŠAR】分享键来复制链接到剪贴板。<br>
+                    · 页面上的分析结果将在你刷新/关闭标签页/关闭浏览器后消失。你可以用一些截图工具来保存这种更便于阅读的表格，或者直接把你的分享链接存起来。<br>
+                    · 物品名称跟随你导出文件的内容，而后者跟随游戏本身的本地化翻译文本。也就是说，如果你使用梗体中文语言包，那么导出的也是梗体。展示在这里的也是梗体。<br>
+                    · 上文很好地解释了为什么下方的潜影盒计算器不能自动推测单个堆叠上限。因为我没空为全部翻译文本打表然后匹配物品ID。倘若哪天LiteMatica导出文件也带物品ID了，那我必然（或许）会做堆叠上限猜测。<br>
+                    · 红色的【RE】按钮会重置全局显示，包括计算器的。<br>
+                    <br>另外，不得不说一句，<br>
                     <span class="text-lg font-semibold">法棍真可爱UwU~</span>
 
                     <br>
@@ -571,9 +575,11 @@
         };
         insert.innerHTML = `
             <div class="col-span-full">
-                <h3 class="first-letter:text-2xl text-xl">选择一个本地的由LiteMatica导出/写入的 “放置材料列表” txt文件，或者输入指向该文件的在线副本的链接来开始。这个工具处理任务完全在本地进行。</h3>
+                <h2 class="text-5xl align-bottom mb-5 font-bold font-serif">Litematerials <img src="./favicon.png" alt="icon" width="3.9%" class="inline-block rounded-full -translate-y-1.5"></h2>
+                <h3 class="first-letter:text-2xl first-letter:font-semibold text-xl">选择一个本地的由LiteMatica导出/写入的 “放置材料列表” txt文件，或者输入指向该文件的在线副本的链接来开始。这个工具处理任务完全在本地进行。</h3>
                 <p> <br>
-                    一般而言，简体中文的导出文件可以直接按照默认的编码（GB18030）打开。暂时还不支持自己输入编码的名称，因为我没写也不打算写一个编码名称匹配（用于防止有的小可爱忘记输入横杠[-]，或者大小写乱输。我不知道乱输的话JS本身能不能猜测正确。）<br>
+                    一般而言，简体中文的导出文件可以直接按照默认的编码（GB18030）打开。暂时还不支持自己输入编码的名称，因为我没写也不打算写一个编码名称匹配（用于防止有的小可爱忘记输入横杠[-]，或者大小写乱输。我不知道乱输的话JS本身能不能猜测正确。） 目前已经支持了GB18030、UTF-8、Big-5.<br><br>
+                    · 在选择完本地文件后记得点GO来加载（在线文件填了链接后是点GET）
                     · 你可以将你的在线TXT分析结果通过【ŠAR】分享键来复制链接到剪贴板。<br>
                     · 页面上的分析结果将在你刷新/关闭标签页/关闭浏览器后消失。你可以用一些截图工具来保存这种更便于阅读的表格，或者直接把你的分享链接存起来。<br>
                     · 物品名称跟随你导出文件的内容，而后者跟随游戏本身的本地化翻译文本。也就是说，如果你使用梗体中文语言包，那么导出的也是梗体。展示在这里的也是梗体。<br>
@@ -598,6 +604,9 @@
         window.history.pushState({type: 'reset'}, '', `${(window.location.href.toString().includes('?') ? `${window.location.href}`.substring(0, `${window.location.href}`.indexOf('?')) : window.location.href)}`);
         // localStorage.removeItem('theme');
         // ?
+        setTimeout(() => {
+            Scroll('start');
+        }, 369);
     }
     
     const ApplyHTML = () => {
