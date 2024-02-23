@@ -9,6 +9,7 @@
         tailwind.config = {
             darkMode: 'class'
         }
+        var Results = '', max = 0;
     </script>
     <style>
         .reverse{
@@ -126,6 +127,7 @@
                     <label for="multiplier">单组堆叠</label>
                     <input type="number" required value="64" id="multiplier" class="border-2 shadow-sm bg-transparent rounded-lg px-2 py-1 mx-1" />
                     <span>：需求(<span id="actuallyNeed">?</span>)总共是 <span class="text-lg font-semibold" id="sets">?</span> 组，相当于 <span class="text-lg font-semibold" id="boxes">?</span> 个盒子。</span>
+                    <br><br>
                     <button id="calc" type="submit" class="rounded-lg border shadow-sm hover:shadow-md active:shadow transition bg-fuchsia-400 bg-opacity-70 hover:bg-opacity-60 active:bg-opacity-50 px-3 py-1  mx-1 font-semibold" title="计算并将结果复制到剪贴板。">CALC</button>
                     <span onclick="ClearCalculator()" class="rounded-lg border shadow-sm hover:shadow-md active:shadow transition bg-pink-200 bg-opacity-70 hover:bg-opacity-60 active:bg-opacity-50 px-3 py-1.5 mx-1  font-semibold" title="清空">ERAS</span>    
                 </form>
@@ -180,6 +182,9 @@
 
                     iactual.innerHTML = '?';
 
+                    max = 0;
+                    Results = '';
+
                     PushToast('已清空。');
 
                 }
@@ -187,18 +192,43 @@
                 calcForm.addEventListener('submit', (e) => {
                     e.preventDefault();
                     CalculateInstance.Stack = parseInt(multiplier.value);
-                    if(CalculateInstance.Total == -1 || CalculateInstance.Stack <= 0) {
+                    if((CalculateInstance.Total == -1 & require.value != '#a') || CalculateInstance.Stack <= 0) {
                         PushToast('无效值', 'err');
                         return;
                     }
-                    Calculate();
-                    isets.innerHTML = CalculateInstance.Sets;
-                    iboxs.innerHTML = CalculateInstance.Boxes;
-                    let titlename = document.getElementById('ttl').innerHTML;
-                    let _tmp = `项目【${titlename.includes("'") ? (titlename.substring((titlename.indexOf("'") + 1), (titlename.lastIndexOf("'")))) : titlename}】的材料 “${CalculateInstance.Item}”：总计需求 [${CalculateInstance.Total}] 个，等于 [${((CalculateInstance._use_slots - 1) < 1 ? (CalculateInstance.Stack == 1 ? 1 : 0) : (CalculateInstance.Stack == 1 ? CalculateInstance._use_slots : CalculateInstance._use_slots - 1))}] 组${((CalculateInstance._use_slots - 1)) < 1 ? asName : withName} [${CalculateInstance.Stack == 1 ? CalculateInstance._use_slots : (CalculateInstance.Total % CalculateInstance.Stack)}${singleName}] 个，需要使用 [${Math.ceil(CalculateInstance._use_box)}] 个盒子装载。`;
-                    window.navigator.clipboard.writeText(_tmp);
-                    PushToast(`已经将结果描述文本复制到了剪贴板。预览：<br>${_tmp}`, 'bg-green-600', 3, 5600);
+                    if(require.value != '#a') {
+                        CalculateInstance = Calculate(CalculateInstance);
+                        isets.innerHTML = CalculateInstance.Sets;
+                        iboxs.innerHTML = CalculateInstance.Boxes;
+
+                        let _tmp = TextResultGenerator(CalculateInstance);
+                        window.navigator.clipboard.writeText(_tmp);
+                        PushToast(`已经将结果描述文本复制到了剪贴板。预览：<br>${_tmp}`, 'bg-green-600', 3, 5600);
+                    }else{
+                        PushToast(`即将开始计算全列表内容。列表总项目数量：${max}`, 'bg-purple-300', 300);
+                        for(let index = 1; index <= max; index++){
+                            let row = document.getElementsByClassName(`item-id-${index}`);
+                            let itemName = row[1].innerHTML, itemRequire = parseInt(row[2].innerHTML);
+                            Results += `${TextResultGenerator(Calculate(CalcInstFact(itemRequire, itemName))).replace('。', '；')}\n`;
+                        }
+                        let titlename = document.getElementById('ttl').innerHTML;
+                        let actualName = `${titlename.includes("'") ? (titlename.substring((titlename.indexOf("'") + 1), (titlename.lastIndexOf("'")))) : titlename}`;
+                        let now = new Date();
+                        let _tmp = `项目【${actualName}】的材料计算结果：\n\n==========
+                        ${Results.replaceAll(`项目【${actualName}】的材料 `, '')}
+                        \n==========
+                        生成于：${now.toLocaleString('en-US', {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'})}
+                        `.replaceAll('                        ', '');
+                        window.navigator.clipboard.writeText(_tmp);
+                        PushToast(`已经将结果描述文本复制到了剪贴板。`, 'bg-green-600', 600, 5600);
+
+                    }
                 });
+                    
+                function TextResultGenerator(instance){
+                    let titlename = document.getElementById('ttl').innerHTML;
+                    return `项目【${titlename.includes("'") ? (titlename.substring((titlename.indexOf("'") + 1), (titlename.lastIndexOf("'")))) : titlename}】的材料 “${instance.Item}”：总计需求 [${instance.Total}] 个，等于 [${((instance._use_slots - 1) < 1 ? (instance.Stack == 1 ? 1 : 0) : (instance.Stack == 1 ? instance._use_slots : instance._use_slots - 1))}] 组${((instance._use_slots - 1)) < 1 ? asName : (instance.Stack == 1 ? asName : withName)} [${instance.Stack == 1 ? instance._use_slots : (instance.Total % instance.Stack)}${singleName}] 个，需要使用 [${Math.ceil(instance._use_box)}] 个盒子装载。`;
+                }
 
                 require.addEventListener('change', (e) => {
                     let isQuery = e.target.value.toString().includes('#');
@@ -206,7 +236,11 @@
                         if(Instance.FileInstance == null){
                             PushToast('无效值：没有加载物品列表', 'err');
                             return;
-                        }else{
+                        }else if(e.target.value.toString() == '#a'){
+                            PushToast('选中全列表的计算将会让界面卡顿片刻。<br>在点击CALC后将会开始运算，并在结束后将结果复制到剪贴板。', 'warn');
+
+                        }
+                        else{
                             let searching = e.target.value.toString().replace('#', ''),
                                 elements = document.getElementsByClassName(`item-id-${searching}`);
                             if(elements.length < 4) {
@@ -239,14 +273,30 @@
                 });
 
 
-                const Calculate = () => { // total 128 items for 64 per stack equals 2 (2) stacks and require 1 box
-                    CalculateInstance._stacks = (CalculateInstance.Total / CalculateInstance.Stack).toFixed(3);
+                const Calculate = (instance) => { // total 128 items for 64 per stack equals 2 (2) stacks and require 1 box
+                    instance._stacks = (instance.Total / instance.Stack).toFixed(3);
 
-                    CalculateInstance._use_slots = Math.ceil(CalculateInstance._stacks);
-                    CalculateInstance._use_box = (CalculateInstance._use_slots / 27).toFixed(2);
+                    instance._use_slots = Math.ceil(instance._stacks);
+                    instance._use_box = (instance._use_slots / 27).toFixed(2);
 
-                    CalculateInstance.Sets = `${CalculateInstance._stacks} [${((CalculateInstance._use_slots - 1) < 1 ? (CalculateInstance.Stack == 1 ? 1 : 0) : (CalculateInstance.Stack == 1 ? CalculateInstance._use_slots : CalculateInstance._use_slots - 1))}${setName}, ${((CalculateInstance._use_slots - 1)) < 1 ? asName : withName}${CalculateInstance.Stack == 1 ? CalculateInstance._use_slots : (CalculateInstance.Total % CalculateInstance.Stack)}${singleName}](${CalculateInstance._use_slots}${slotName})`;
-                    CalculateInstance.Boxes = `${CalculateInstance._use_box} (${Math.ceil(CalculateInstance._use_box)})`;
+                    instance.Sets = `${instance._stacks} [${((instance._use_slots - 1) < 1 ? (instance.Stack == 1 ? 1 : 0) : (instance.Stack == 1 ? instance._use_slots : instance._use_slots - 1))}${setName}, ${((instance._use_slots - 1)) < 1 ? asName : (instance.Stack == 1 ? asName : withName)}${instance.Stack == 1 ? instance._use_slots : (instance.Total % instance.Stack)}${singleName}](${instance._use_slots}${slotName})`;
+                    instance.Boxes = `${instance._use_box} (${Math.ceil(instance._use_box)})`;
+                    return instance;
+                }
+
+                const CalcInstFact = (total = -1, item = '', stack = 64, sets = '', boxes = '', useBox = '', useSlots = '', stacks = '') => {
+                    return {
+                        Total: total,
+                        Stack: stack,
+                        Sets: sets,
+                        Boxes: boxes,
+                        Item: item,
+
+                        _use_box: useBox, 
+                        _use_slots: useSlots, 
+                        _stacks: stacks
+
+                    }
                 }
             </script>
 
@@ -566,6 +616,7 @@
         }
         insert.innerHTML += '<div class="border-t-2 col-span-full border-zinc-300/50"> </div>';
         PushToast('完成');
+        max = sign;
     }
 
     const Share = () => {
