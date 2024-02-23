@@ -117,7 +117,7 @@
 
             <h3 class="text-xl font-semibold indent-2 mt-2 mb-0.5">
                 盒子计算器（半自动）：<br>
-                <span class="text-sm font-normal opacity-75 pl-2.5 align-top">- 你得手动为物品指定堆叠数量，默认是64。如果你恰好加载了一个列表，那么在物品总需求处输入#+&lt;本页列表中的编号&gt;即可调用物品的名称和数量。比如：#1 代表你列表中第一个物品。这里只计算总需求，而不会减去已经持有量。</span>
+                <span class="text-sm font-normal opacity-75 pl-2.5 align-top">- 你得手动为物品指定堆叠数量，默认是64。如果你恰好加载了一个列表，那么在物品总需求处输入#+&lt;本页列表中的编号&gt;即可调用物品的名称和数量。比如：#1 代表你列表中第一个物品。或者输入#a来选中全部材料进行计算，计算结果会在结束后复制到剪贴板并在“F12-控制台”输出。这里只计算总需求，而不会减去已经持有量。</span>
             </h3>
             <div class="formwrap px-1.5 ">
                 <h6 class="mb-1.5">物品：<span id="got-item-name" class="text-lg font-semibold">?</span></h6>
@@ -205,7 +205,7 @@
                         window.navigator.clipboard.writeText(_tmp);
                         PushToast(`已经将结果描述文本复制到了剪贴板。预览：<br>${_tmp}`, 'bg-green-600', 3, 5600);
                     }else{
-                        PushToast(`即将开始计算全列表内容。列表总项目数量：${max}`, 'bg-purple-300', 300);
+                        PushToast(`即将开始计算全列表内容。列表总项目数量：${max}`, 'bg-purple-400', 300);
                         for(let index = 1; index <= max; index++){
                             let row = document.getElementsByClassName(`item-id-${index}`);
                             let itemName = row[1].innerHTML, itemRequire = parseInt(row[2].innerHTML);
@@ -221,7 +221,9 @@
                         `.replaceAll('                        ', '');
                         window.navigator.clipboard.writeText(_tmp);
                         PushToast(`已经将结果描述文本复制到了剪贴板。`, 'bg-green-600', 600, 5600);
-
+                        console.groupCollapsed(`全表计算结果 （${now.toLocaleString('en-US', {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'})}）`);
+                        console.log(_tmp);
+                        console.groupEnd();
                     }
                 });
                     
