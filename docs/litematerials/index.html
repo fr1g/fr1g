@@ -117,7 +117,7 @@
 
             <h3 class="text-xl font-semibold indent-2 mt-2 mb-0.5">
                 盒子计算器（半自动）：<br>
-                <span class="text-sm font-normal opacity-75 pl-2.5 align-top">- 你得手动为物品指定堆叠数量，默认是64。如果你恰好加载了一个列表，那么在物品总需求处输入#+&lt;本页列表中的编号&gt;即可调用物品的名称和数量。比如：#1 代表你列表中第一个物品。或者输入#a来选中全部材料进行计算，计算结果会在结束后复制到剪贴板并在“F12-控制台”输出。这里只计算总需求，而不会减去已经持有量。</span>
+                <span class="text-sm font-normal opacity-75 pl-2.5 align-top">- 你得手动为物品指定堆叠数量，默认是64。如果你恰好加载了一个列表，那么在物品总需求处输入#+&lt;本页列表中的编号&gt;即可调用物品的名称和数量。比如：#1 代表你列表中第一个物品。或者输入#a来选中全部材料进行计算，选中全列表的计算将会让界面卡顿片刻，计算结果会在结束后复制到剪贴板并在“F12-控制台”输出。这里只计算总需求，而不会减去已经持有量。</span>
             </h3>
             <div class="formwrap px-1.5 ">
                 <h6 class="mb-1.5">物品：<span id="got-item-name" class="text-lg font-semibold">?</span></h6>
@@ -209,7 +209,7 @@
                         for(let index = 1; index <= max; index++){
                             let row = document.getElementsByClassName(`item-id-${index}`);
                             let itemName = row[1].innerHTML, itemRequire = parseInt(row[2].innerHTML);
-                            Results += `${TextResultGenerator(Calculate(CalcInstFact(itemRequire, itemName))).replace('。', '；')}\n`;
+                            Results += `- [ ] ${TextResultGenerator(Calculate(CalcInstFact(itemRequire, itemName))).replace('。', '；')}\n`;
                         }
                         let titlename = document.getElementById('ttl').innerHTML;
                         let actualName = `${titlename.includes("'") ? (titlename.substring((titlename.indexOf("'") + 1), (titlename.lastIndexOf("'")))) : titlename}`;
@@ -220,7 +220,7 @@
                         生成于：${now.toLocaleString('en-US', {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'})}
                         `.replaceAll('                        ', '');
                         window.navigator.clipboard.writeText(_tmp);
-                        PushToast(`已经将结果描述文本复制到了剪贴板。`, 'bg-green-600', 600, 5600);
+                        PushToast(`已经将结果描述文本复制到了剪贴板。<br>每一个条目都是按照Markdown Todo List语法在开头留有未勾选标记。你可以把它粘贴到苹果备忘录或typora来当作待办清单来用。`, 'bg-green-600', 600, 5600);
                         console.groupCollapsed(`全表计算结果 （${now.toLocaleString('en-US', {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'})}）`);
                         console.log(_tmp);
                         console.groupEnd();
@@ -568,12 +568,12 @@
                 <h3 class="first-letter:text-2xl text-xl">选择一个本地的由LiteMatica导出/写入的 “放置材料列表” txt文件，或者输入指向该文件的在线副本的链接来开始。这个工具处理任务完全在本地进行。</h3>
                 <p> <br>
                     一般而言，简体中文的导出文件可以直接按照默认的编码（GB18030）打开。暂时还不支持自己输入编码的名称，因为我没写也不打算写一个编码名称匹配（用于防止有的小可爱忘记输入横杠[-]，或者大小写乱输。我不知道乱输的话JS本身能不能猜测正确。）<br>
-                    你可以将你的在线TXT分析结果通过【ŠAR】分享键来复制链接到剪贴板。<br>
-                    页面上的分析结果将在你刷新/关闭标签页/关闭浏览器后消失。你可以用一些截图工具来保存这种更便于阅读的表格，或者直接把你的分享链接存起来。<br>
-                    物品名称跟随你导出文件的内容，而后者跟随游戏本身的本地化翻译文本。也就是说，如果你使用梗体中文语言包，那么导出的也是梗体。展示在这里的也是梗体。<br>
-                    上文很好地解释了为什么下方的潜影盒计算器不能自动推测单个堆叠上限。因为我没空为全部翻译文本打表然后匹配物品ID。倘若哪天LiteMatica导出文件也带物品ID了，那我必然（或许）会做堆叠上限猜测。<br>
-                    红色的【RE】按钮会重置全局显示，包括计算器的。<br>
-                    另外，不得不说一句，<br>
+                    · 你可以将你的在线TXT分析结果通过【ŠAR】分享键来复制链接到剪贴板。<br>
+                    · 页面上的分析结果将在你刷新/关闭标签页/关闭浏览器后消失。你可以用一些截图工具来保存这种更便于阅读的表格，或者直接把你的分享链接存起来。<br>
+                    · 物品名称跟随你导出文件的内容，而后者跟随游戏本身的本地化翻译文本。也就是说，如果你使用梗体中文语言包，那么导出的也是梗体。展示在这里的也是梗体。<br>
+                    · 上文很好地解释了为什么下方的潜影盒计算器不能自动推测单个堆叠上限。因为我没空为全部翻译文本打表然后匹配物品ID。倘若哪天LiteMatica导出文件也带物品ID了，那我必然（或许）会做堆叠上限猜测。<br>
+                    · 红色的【RE】按钮会重置全局显示，包括计算器的。<br>
+                    <br>另外，不得不说一句，<br>
                     <span class="text-lg font-semibold">法棍真可爱UwU~</span>
 
                     <br>
