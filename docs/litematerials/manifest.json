@@ -1,0 +1,14 @@
+{
+    "name": "Litematerials",
+    "short_name": "SMBL",
+    "start_url": ".",
+    "display": "standalone",
+    "description": "Litematerials是用于将Litematica/Schematica导出TXT格式放置物品清单更清晰展示并能计算物品需要的潜影盒大概数量的工具。",
+    "icons": [
+        {
+            "src": "./favicon.png",
+            "sizes": "1080x1080",
+            "type": "image/png"
+        }
+    ]
+}

@@ -4,14 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Show Materials Better, Litematica!</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="output.css">
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <script>        
+        // tailwind.config = { darkMode: 'class' }
+    </script>
     <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
-
+    <link rel="manifest" href="./manifest.json" />
+    <meta name="keywords" content="minecraft,litematica,schematica,minecraft-tools,frig,feiron-iguista,build,minecraft-architecture,build-materials,minecraft-items,list-tool,mc工具,建筑物品清单,mc建筑,minecraft-item-calculator,潜影盒计算器">
+    <meta name="description" content="Litematerials是用于将Litematica/Schematica导出TXT格式放置物品清单更清晰展示并能计算物品需要的潜影盒大概数量的工具。">
     <script>
-        tailwind.config = {
-            darkMode: 'class'
-        }
         var Results = '', max = -1;
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("./service-worker.js");
+        }
     </script>
     <style>
         .reverse{
@@ -421,7 +427,7 @@
 
     <div id="controller" class="bottom-0 right-1 fixed p-3.5">
         <div class="flex gap-1.5 m-1.5 mx-auto my-auto w-full h-full">
-            <a href="https://gio.kami.su/assets/litematerials-installer.exe" class="bg-amber-400 px-2.5 transition shadow rounded-lg block opacity-75 hover:opacity-95 active:opacity-85 dark:opacity-75 dark:hover:opacity-95 dark:active:opacity-85 py-0.5" download="litematerials-taurized-install.exe">下载安装版 (Windows)</a>
+            <a id="installer" href="https://gio.kami.su/assets/litematerials-installer.exe" class="bg-amber-400 px-2.5 transition shadow rounded-lg block opacity-75 hover:opacity-95 active:opacity-85 dark:opacity-75 dark:hover:opacity-95 dark:active:opacity-85 py-0.5" download="litematerials-taurized-install.exe">下载安装版 (Windows)</a>
             <div class="bg-sky-400 px-2.5 transition shadow rounded-lg opacity-75 hover:opacity-95 active:opacity-85 dark:opacity-75 dark:hover:opacity-95 dark:active:opacity-85 py-0.5" onclick="Scroll('start')">开头</div>
             <div class="bg-emerald-400 px-2.5 transition shadow rounded-lg opacity-75 hover:opacity-95 active:opacity-85 dark:opacity-75 dark:hover:opacity-95 dark:active:opacity-85 py-0.5" onclick="Scroll('end')">结尾</div>
         </div>
@@ -657,6 +663,12 @@ window.onload = () => {
             }
             if(param.includes('xxlink=')){
                 linking = param.replace('xxlink=', '');
+            }
+            if(param.includes('download')){
+                PushToast('链接参数：即将开始下载：安装版');
+                setTimeout(() => {
+                    document.getElementById('installer').click();
+                }, 1000);
             }
         }
         inlink.value = linking;
