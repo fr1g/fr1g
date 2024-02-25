@@ -1,11 +1,10 @@
-var cacheName = 'litematerials-cache-0';
+var cacheName = 'litematerials-qwq-';
 var contentToCache = [
-    './',
+    // './',
     './index.html',
     './favicon.png',
     './output.css'
 ];
-
 
 self.addEventListener("install", function (e) {
     console.log("[Service Worker] Install");
@@ -29,7 +28,7 @@ self.addEventListener("fetch", function (e) {
                         console.log(
                             "[Service Worker] Caching new resource: " + e.request.url,
                         );
-                        cache.put(e.request, response.clone());
+                        cache.put(e.request, response.clone()).catch(ex => {console.log('[Service Worker] Maybe something is trying caching contents from plugins, which idiot?')});
                         return response;
                     });
                 })

@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Show Materials Better, Litematica!</title>
     <link rel="stylesheet" href="output.css">
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>        
-        // tailwind.config = { darkMode: 'class' }
+        tailwind.config = { darkMode: 'class' }
+        console.log('tailwind play cdn is used as a follower of newest layout, meanwhile the site do got a fallback written tailwind css inside.')
     </script>
     <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
     <link rel="manifest" href="./manifest.json" />
@@ -113,6 +114,7 @@
             <h3 class="text-xl font-semibold indent-2 mt-2 mb-0.5">
                 或者使用在线文件：<br>
                 <span class="text-sm font-normal opacity-75 pl-2.5 align-top">- 只要它在浏览器地址框里输入并访问后展示的是纯文本那就可以放在这里尝试获取。</span>
+                <i class="hidden from-indigo-400 via-purple-400 to-pink-400 bg-gradient-to-r"></i>
             </h3>
             <div class="formwrap px-1.5 ">
                 <form action="" id="bylink">
@@ -398,7 +400,11 @@
                         default:
                             break;
                     }
-                    let containerC = PopUpToastContainerClass.replace('#COLOR#', color);
+                    let containerC;
+                    // if(color.includes(' ')){
+                    //     console.log('found space')
+                    // }else 
+                    containerC = PopUpToastContainerClass.replace('#COLOR#', color);
                     let nPopToast = document.createElement('div');
                     let nPopToastText = document.createElement('p');
                     nPopToastText.innerHTML = str;
@@ -652,7 +658,6 @@
 
 window.onload = () => {
     let params = (`${window.location.href}`.substring(`${window.location.href}`.indexOf('?'))).replace('?', '').split('&&');
-
     // process on params certainly
     if(params[0] == window.location.href) return;
     else {
@@ -675,10 +680,16 @@ window.onload = () => {
         document.getElementById('decode').value = charset;
         if(linking != null && linking != 'unset') linkBtn.click();
         console.log(`link params info: charset: ${charset}; link: ${linking}`);
+
     }
     // function ProcessPresetTarget(){
     //     console.log(params == window.location.href)
     // }()
+
 }
+
+setTimeout(() => {
+    PushToast('页面可作为应用安装<br>(如果浏览器支持)', 'from-indigo-400 via-purple-400 to-pink-400 bg-gradient-to-r', 1, 3697);
+}, 888);
 </script>
 </html>
