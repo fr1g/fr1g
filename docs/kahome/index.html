@@ -6,6 +6,7 @@
     <title>KAHOME! - gio.kami.su/s Start Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./../assets/fonts/icons/bi-1-11-1/bootstrap-icons.css">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
 </head>
 <style>
     *{
@@ -13,23 +14,25 @@
         transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
         transition-duration: 180ms;
         /* from tailwindcss. */
+        user-select: none;
+        -webkit-user-select: none;
     }
     .kick-transition{
         transition: none !important;
     }
     .xmide{
-        width: 100%;
+        width: 35%;
     }
     .xmide-x{
-        width: 80%;
+        width: 30%;
     }
     #srchIn>*{
         margin: auto;
     }
 </style>
-<body class="bg-stone-600 text-stone-50 gap-3 min-w-full min-h-screen flex justify-center justify-items-center items-center">
-    <a href="/" class="hidden" target="_blank" id="GO"></a>
-    <div class="0 p-3 mx-auto my-auto rounded " id="main">
+<body class="bg-stone-600 text-stone-50   ">
+    <a href="/" class="opacity-0" target="_blank" id="GO"></a>
+    <div class=" p-3 min-h-screen grid  items-center rounded " id="main">
         <script>
             var GO = document.getElementById('GO');
             const SearchEngine = {
@@ -38,41 +41,46 @@
             var UsingEngine = SearchEngine.Bing;
             var ThisHistory = [];
         </script>
-        <h1 class="text-center font-sans text-5xl font-bold space-x-1 w-fit mx-auto" style="word-spacing: 1px !important;">KAHOME!</h1>
-        <div id="item3" class="mx-auto my-16 xmide-x opacity-80 flex
-         transition-all clear-both bg-zinc-200 active:bg-opacity-50 text-white border border-zinc-300 border-opacity-40 bg-opacity-40 px-5 py-2 rounded-lg shadow-sm hover:shadow-md cursor-text">
-            <span class="w-full block">
-                <input id="srchIn" style="width: 66vw;" placeholder="Search on ..." class="bg-transparent -translate-x-2 border-0 border-transparent text-xl bg-opacity-40 rounded outline-none outline-transparent p-0 m-0 text-white  transition-all " />
-            </span>
-            <script>
-                var srch_btn = document.getElementById('srch-btn'),
-                srch_box = document.getElementById('item3'),
-                srch_bar = document.getElementById('srchIn'),
-                isLastOperationTyping = false;
-            </script>
-            <span id="srch-btn" class="block transition-all min-h-full max-w-full -translate-x-3 border border-transparent bg-opacity-40 rounded-lg cursor-pointer px-2" onclick="SearchAction(srch_bar.value);">
-                <i class="bi bi-search" id="S"></i>
-            </span>
+        <div class="">
+            <h1 class="text-center font-sans text-5xl font-bold space-x-1 w-fit mx-auto" style="word-spacing: 1px !important;">KAHOME!</h1>
+            <div id="item3" class="mx-auto my-16 xmide-x opacity-80 
+            transition-all clear-both bg-zinc-200 active:bg-opacity-50 text-white border border-zinc-300 border-opacity-40 bg-opacity-40 px-5 py-2 rounded-lg shadow-sm hover:shadow-md cursor-text">
+                <span class="w-full flex">
+                    <input id="srchIn"  placeholder="Search on ..." class="bg-transparent  border-0 border-transparent grow block text-xl bg-opacity-40 rounded outline-none w-full outline-transparent p-0 m-0 text-white  transition-all " />
+                    <span id="srch-btn" class=" transition  block translate-x-3 border border-transparent bg-opacity-40 rounded-lg cursor-pointer px-2 opacity-100 hover:opacity-45" onclick="SearchAction(srch_bar.value);">
+                        <i class="bi bi-search"  id="S"></i>
+                    </span>
+                </span>
+                <script>
+                    var srch_btn = document.getElementById('srch-btn'),
+                    srch_box = document.getElementById('item3'),
+                    srch_bar = document.getElementById('srchIn'),
+                    isLastOperationTyping = false;
+                </script>
 
+
+            </div>
         </div>
         <script>
-            if(!window.location.href.toString().includes('gio.')) document.getElementById('S').innerHTML = 'S';
+            // if(!window.location.href.toString().includes('gio.')) document.getElementById('S').innerHTML = 'S';
 
             srch_bar.setAttribute('placeholder', srch_bar.getAttribute('placeholder').replace('...', UsingEngine.split('#')[1]).concat('! '));
             var isSearching = false;
             srch_bar.addEventListener('focus', () => {
                 isSearching = true;
                 SEC('item3', 'shadow-md shadow-stone-100 hover:shadow-stone-200 text-white xmide', 'shadow-sm xmide-x');
-                SEC('srch-btn', '-translate-x-0.5', '-translate-x-3');
+                // SEC('srch-btn', '-translate-x-0.5', '-translate-x-3');
             });
             srch_bar.addEventListener('blur', () => {
                 isSearching = false;
                 SEC('item3', 'shadow-sm xmide-x', 'shadow-md shadow-stone-100 hover:shadow-stone-200 text-white xmide');
-                SEC('srch-btn', '-translate-x-3', '-translate-x-0.5');
+                // SEC('srch-btn', '-translate-x-3', '-translate-x-0.5');
             });
 
-            srch_box.addEventListener('click', (e) => {
-                if(e.target.id.toString().includes('srch-btn') || e.target.id.toString().includes('S')) SearchAction(srch_bar.value);
+            srch_box.addEventListener('mousedown', (e) => {
+                if(e.target.id.toString().includes('srch-btn') || e.target.id.toString().includes('S')) setTimeout(() => {
+                    SearchAction(srch_bar.value);
+                }, 600);
                 srch_bar.focus();
             }, 33);
 
