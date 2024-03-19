@@ -416,7 +416,13 @@
 
     //
     window.onload = () => {
-        let Visited = window.localStorage.getItem(LT).replace('[]', '');
+        let Visited;
+        try{
+            Visited = window.localStorage.getItem(LT).replace('[]', '');
+        }catch(ex){
+            if(ex.toString().includes(`Cannot read properties of null (reading 'replace')`));
+            Visited = '';
+        }
         console.log(Visited)
         if(Boolean(Visited)) colors = JSON.parse(Visited);
         else {
