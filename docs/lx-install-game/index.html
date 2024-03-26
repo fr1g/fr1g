@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class=" select-none grid justify-items-center justify-center items-center w-full min-h-screen bg-zinc-200">
+    <div id="main" class="mx-auto  w-7/12 bg-zinc-100 p-5 m-1 rounded-lg shadow transition hover:shadow-md bg-opacity-90 hover:bg-opacity-100">
+        <h1 class="font-bold text-rose-500 font-sans text-3xl">Installer - 1.20.1</h1>
+        <p class="text-xl">Select the type of installation</p>
+        <form id="i" class="grid grid-cols-4 gap-1.5 m-1.5">
+            <span class="my-1">
+                <input type="radio" name="type" id="vanilla" checked="true" /> <label for="vanilla">Vanilla</label>
+            </span>
+            <span class="my-1">
+                <input type="radio" name="type" id="modified" /> <label for="modified">Modified</label>
+            </span>
+            <div class="col-span-full">
+                <label for="gameid" class="w-full"></label>
+                <input type="text" placeholder="Game ID" class="w-full rounded-lg text-lg px-1 focus:border-rose-400 outline-rose-300 focus-within:outline focus-within:border-rose-400 border border-rose-300 transition-all" name="gameid" id="gameid" >
+            </div>
+            <div class="col-span-full mt-1 transition-all" id="install-mod" style="opacity: 0;">
+                <span class="text-xl">Component:</span>
+                <div class="grid grid-cols-2 gap-1.5" style="--lh: 0.93rem">
+                    <div class="grid grid-cols-8 py-0.5 gap-1 px-1.5 mt-1 rounded-lg border h-full bg-zinc-50 bg-opacity-50 hover:bg-opacity-70 transition">
+                        <div class="col-span-5">
+                            <h3 class="text-rose-300 font-semibold text-lg mb-0.5">Forge</h3>
+                            <p style="line-height: var(--lh);" class="p-0 -translate-y-1 text-sm max-h-8 ">
+                                Forge is an Example of unselected item
+                            </p>
+                        </div>
+                        <div class="grid items-center col-span-3">
+                            <button class="button bg-rose-400 bg-opacity-80 px-1.5 py-0.5 w-fit mx-auto mr-1.5 rounded-lg border-rose-300 border hover:bg-opacity-90 active:bg-opacity-95 transition">
+                                Choose
+                            </button>
+                        </div>
+                    </div>                    
+                    
+                    <div class="grid grid-cols-8 py-0.5 gap-1 px-1.5 mt-1 rounded-lg border h-full bg-zinc-50 bg-opacity-50 hover:bg-opacity-70 transition">
+                        <div class="col-span-5">
+                            <h3 class="text-rose-300 font-semibold text-lg mb-0.5">Fabric - 0.15.b7</h3>
+                            <p style="line-height: var(--lh);" class="p-0 -translate-y-1 text-sm max-h-8 ">
+                                Fabric is an Example of selected with Version
+                            </p>
+                        </div>
+                        <div class="grid items-center col-span-3">
+                            <button class="button bg-rose-400 bg-opacity-80 px-1.5 py-0.5 w-fit mx-auto mr-1.5 rounded-lg border-rose-300 border hover:bg-opacity-90 active:bg-opacity-95 transition">
+                                Choose
+                            </button>
+                        </div>
+                    </div>                    
+                    
+                    <div class="grid opacity-60 pointer-events-none cursor-not-allowed grid-cols-8 py-0.5 gap-1 px-1.5 mt-1 rounded-lg border h-full bg-zinc-50 bg-opacity-50 hover:bg-opacity-70 transition">
+                        <div class="col-span-5">
+                            <h3 class="text-rose-300 font-semibold text-lg mb-0.5">Quilt</h3>
+                            <p style="line-height: var(--lh);" class="p-0 -translate-y-1 text-sm max-h-8 ">
+                                Quilt is an Example of disabled.
+                            </p>
+                        </div>
+                        <div class="grid items-center col-span-3">
+                            <button class="button bg-rose-400 bg-opacity-80 px-1.5 py-0.5 w-fit mx-auto mr-1.5 rounded-lg border-rose-300 border hover:bg-opacity-90 active:bg-opacity-95 transition">
+                                Choose
+                            </button>
+                        </div>
+                    </div>                    
+                    
+                    <div class="grid grid-cols-8 py-0.5 gap-1 px-1.5 mt-1 rounded-lg border h-full bg-zinc-50 bg-opacity-50 hover:bg-opacity-70 transition">
+                        <div class="col-span-5">
+                            <h3 class="text-rose-300 font-semibold text-lg mb-0.5">Optifine</h3>
+                            <p style="line-height: var(--lh);" class="p-0 -translate-y-1 text-sm max-h-8 overflow-x-hidden overflow-y-auto">
+                                Optifine is an Example of scrollable Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                            </p>
+                        </div>
+                        <div class="grid items-center col-span-3">
+                            <button class="button bg-rose-400 bg-opacity-80 px-1.5 py-0.5 w-fit mx-auto mr-1.5 rounded-lg border-rose-300 border hover:bg-opacity-90 active:bg-opacity-95 transition">
+                                Choose
+                            </button>
+                        </div>
+                    </div>                    
+                    
+                </div>
+            </div>
+            <div class="grid justify-items-end col-span-full mt-2">
+                <div>
+                    <button onclick="(window.confirm('Really?') ? document.documentElement.innerHTML = 'LOL' : '')" class="button bg-stone-400 bg-opacity-80 py-1 px-2 rounded-lg border-stone-300 border hover:bg-opacity-90 active:bg-opacity-95 transition">
+                        Cancel
+                    </button>
+                    <button onclick="(window.confirm('Really?') ? document.documentElement.innerHTML = 'You installed a llr successfully!' : '')" class="button bg-rose-400 bg-opacity-80 py-1 px-2 rounded-lg border-rose-300 border hover:bg-opacity-90 active:bg-opacity-95 transition">
+                        Install
+                    </button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</body>
+<script>
+    var mf = document.getElementById('i'),
+        st = document.getElementById('gameid')
+
+    mf.addEventListener("change", (e) => {
+        let chosen = e.target.id;
+        console.log(chosen);
+        SwitchItem(chosen == 'modified');
+
+    });
+    mf.addEventListener("submit", (e) => {
+        e.preventDefault();
+    });
+        
+    window.onload = () => {
+        SwitchItem(document.getElementById('modified').checked);
+    }
+
+    const SwitchItem = (bool) => {
+        if(bool) {
+            document.getElementById('install-mod').style.opacity = 1;
+            st.value = "1.20.1 - fabric 0.15.b7";
+        }else{
+            document.getElementById('install-mod').style.opacity = 0;
+            st.value = "1.20.1";
+        }
+    }
+
+</script>
+</html>
