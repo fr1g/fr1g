@@ -1,0 +1,18 @@
+.mourn {
+    animation: mourn 35s ease forwards;
+}
+
+@keyframes mourn {
+    0% {
+        filter: grayscale(100%);
+        -webkit-filter: grayscale(100%);
+    }
+    75% {
+        filter: grayscale(100%);
+        -webkit-filter: grayscale(100%);
+    }
+    100% {
+        -webkit-filter: grayscale(0%);
+        filter: grayscale(0%);
+    }
+}
