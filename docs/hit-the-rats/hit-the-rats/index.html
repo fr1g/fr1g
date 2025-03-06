@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./output.css">
+    <script src="./main.js" defer></script>
+    <style>
+        /* @apply .unit{
+
+        } */
+        *{
+            user-select: none;
+        }
+        #control>*, #playfield>* {
+            cursor: pointer;
+        }
+        .unit:active{
+            background-color: indianred;
+        }
+        .unit:hover{
+            opacity: .8;
+        }
+
+        img{
+            -webkit-user-drag: none;
+            user-drag: none;
+            
+        }
+    </style>
+
+    <script>
+        let _err = console.error;
+        console.error = (e) => {
+            if(`${e}`.includes("Maxim")) alert(`You've reached the limit!`);
+            _err(arguments);
+            // seems cannot be called...
+        } 
+    </script>
+</head>
+<body class="w-full min-h-screen bg-zinc-800 text-zinc-50 grid justify-center justify-items-center items-center p-8">
+    <div class="fixed top-3 left-5 text-5xl font-bold" id="count"></div>
+    <div class="fixed top-3 right-5 text-3xl ?font-semibold"><span id="level-show" class="font-bold text-6xl font-serif px-1">-</span> Level</div>
+    <div class="min-h-full w-full">
+        <h1 class="text-3xl border-b-4 border-zinc-400 mb-3 font-bold font-mono text-right">Hit the Rats!</h1>
+        <h2 class="text-sm opacity-90 py-1">Use [space] to start <br>Use [LMB](click) to hit on the mouse <br>Use [enter] to reset the game.</h2>
+
+        <div class="grid grid-cols-8 gap-3 p-3 bg-zinc-500 bg-opacity-50 rounded-t justify-items-center" id="playfield"></div>
+
+        <div class="w-full grid grid-cols-3 gap-3 text-xl p-2 bg-zinc-500 shadow rounded-b" id="control">
+            <div class="opacity-90 text-center p-3 text-zinc-900 font-semibold transition rounded-lg hover:opacity-80 active:opacity-100 scale-100 hover:scale-105 active:scale-100 bg-gradient-to-b from-slate-400 via-gray-300 to-slate-300"
+            >
+                Score...
+            </div>
+            <div class="opacity-90 text-center p-3 text-zinc-900 font-semibold transition rounded-lg hover:opacity-80 active:opacity-100 scale-100 hover:scale-105 active:scale-100 bg-gradient-to-b from-slate-400 via-gray-300 to-slate-300"
+            >
+                Start Game!
+            </div>
+            <div class="opacity-90 text-center p-3 text-zinc-900 font-semibold transition rounded-lg hover:opacity-80 active:opacity-100 scale-100 hover:scale-105 active:scale-100 bg-gradient-to-b from-slate-400 via-gray-300 to-slate-300"
+            >
+                Reset?!
+            </div>
+        </div>
+        <div class="grid gap-1.5 p-1 grid-cols-6 mt-3" id="scoreboard">
+            <div>No.</div>
+            <div>level</div>
+            <div>score</div>
+            <div>precision</div>
+            <div class="col-span-2 text-right">date</div>
+
+        </div>
+        <div class="mb-3 min-w-[660px]">...</div>
+
+        <p class="mt-2">The rat image downloaded from <a class="underline font-serif cursor-pointer" href="https://www.freepik.com/vectors" target="_blank">Freepik ↗</a> ...</p>
+    </div>
+    <div class="hidden">
+        <!-- getting classnames from tailwind -->
+        <div class="w-16 h-16 border p-1 unit"><img class="col-span-2" src="./rat.png" alt=""></div>
+    </div>
+</body>
+</html>
