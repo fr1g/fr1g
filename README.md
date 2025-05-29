@@ -6,7 +6,7 @@ Yup. I'm not using twitter or facebook. If you prefer to follow me on Social Net
 Please use **VKontakte!** (@frigdec)
 
 ------
-Here's my minimal self-intro: <a href="https://gio.kami.su">min.feiron.xyz</a>
+Here's my minimal self-intro: <a href="https://gio.kami.su">min.feiron.xyz/#actually-it's-gio-kami-su</a>
 ------
 
 GitHub "Template" :
