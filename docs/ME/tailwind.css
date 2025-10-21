@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+
+.cardbone {
+    --scale: 7;
+    @apply relative overflow-hidden w-[calc(var(--scale)*58px)] h-[calc(var(--scale)*94px)] bg-zinc-50 shadow;
+}
