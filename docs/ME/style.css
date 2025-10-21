@@ -1,0 +1,70 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?m27wyc');
+  src:  url('fonts/icomoon.eot?m27wyc#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?m27wyc') format('truetype'),
+    url('fonts/icomoon.woff?m27wyc') format('woff'),
+    url('fonts/icomoon.svg?m27wyc#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-csharp:before {
+  content: "\e900";
+  color: #239120;
+}
+.icon-dot-net:before {
+  content: "\e901";
+  color: #5c2d91;
+}
+.icon-github:before {
+  content: "\e902";
+}
+.icon-react:before {
+  content: "\e903";
+  color: #61dafb;
+}
+.icon-redux:before {
+  content: "\e904";
+  color: #764abc;
+}
+.icon-spring:before {
+  content: "\e905";
+  color: #6db33f;
+}
+.icon-tailwindcss:before {
+  content: "\e906";
+  color: #38b2ac;
+}
+.icon-typescript:before {
+  content: "\e907";
+  color: #007acc;
+}
+.icon-vk:before {
+  content: "\e908";
+  color: #4680c2;
+}
+.icon-vue-dot-js:before {
+  content: "\e909";
+  color: #4fc08d;
+}
+.icon-wechat:before {
+  content: "\e90a";
+  color: #7bb32e;
+}

@@ -5,3 +5,23 @@
     --scale: 7;
     @apply relative overflow-hidden w-[calc(var(--scale)*58px)] h-[calc(var(--scale)*94px)] bg-zinc-50 shadow;
 }
+
+.news-0 {
+    @apply top-0 left-0 right-0 bottom-0
+}
+
+.news-auto {
+    @apply top-auto left-auto right-auto bottom-auto
+}
+
+.news-1 {
+    @apply top-px left-px right-px bottom-px
+}
+
+.ikonka {
+    @apply w-[18px] h-[18px] relative grid items-center justify-items-center align-middle
+}
+
+.codic, .codic>* {
+    font-family: 'icomoon', 'cascadia code' !important;
+}
