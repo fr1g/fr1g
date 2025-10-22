@@ -1,0 +1,1 @@
+for (var x of document.getElementsByTagName("b")) if (x.getAttribute("i") == null) x.innerHTML = '<a target="_blank" href="' + x.innerHTML + '">' + x.innerHTML + "</a>";
