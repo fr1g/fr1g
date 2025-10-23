@@ -12,6 +12,8 @@
         stroke: #131314ff;
         stroke-linecap: round;
         stroke-width: 64px;
+        filter: drop-shadow(19px 19px 28px rgb(0 0 0 / 0.5))
+
       }
 
       .cls-2 {
