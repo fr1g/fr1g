@@ -27,7 +27,7 @@ a {
 }
 
 .ikonka {
-    @apply w-[18px] h-[18px] relative grid items-center justify-items-center align-middle
+    @apply w-[20px] h-[20px] relative grid items-center justify-items-center align-middle
 }
 
 .codic, .codic>* {
