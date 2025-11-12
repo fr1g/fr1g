@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ME/RESUME</title>
+    <link rel="stylesheet" href="output.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="py-10 bg-slate-200">
+    <iframe id="router" class="w-full min-h-screen bg-transparent mb-5" src="" frameborder="0">
+
+    </iframe>
+</body>
+<script>
+    const router = document.getElementById("router");
+    const target = (new URLSearchParams(window.location.search)).get("target");
+    let realPath = "";
+    console.log(target);
+    switch (target) {
+        case "online":
+            realPath = "./resumeOnline.html";
+            break;
+        case "real":
+            realPath = "./resumeReal.html";
+            break;
+    }
+    router.setAttribute("src", realPath);
+
+    router.addEventListener("load", () => {
+        let inner = router.contentDocument || router.contentWindow.document;
+        router.style.height = Math.max(
+            inner.body.scrollHeight,
+            inner.documentElement.scrollHeight,
+            inner.body.offsetHeight,
+            inner.documentElement.offsetHeight,
+            inner.body.clientHeight,
+            inner.documentElement.clientHeight
+        ) + "px";
+        inner.body.style.background = "transparent";
+    })
+
+</script>
+
+</html>
