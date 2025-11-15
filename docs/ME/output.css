@@ -18,6 +18,8 @@
     --color-fuchsia-950: oklch(29.3% 0.136 325.661);
     --color-rose-900: oklch(41% 0.159 10.272);
     --color-slate-200: oklch(92.9% 0.013 255.508);
+    --color-slate-700: oklch(37.2% 0.044 257.287);
+    --color-slate-800: oklch(27.9% 0.041 260.031);
     --color-zinc-50: oklch(98.5% 0 0);
     --color-zinc-100: oklch(96.7% 0.001 286.375);
     --color-zinc-200: oklch(92% 0.004 286.32);
@@ -713,21 +715,54 @@
     --tw-scale-z: 50%;
     scale: var(--tw-scale-x) var(--tw-scale-y);
   }
+  .scale-75 {
+    --tw-scale-x: 75%;
+    --tw-scale-y: 75%;
+    --tw-scale-z: 75%;
+    scale: var(--tw-scale-x) var(--tw-scale-y);
+  }
   .scale-110 {
     --tw-scale-x: 110%;
     --tw-scale-y: 110%;
     --tw-scale-z: 110%;
     scale: var(--tw-scale-x) var(--tw-scale-y);
   }
+  .scale-125 {
+    --tw-scale-x: 125%;
+    --tw-scale-y: 125%;
+    --tw-scale-z: 125%;
+    scale: var(--tw-scale-x) var(--tw-scale-y);
+  }
+  .scale-150 {
+    --tw-scale-x: 150%;
+    --tw-scale-y: 150%;
+    --tw-scale-z: 150%;
+    scale: var(--tw-scale-x) var(--tw-scale-y);
+  }
+  .scale-175 {
+    --tw-scale-x: 175%;
+    --tw-scale-y: 175%;
+    --tw-scale-z: 175%;
+    scale: var(--tw-scale-x) var(--tw-scale-y);
+  }
   .-scale-y-100 {
     --tw-scale-y: calc(100% * -1);
     scale: var(--tw-scale-x) var(--tw-scale-y);
+  }
+  .scale-\[64\%\] {
+    scale: 64%;
   }
   .scale-\[76\%\] {
     scale: 76%;
   }
   .-rotate-12 {
     rotate: calc(12deg * -1);
+  }
+  .-rotate-35 {
+    rotate: calc(35deg * -1);
+  }
+  .rotate-6 {
+    rotate: 6deg;
   }
   .rotate-90 {
     rotate: 90deg;
@@ -898,8 +933,17 @@
   .border-zinc-900 {
     border-color: var(--color-zinc-900);
   }
+  .bg-\[\#fb726c\] {
+    background-color: #fb726c;
+  }
+  .bg-\[\#febd7d\] {
+    background-color: #febd7d;
+  }
   .bg-\[\#fecaca\] {
     background-color: #fecaca;
+  }
+  .bg-\[\#ffe658\] {
+    background-color: #ffe658;
   }
   .bg-amber-300 {
     background-color: var(--color-amber-300);
@@ -1332,6 +1376,12 @@
   .text-black {
     color: var(--color-black);
   }
+  .text-slate-700 {
+    color: var(--color-slate-700);
+  }
+  .text-slate-800 {
+    color: var(--color-slate-800);
+  }
   .text-white {
     color: var(--color-white);
   }
@@ -1355,6 +1405,9 @@
   }
   .opacity-15 {
     opacity: 15%;
+  }
+  .opacity-20 {
+    opacity: 20%;
   }
   .opacity-25 {
     opacity: 25%;
