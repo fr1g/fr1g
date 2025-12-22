@@ -46,15 +46,20 @@ a {
     @apply bg-emerald-500/15 rounded-lg
 }
 
-.sub-row div {
+.sub-row-strip-reverse :nth-child(even):not(.header) .cell {
+    @apply bg-emerald-500/15 rounded-lg
+}
+
+.sub-row div, .sub-row-strip-reverse div {
     @apply gap-2.5 p-1
 }
 
-.sub-row div div, .sub-row div p {
+.sub-row div div, .sub-row div p,
+.sub-row-strip-reverse div div, .sub-row-strip-reverse div p {
     @apply p-1 px-3 text-emerald-900
 }
 
-.sub-row {
+.sub-row, .sub-row-strip-reverse {
     @apply p-3 space-y-1
 }
 
