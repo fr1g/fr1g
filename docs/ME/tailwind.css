@@ -22,6 +22,44 @@ a {
     @apply top-0 left-0 right-0 bottom-0
 }
 
+.resume>code, code.code {
+    height: min-content !important;
+    line-height: 1em;
+    @apply bg-emerald-200/60 shadow px-1.5 py-[3px] mx-0.5 break-keep rounded-md inline-block my-auto scale-95;
+}
+
+/* row tables */
+
+.row>div:not(.header):nth-child(odd) {
+    @apply bg-emerald-500/15 rounded-lg
+}
+
+.row>div {
+    @apply p-2.5 py-1 align-middle text-emerald-900
+}
+
+.row .header, .sub-row .header div {
+    @apply text-emerald-700 font-bold text-lg;
+}
+
+.sub-row :nth-child(odd):not(.header) .cell {
+    @apply bg-emerald-500/15 rounded-lg
+}
+
+.sub-row div {
+    @apply gap-2.5 p-1
+}
+
+.sub-row div div, .sub-row div p {
+    @apply p-1 px-3 text-emerald-900
+}
+
+.sub-row {
+    @apply p-3 space-y-1
+}
+
+/* end row tables */
+
 .news-auto {
     @apply top-auto left-auto right-auto bottom-auto
 }

@@ -20,13 +20,14 @@
 </head>
 
 <body class="bg-zinc-700/90 text-zinc-50 w-full min-h-screen grid items-center justify-center">
-    <ul class="p-3 rounded-lg shadow-lg bg-zinc-800 space-y-1.5 min-w-[30vw]">
+    <ul class="p-3 rounded-lg shadow-lg bg-zinc-800 space-y-1.5 min-w-[39vw]">
         <li>
             <h1 class="text-xl font-semibold mb-3">Index of <b class="font-bold codic" i>ME</b>.Designs</h1>
         </li>
         <li>Visit Card Design: <b>./visitCard.html</b></li>
+        <li>Visit Card Design: <b>./visitCard-original.html</b>(old)</li>
         <li>Work Plate: <b>./workplate.html</b></li>
-        <li>Resume: <b x>./resume.html?target=online</b></li>
+        <li>Resume: <b id="online" x>./resume.html?target=online</b></li>
 
         <li>Copyrights: <b>./copyright.html</b></li>
         <li>
@@ -35,5 +36,24 @@
     </ul>
 </body>
 <script src="./bi.js"></script>
+<script>
+    const online = document.getElementById('online');
+    const ep1 = './resume.html?target=online', ep2 = './rEsume.html?target=real';
+    let isChanged = false;
+
+    window.addEventListener("keydown", (e) => {
+        if (e.key.toLowerCase() != " " || isChanged) return;
+        online.innerHTML = ep2;
+        isChanged = true;
+        doReplace(true);
+    });
+
+    window.addEventListener("keyup", (e) => {
+        if (e.key.toLowerCase() != " " || !isChanged) return;
+        online.innerHTML = ep1;
+        isChanged = false;
+        doReplace(true);
+    });
+</script>
 
 </html>

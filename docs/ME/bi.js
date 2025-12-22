@@ -1,1 +1,1 @@
-for (var x of document.getElementsByTagName("b")) if (x.getAttribute("i") == null) x.innerHTML = '<a target="_blank" href="' + x.innerHTML + '">' + (x.getAttribute("x") != null ? x.innerHTML.split("?")[0] : x.innerHTML) + "</a>";
+const doReplace = (isUpdate = false) => { for (var x of document.getElementsByTagName("b")) if (isUpdate && x.firstElementChild) continue; else if (x.getAttribute("i") == null) x.innerHTML = '<a target="_blank" href="' + x.innerHTML + '">' + (x.getAttribute("x") != null ? x.innerHTML.split("?")[0] : x.innerHTML) + "</a>"; }; doReplace();

@@ -8,17 +8,45 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> -->
     <link rel="stylesheet" href="output.css">
     <link rel="stylesheet" href="style.css">
+    <style>
+        @font-face {
+            font-family: opposans;
+            src: url('./fonts/opposans.ttf');
+        }
+
+        @font-face {
+            font-family: xwwenkai-mono;
+            src: url('./fonts/LXGWWenKaiMono-Regular.ttf');
+        }
+
+        .wenkai-mono {
+            font-family: xwwenkai-mono;
+        }
+
+        .oppo-sans {
+            font-family: opposans;
+        }
+    </style>
 </head>
 
 <body class="w-full h-full bg-zinc-300 grid items-center justify-items-center justify-center min-h-screen">
     <div id="mainWrap" class="flex flex-row gap-6 p-10">
         <div class="cardbone ">
             <div class="@layer:text z-20 absolute news-0 p-6">
-                <div class="clear-both absolute top-6 left-6 right-6 bottom-auto">
-                    <img src="./items/head-signature.svg" alt="" class="grayscale-100 float-left pl-0.5" width="16%" />
-                    <div class="float-right grid gap-1.5 text-zinc-800">
-                        <div class="text-xl flex gap-1.5 flex-row? font-semibold h-[20px] flex-row-reverse ">
-
+                <div class="grid grid-cols-4 gap-1 absolute top-6 left-6 right-6 bottom-auto">
+                    <div class="pl-0.5">
+                        <img src="./items/head-signature.svg" alt="" class="grayscale-100" width="66.666%" />
+                        <br><br>
+                        <div class="overflow-visible w-screen! ">
+                            <h1 class="oppo-sans text-3xl/7.5 font-bold my-1.5 tracking-wide">Feiron Iguista</h1>
+                            <h2 class="oppo-sans text-base/5 tracking-wider">
+                                Web FrontEnd / Translator <br>
+                                Bachelor VlSU
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="col-span-3 grid gap-1.5 text-zinc-800 h-fit relative right-3">
+                        <div class="text-xl flex gap-1.5 font-semibold h-[20px] flex-row-reverse scale-110">
                             <div class="ikonka">
                                 <div class="news-auto inline-block absolute text-shadow-xs text-shadow-zinc-600/60">
                                     &#xe903;</div>
@@ -40,36 +68,24 @@
                                     &#xe905;</div>
                             </div>
                         </div>
-                        <div
-                            class="text-right mt-1 text-shadow-sm text-shadow-zinc-500/50 text-xl -translate-y-1.5 block">
-                            <span class="font-semibold">Feiron Iguista</span>
-                            <div class="inline-block align-sub -translate-y-px -translate-x-px?">
-                                <span
-                                    class=" w-[20px] aspect-square rounded-full shadow-sm shadow-zinc-500 border-[3px] border-zinc-800 block "></span>
-                            </div>
-                        </div>
-                        <div class="codic text-right text-xl text-shadow-sm text-shadow-zinc-300/30 -translate-y-2.5">
-                            <span class="text-xl">@<span class="underline codic">fr1g</span></span>
-                            <div class="align-middle text-xl inline-block -translate-y-1   ">
-                                <span class="block ikonka">&#xe902;</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
-                <div class="top-auto bottom-7 left-7 right-auto absolute grid grid-cols-3 gap-0 text-lg -translate-x-0.5"
-                    style="writing-mode: vertical-lr;">
-                    <div>
-                        <p class="align-middle text-center -translate-x-0.5"><span
-                                class="rotate-90 text-xl text-shadow-sm text-shadow-zinc-500/50 inline-block">&#xe90a;</span>
+                <div class="top-auto bottom-5 left-6 right-auto absolute flex flex-wrap gap-3 text-lg ">
+                    <div class=" space-y-1">
+                        <p class="align-middle text-center "><span
+                                class=" text-xl text-shadow-sm text-shadow-zinc-500/50 inline-block">&#xe902;</span>
                         </p>
-                        <p class="align-middle text-center -translate-x-0.5"><span
-                                class="rotate-90 text-xl text-shadow-sm text-shadow-zinc-500/50 inline-block">&#xe908;</span>
+                        <p class="align-middle text-center "><span
+                                class=" text-xl text-shadow-sm text-shadow-zinc-500/50 inline-block">&#xe90a;</span>
                         </p>
-
+                        <p class="align-middle text-center "><span
+                                class=" text-xl text-shadow-sm text-shadow-zinc-500/50 inline-block">&#xe908;</span>
+                        </p>
                     </div>
-                    <div class="col-span-2 text-right codic">
-                        <p class="text-shadow-xs text-xl text-shadow-zinc-600/60">Feiron_Iguista</p>
-                        <p class="text-shadow-xs text-xl text-shadow-zinc-600/60">@frigdec</p>
+                    <div class="codic space-y-1">
+                        <p class="text-shadow-xs text-lg text-shadow-zinc-600/60">@fr1g</p>
+                        <p class="text-shadow-xs text-lg text-shadow-zinc-600/60">Feiron_Iguista</p>
+                        <p class="text-shadow-xs text-lg text-shadow-zinc-600/60">@frigdec</p>
                     </div>
                 </div>
             </div>
