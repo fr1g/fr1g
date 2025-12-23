@@ -27,7 +27,7 @@
             realPath = "./resumeReal.html";
             break;
     }
-    router.setAttribute("src", realPath);
+    router.setAttribute("src", `${realPath}${window.location.hash}`);
 
     router.addEventListener("load", () => {
         let inner = router.contentDocument || router.contentWindow.document;
