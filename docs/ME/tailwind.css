@@ -65,7 +65,7 @@ a {
 
 /* end row tables */
 
-body.real .resume>code, code.code {
+body.real .resume>code, body.real code.code {
     height: min-content !important;
     line-height: 1em;
     @apply bg-sky-200/60 shadow px-1.5 py-[3px] mx-0.5 break-keep rounded-md inline-block my-auto scale-95;

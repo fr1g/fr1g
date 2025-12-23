@@ -1759,7 +1759,7 @@ a {
   }
   padding: calc(var(--spacing) * 3);
 }
-body.real .resume>code, code.code {
+body.real .resume>code, body.real code.code {
   height: min-content !important;
   line-height: 1em;
   margin-inline: calc(var(--spacing) * 0.5);
