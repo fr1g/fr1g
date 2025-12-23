@@ -19,7 +19,8 @@
     const target = (new URLSearchParams(window.location.search)).get("target");
     let realPath = "";
     console.log(target);
-    switch (target.toLowerCase()) {
+    switch (target?.toLowerCase()) {
+        default:
         case "online":
             realPath = "./resumeOnline.html";
             break;
