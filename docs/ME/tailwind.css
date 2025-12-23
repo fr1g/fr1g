@@ -65,6 +65,53 @@ a {
 
 /* end row tables */
 
+body.real .resume>code, code.code {
+    height: min-content !important;
+    line-height: 1em;
+    @apply bg-sky-200/60 shadow px-1.5 py-[3px] mx-0.5 break-keep rounded-md inline-block my-auto scale-95;
+}
+
+/* row tables */
+
+body.real .row>div:not(.header):nth-child(odd) {
+    @apply bg-sky-500/15 rounded-lg
+}
+
+body.real .row>div {
+    @apply p-2.5 py-1 align-middle text-sky-900
+}
+
+body.real .row .header, body.real .sub-row .header div {
+    @apply text-sky-700 font-bold text-lg;
+}
+
+body.real .sub-row :nth-child(odd):not(.header) .cell {
+    @apply bg-sky-500/15 rounded-lg
+}
+
+body.real .sub-row-strip-reverse :nth-child(even):not(.header) .cell {
+    @apply bg-sky-500/15 rounded-lg
+}
+
+body.real .sub-row div, body.real .sub-row-strip-reverse div {
+    @apply gap-2.5 p-1
+}
+
+body.real .sub-row div div, body.real .sub-row div p,
+body.real .sub-row-strip-reverse div div, body.real .sub-row-strip-reverse div p {
+    @apply p-1 px-3 text-sky-900
+}
+
+body.real .sub-row, body.real .sub-row-strip-reverse {
+    @apply p-3 space-y-1
+}
+
+body.real div.cell, body.real p.cell, body.real .row * {
+    @apply backdrop-blur-xl backdrop-brightness-50 backdrop-opacity-55;
+}
+
+/* end row tables */
+
 .news-auto {
     @apply top-auto left-auto right-auto bottom-auto
 }
