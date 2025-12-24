@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Femboys' Christmas Tree</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        body {
+            background-image: linear-gradient(45deg, #fdcbcb 25%, #fFafaa 25%, #fFafaa 50%, #fdcbcb 50%, #fdcbcb 75%, #fFafaa 75%, #fFafaa 100%);
+            background-size: 109px 109px;
+            /*https://tools.st/*/
+        }
+    </style>
+</head>
+
+<body class="w-full min-h-screen p-5 md:p-0 md:grid items-center justify-items-center">
+    <div class="bg-rose-50 rounded-xl shadow-lg shadow-rose-950/30 p-5 w-full h-full md:w-auto md:h-auto space-y-5">
+        <h1 class="text-center mx-3 text-xl text-rose-900 font-bold">圣诞快乐，提前送大家一颗圣诞树</h1>
+
+        <div class="bg-zinc-300/30 rounded-xl shadow grid items-center justify-items-center p-3">
+            <pre id="show" class="select-all text-rose-800 font-sans block">嗨喵</pre>
+        </div>
+
+
+        <input type="text" id="in" maxlength="64" placeholder="输入上限64，想取消自己f12" autocomplete="off"
+            class="bg-rose-500/5 px-3 py-2 w-full focus:outline-rose-300/80 rounded-xl shadow text-rose-900 transition hover:opacity-80">
+    </div>
+</body>
+<script>
+    const singleColPre = '                ', doubleColPre = '               ', sudfcpre = '              ';
+    const template = `
+                   ⭐️
+                《嗨》
+               《你好》
+             《你好香》
+           《你手好冰》
+          《比比手大小》
+        《你的眼睛好美》
+      《今晚可以不走嘛》
+     《我就抱着你不乱动》
+   《我就摸一摸不干别的》
+ 《卧槽你电脑里面怎么有》
+#i#
+        《你给我滚出去》
+    `, insert = '#i#', show = document.getElementById("show"), input = document.getElementById('in'), autoDoubleRange = 10;
+
+    function finalNode(char, isSingleUnderDouble) {
+        return isSingleUnderDouble ? `${sudfcpre}《 ${wrapAsNeed(char)} 》` : `${doubleColPre}《${char}》`;
+    }
+
+    function gen(log) {
+        let doubling = log.length > autoDoubleRange, isOdd = (log.length % 2) == 1, prepare = '';
+        if (doubling) {
+            let finalNodePrep = isOdd ? log.substring(log.length - 1, log.length) : log.substring(log.length - 2, log.length);
+            finalNodePrep = finalNode(finalNodePrep, isOdd);
+            let cache = '';
+            for (let c of log) {
+                if (cache == '') {
+                    cache = c;
+                    continue;
+                }
+                prepare += `${doubleColPre}《${cache + c}》\n`;
+                cache = '';
+            }
+            prepare += finalNodePrep;
+        } else {
+            for (let c of log)
+                prepare += `${singleColPre}《${wrapAsNeed(c)}》\n`;
+            prepare = prepare.substring(0, prepare.length - 1);
+        }
+        prepare = template.replace(insert, prepare);
+        show.innerHTML = prepare;
+    }
+
+    function isNeedToWrap(part) {
+        const wrappables = ['I', 'J', 'L']; // + 97~122
+        return false ||
+            wrappables.some(x => x === part) ||
+            !isNaN(part) && part.length != 0 ||
+            (part.length == 1 && (part.charCodeAt(0) <= 122 && part.charCodeAt(0) >= 97));
+    }
+
+    function wrapAsNeed(part) {
+        let result = '';
+        if (part.length > 1) {
+            let hit = '';
+            for (let one of part)
+                if (isNeedToWrap(one))
+                    hit += ' ';
+            return `${hit}${part}`;
+        } else return isNeedToWrap(part) ? ` ${part} ` : part;
+
+    }
+
+    input.addEventListener("input", (e) => {
+        gen(e.target.value)
+    })
+
+</script>
+
+</html>
