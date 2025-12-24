@@ -27,6 +27,7 @@
 
         <input type="text" id="in" maxlength="64" placeholder="输入上限64，想取消自己f12" autocomplete="off"
             class="bg-rose-500/5 px-3 py-2 w-full focus:outline-rose-300/80 rounded-xl shadow text-rose-900 transition hover:opacity-80">
+        <p class="text-rose-500/35 italic text-center text-xs/3">没有复制按钮，上方展示区会自动全选，问就是太懒了。</p>
     </div>
 </body>
 <script>
@@ -64,7 +65,7 @@
                 }
                 prepare += `${doubleColPre}《${cache + c}》\n`;
                 cache = '';
-            }
+            } // issue not gonna fix cuz whatever: duplicate line with final loop + finalNode call
             prepare += finalNodePrep;
         } else {
             for (let c of log)
