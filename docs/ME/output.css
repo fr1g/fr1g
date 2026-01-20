@@ -245,8 +245,17 @@
   .absolute {
     position: absolute;
   }
+  .fixed {
+    position: fixed;
+  }
   .relative {
     position: relative;
+  }
+  .-top-1 {
+    top: calc(var(--spacing) * -1);
+  }
+  .-top-1\.5 {
+    top: calc(var(--spacing) * -1.5);
   }
   .-top-43 {
     top: calc(var(--spacing) * -43);
@@ -346,6 +355,12 @@
   }
   .bottom-auto {
     bottom: auto;
+  }
+  .-left-1 {
+    left: calc(var(--spacing) * -1);
+  }
+  .-left-1\.5 {
+    left: calc(var(--spacing) * -1.5);
   }
   .left-0 {
     left: calc(var(--spacing) * 0);
@@ -470,9 +485,6 @@
   .mb-3 {
     margin-bottom: calc(var(--spacing) * 3);
   }
-  .mb-5 {
-    margin-bottom: calc(var(--spacing) * 5);
-  }
   .mb-px {
     margin-bottom: 1px;
   }
@@ -487,9 +499,6 @@
   }
   .hidden {
     display: none;
-  }
-  .hidden\! {
-    display: none !important;
   }
   .inline {
     display: inline;
@@ -601,9 +610,6 @@
   }
   .max-w-\[96\%\] {
     max-width: 96%;
-  }
-  .min-w-\[39vw\] {
-    min-width: 39vw;
   }
   .min-w-\[350px\] {
     min-width: 350px;
@@ -774,6 +780,9 @@
   }
   .transform {
     transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
+  }
+  .cursor-pointer {
+    cursor: pointer;
   }
   .resize {
     resize: both;
@@ -1394,9 +1403,6 @@
   .py-5 {
     padding-block: calc(var(--spacing) * 5);
   }
-  .py-10 {
-    padding-block: calc(var(--spacing) * 10);
-  }
   .py-px {
     padding-block: 1px;
   }
@@ -1536,6 +1542,15 @@
   .text-black {
     color: var(--color-black);
   }
+  .text-emerald-500 {
+    color: var(--color-emerald-500);
+  }
+  .text-emerald-500\/50 {
+    color: color-mix(in srgb, oklch(69.6% 0.17 162.48) 50%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      color: color-mix(in oklab, var(--color-emerald-500) 50%, transparent);
+    }
+  }
   .text-emerald-700 {
     color: var(--color-emerald-700);
   }
@@ -1555,6 +1570,15 @@
     color: color-mix(in srgb, oklch(37.8% 0.077 168.94) 80%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       color: color-mix(in oklab, var(--color-emerald-900) 80%, transparent);
+    }
+  }
+  .text-sky-500 {
+    color: var(--color-sky-500);
+  }
+  .text-sky-500\/50 {
+    color: color-mix(in srgb, oklch(68.5% 0.169 237.323) 50%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      color: color-mix(in oklab, var(--color-sky-500) 50%, transparent);
     }
   }
   .text-sky-600 {
@@ -1611,6 +1635,12 @@
   .text-zinc-800 {
     color: var(--color-zinc-800);
   }
+  .text-zinc-800\/90 {
+    color: color-mix(in srgb, oklch(27.4% 0.006 286.033) 90%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      color: color-mix(in oklab, var(--color-zinc-800) 90%, transparent);
+    }
+  }
   .text-zinc-950 {
     color: var(--color-zinc-950);
   }
@@ -1631,6 +1661,9 @@
   }
   .opacity-25 {
     opacity: 25%;
+  }
+  .opacity-30 {
+    opacity: 30%;
   }
   .opacity-35 {
     opacity: 35%;
@@ -1767,6 +1800,10 @@
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
   }
+  .select-none {
+    -webkit-user-select: none;
+    user-select: none;
+  }
   .text-shadow-2xs {
     text-shadow: 0px 1px 0px var(--tw-text-shadow-color, rgb(0 0 0 / 0.15));
   }
@@ -1851,6 +1888,18 @@
   .text-shadow-sm {
     text-shadow: 0px 1px 0px var(--tw-text-shadow-color, rgb(0 0 0 / 0.075)), 0px 1px 1px var(--tw-text-shadow-color, rgb(0 0 0 / 0.075)), 0px 2px 2px var(--tw-text-shadow-color, rgb(0 0 0 / 0.075));
   }
+  .text-shadow-white {
+    --tw-text-shadow-color: #fff;
+    @supports (color: color-mix(in lab, red, red)) {
+      --tw-text-shadow-color: color-mix(in oklab, var(--color-white) var(--tw-text-shadow-alpha), transparent);
+    }
+  }
+  .text-shadow-white\/55 {
+    --tw-text-shadow-color: color-mix(in srgb, #fff 55%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      --tw-text-shadow-color: color-mix(in oklab, color-mix(in oklab, var(--color-white) 55%, transparent) var(--tw-text-shadow-alpha), transparent);
+    }
+  }
   .text-shadow-xs {
     text-shadow: 0px 1px 1px var(--tw-text-shadow-color, rgb(0 0 0 / 0.2));
   }
@@ -1920,6 +1969,7 @@
 }
 .landscape {
   display: flex;
+  width: fit-content;
   flex-direction: row;
   gap: calc(var(--spacing) * 5);
   overflow-x: scroll;

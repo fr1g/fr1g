@@ -6,7 +6,7 @@
 }
 
 .landscape{
-    @apply flex flex-row overflow-x-scroll gap-5 p-15
+    @apply flex flex-row overflow-x-scroll gap-5 p-15 w-fit
 }
 
 .a4-paper {

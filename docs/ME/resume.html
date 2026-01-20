@@ -10,6 +10,24 @@
 </head>
 
 <body class="bg-slate-200">
+    <div id="tools" class="fixed z-10 px-1.5 text-sm font-medium text-shadow-2xs text-shadow-white/55 select-none text-zinc-800/90">
+        tools:
+        <span id="tl" class="underline mx-1 cursor-pointer">toggle landscape</span>
+        <span id="ex" class="underline mx-1 cursor-pointer">&times; close this</span>
+    </div>
+    <script>
+        document.getElementById('tl').addEventListener('click', () => {
+            if(window.location.hash.includes('landscape')) window.location.replace(`${window.location.href.split('#')[0]}${window.location.hash.replace('landscape', '')}`);
+            else window.location.replace(`${window.location.href.split('#')[0]}#landscape`);
+
+            window.location.reload();
+        });
+        document.getElementById('ex').addEventListener('click', () => {
+            let n = document.getElementById('tools');
+            n.innerHTML = "refresh the page to show this again. (disappearing in 3s)";
+            setTimeout(() => n.remove(), 3000);
+        });
+    </script>
     <iframe id="router" class="w-full min-h-screen bg-transparent" src="" frameborder="0">
 
     </iframe>
