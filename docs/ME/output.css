@@ -455,6 +455,9 @@
   .mt-3 {
     margin-top: calc(var(--spacing) * 3);
   }
+  .mt-3\.5 {
+    margin-top: calc(var(--spacing) * 3.5);
+  }
   .mt-5 {
     margin-top: calc(var(--spacing) * 5);
   }
@@ -601,6 +604,9 @@
   }
   .min-w-\[39vw\] {
     min-width: 39vw;
+  }
+  .min-w-\[350px\] {
+    min-width: 350px;
   }
   .flex-grow {
     flex-grow: 1;
