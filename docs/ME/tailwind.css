@@ -5,8 +5,12 @@
     font-family: 'icomoon', 'OPPOSans', system-ui;
 }
 
+.landscape{
+    @apply flex flex-row overflow-x-scroll gap-5 p-15
+}
+
 .a4-paper {
-    @apply w-[840px] h-[1188px] bg-stone-50 p-1 shadow-lg mx-auto
+    @apply min-w-[840px] min-h-[1188px] bg-stone-50 p-1 shadow-lg mx-auto
 }
 
 a {
@@ -69,6 +73,10 @@ body.real .resume>code, body.real code.code {
     height: min-content !important;
     line-height: 1em;
     @apply bg-sky-200/60 shadow px-1.5 py-[3px] mx-0.5 break-keep rounded-md inline-block my-auto scale-95;
+}
+
+.cell {
+    @apply rounded-lg
 }
 
 /* row tables */
