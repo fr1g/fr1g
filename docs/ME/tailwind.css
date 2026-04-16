@@ -2,136 +2,171 @@
 /* @import url("./style.css"); */
 
 * {
-    font-family: 'icomoon', 'OPPOSans', system-ui;
+  font-family: "icomoon", "OPPOSans", system-ui;
 }
 
-.landscape{
-    @apply flex flex-row overflow-x-scroll gap-5 p-15 w-fit
+.landscape {
+  @apply flex flex-row overflow-x-scroll gap-5 p-15 w-fit;
 }
 
 .a4-paper {
-    @apply min-w-[840px] min-h-[1188px] bg-stone-50 p-1 shadow-lg mx-auto
+  @apply min-w-[840px] min-h-[1188px] bg-stone-50  shadow-lg mx-auto;
 }
 
 a {
-    @apply text-blue-500 underline transition cursor-pointer hover:text-blue-300 active:text-blue-400 visited:via-violet-400/90
+  @apply text-blue-500 underline transition cursor-pointer hover:text-blue-300 active:text-blue-400 visited:via-violet-400/90;
 }
 
 .cardbone {
-    --scale: 7;
-    @apply relative overflow-hidden w-[calc(var(--scale)*58px)] h-[calc(var(--scale)*94px)] bg-zinc-50 shadow;
+  --scale: 7;
+  @apply relative overflow-hidden w-[calc(var(--scale)*58px)] h-[calc(var(--scale)*94px)] bg-zinc-50 shadow;
 }
 
 .news-0 {
-    @apply top-0 left-0 right-0 bottom-0
+  @apply top-0 left-0 right-0 bottom-0;
 }
 
-.resume>code, code.code {
-    height: min-content !important;
-    line-height: 1em;
-    @apply bg-emerald-200/60 shadow px-1.5 py-[3px] mx-0.5 break-keep rounded-md inline-block my-auto scale-95;
+p.clean {
+  font-size: 0.95rem !important;
+  @apply text-lg/5.5;
+}
+
+/* p.cell.clean {
+  font-size: 0.9rem !important;
+  @apply text-lg/5;
+} */
+
+.resume > code,
+code.code {
+  height: min-content !important;
+  line-height: 1em;
+  @apply bg-emerald-200/60 shadow px-1.5 py-[3px] mx-0.5 break-keep rounded-md inline-block my-auto scale-95;
 }
 
 /* row tables */
 
-.row>div:not(.header):nth-child(odd) {
-    @apply bg-emerald-500/15 rounded-lg
+.row > div:not(.header):nth-child(odd) {
+  @apply bg-emerald-500/15 rounded-lg;
 }
 
-.row>div {
-    @apply p-2.5 py-1 align-middle text-emerald-900
+.row > div {
+  @apply p-2.5 py-1 align-middle text-emerald-900;
 }
 
-.row .header, .sub-row .header div {
-    @apply text-emerald-700 font-bold text-lg;
+.row .header,
+.sub-row .header div {
+  @apply text-emerald-700 font-bold text-lg;
 }
 
 .sub-row :nth-child(odd):not(.header) .cell {
-    @apply bg-emerald-500/15 rounded-lg
+  @apply bg-emerald-500/15 rounded-lg;
 }
 
 .sub-row-strip-reverse :nth-child(even):not(.header) .cell {
-    @apply bg-emerald-500/15 rounded-lg
+  @apply bg-emerald-500/15 rounded-lg;
 }
 
-.sub-row div, .sub-row-strip-reverse div {
-    @apply gap-2.5 p-1
+.sub-row div,
+.sub-row-strip-reverse div {
+  @apply gap-2.5 p-1;
 }
 
-.sub-row div div, .sub-row div p,
-.sub-row-strip-reverse div div, .sub-row-strip-reverse div p {
-    @apply p-1 px-3 text-emerald-900
+.sub-row div div,
+.sub-row div p,
+.sub-row-strip-reverse div div,
+.sub-row-strip-reverse div p {
+  @apply p-1 px-3 text-emerald-900;
 }
 
-.sub-row, .sub-row-strip-reverse {
-    @apply p-3 space-y-1
+.sub-row,
+.sub-row-strip-reverse {
+  @apply p-3 space-y-1 py-px!;
 }
 
 /* end row tables */
 
-body.real .resume>code, body.real code.code {
-    height: min-content !important;
-    line-height: 1em;
-    @apply bg-sky-200/60 shadow px-1.5 py-[3px] mx-0.5 break-keep rounded-md inline-block my-auto scale-95;
+body.real .resume > code,
+body.real code.code {
+  height: min-content !important;
+  line-height: 1em;
+  @apply bg-sky-200/60 shadow px-1.5 py-[3px] mx-0.5 break-keep rounded-md inline-block my-auto scale-95;
 }
 
 .cell {
-    @apply rounded-lg
+  @apply rounded-lg m-0!;
 }
 
 /* row tables */
 
-body.real .row>div:not(.header):nth-child(odd) {
-    @apply bg-sky-500/15 rounded-lg
+.sub-row-strip-reverse div,
+.sub-row div {
+  @apply m-0!;
 }
 
-body.real .row>div {
-    @apply p-2.5 py-1 align-middle text-sky-900
+.sub-row-strip-reverse div .cell,
+.sub-row div .cell {
+  @apply scale-y-97;
 }
 
-body.real .row .header, body.real .sub-row .header div {
-    @apply text-sky-700 font-bold text-lg;
+body.real .row > div:not(.header):nth-child(odd) {
+  @apply bg-sky-500/15 rounded-lg;
+}
+
+body.real .row > div {
+  @apply p-2.5 py-1 align-middle text-sky-900;
+}
+
+body.real .row .header,
+body.real .sub-row .header div {
+  @apply text-sky-700 font-bold text-lg;
 }
 
 body.real .sub-row :nth-child(odd):not(.header) .cell {
-    @apply bg-sky-500/15 rounded-lg
+  @apply bg-sky-500/15 rounded-lg;
 }
 
 body.real .sub-row-strip-reverse :nth-child(even):not(.header) .cell {
-    @apply bg-sky-500/15 rounded-lg
+  @apply bg-sky-500/15 rounded-lg;
 }
 
-body.real .sub-row div, body.real .sub-row-strip-reverse div {
-    @apply gap-2.5 p-1
+body.real .sub-row div,
+body.real .sub-row-strip-reverse div {
+  @apply gap-2.5 p-1;
 }
 
-body.real .sub-row div div, body.real .sub-row div p,
-body.real .sub-row-strip-reverse div div, body.real .sub-row-strip-reverse div p {
-    @apply p-1 px-3 text-sky-900
+body.real .sub-row div div,
+body.real .sub-row div p,
+body.real .sub-row-strip-reverse div div,
+body.real .sub-row-strip-reverse div p {
+  @apply p-1 px-3 text-sky-900;
 }
 
-body.real .sub-row, body.real .sub-row-strip-reverse {
-    @apply p-3 space-y-1
+body.real .sub-row,
+body.real .sub-row-strip-reverse {
+  @apply p-3 space-y-1;
 }
 
-body.real div.cell, body.real p.cell, body.real .row * {
-    @apply backdrop-blur-xl backdrop-brightness-50 backdrop-opacity-55;
+body.real div.cell,
+body.real p.cell,
+body.real .row * {
+  @apply backdrop-blur-xl backdrop-brightness-50 backdrop-opacity-55;
 }
 
 /* end row tables */
 
 .news-auto {
-    @apply top-auto left-auto right-auto bottom-auto
+  @apply top-auto left-auto right-auto bottom-auto;
 }
 
 .news-1 {
-    @apply top-px left-px right-px bottom-px
+  @apply top-px left-px right-px bottom-px;
 }
 
 .ikonka {
-    @apply w-[20px] h-[20px] relative grid items-center justify-items-center align-middle
+  @apply w-[20px] h-[20px] relative grid items-center justify-items-center align-middle;
 }
 
-.codic, .codic>* {
-    font-family: 'icomoon', 'cascadia code' !important;
+.codic,
+.codic > * {
+  font-family: "icomoon", "cascadia code" !important;
 }
