@@ -170,3 +170,7 @@ body.real .row * {
 .codic > * {
   font-family: "icomoon", "cascadia code" !important;
 }
+
+.additional-title {
+  @apply absolute left-5.5 -top-1.5 opacity-30 text-5xl italic scale-110 w-full;
+}
