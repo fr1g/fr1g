@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-black">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        * {
+            @apply transition font-mono select-none;
+            scrollbar-color: #f1f1f1 transparent;
+        }
+
+        .btn {
+            @apply px-3 py-0.5 rounded-lg shadow hover:shadow-lg text-center text-lg bg-zinc-600 hover:bg-zinc-500/80 active:bg-zinc-400/50 h-fit;
+        }
+
+    </style>
+</head>
+
+<body class="min-h-screen w-full bg-black grid items-center justify-items-center text-white relative">
+    <div class="z-20 hidden fixed flex-col top-0 left-0 right-0 bottom-0 bg-black/85 backdrop-blur" id="todo_host">
+        <textarea class="block grow p-1.5 select-auto! resize-none" name="" id="todo_textarea"></textarea>
+        <button class="btn" id="todo_shut">关闭</button>
+    </div>
+    <div class="space-y-1.5 w-fit relative z-10">
+        <h1 class="text-center text-xl font-bold">追踪器</h1>
+        <div class="flex flex-col gap-3" id="control">
+            <div class="flex flex-row allign-middle! gap-1">
+                <button class="btn tabs mins">&minus;</button>
+                <h3 class="text-lg h-full translate-y-0.5 grow flex gap-1.5">
+                    <span class="block">已添加</span>
+                    <span class="block grow text-center select-all!" id="tables">0</span>
+                    <span class="block">个表格</span>
+                </h3>
+                <button class="btn tabs plus">&plus;</button>
+            </div>
+            <div class="flex flex-row allign-middle! gap-1">
+                <button class="btn pics mins">&minus;</button>
+                <h3 class="text-lg h-full translate-y-0.5 grow flex gap-1.5">
+                    <span class="block">已添加</span>
+                    <span class="block grow text-center select-all!" id="pictures">0</span>
+                    <span class="block">个图片</span>
+                </h3>
+                <button class="btn pics plus">&plus;</button>
+            </div>
+            <div class="w-full flex justify-between">
+                <button class="btn" id="open">小窗</button>
+                <button class="btn" id="save">保存</button>
+                <button class="btn" id="todo">待办</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const saveKey = "saved_counts";
+    let _pics = 0, _tabs = 0, _todo = "";
+    let pics, tabs, todo;
+    function doAction(to, op) {
+        switch (to) {
+            case "pics":
+                if (op === "plus")
+                    _pics++;
+                else
+                    _pics--;
+                if (_pics < 0) _pics = 0;
+                pics.innerHTML = _pics;
+                break;
+
+            case "tabs":
+                if (op === "plus")
+                    _tabs++;
+                else
+                    _tabs--;
+                if (_tabs < 0) _tabs = 0;
+                tabs.innerHTML = _tabs;
+                break;
+
+        }
+    }
+    window.onload = () => {
+        pics = document.getElementById("pictures");
+        tabs = document.getElementById("tables");
+        todo = {
+            textarea: document.getElementById("todo_textarea"),
+            host: document.getElementById("todo_host"),
+            shut: document.getElementById("todo_shut"),
+            open: document.getElementById("todo"),
+            show: false
+        };
+
+        function save() {
+            localStorage.setItem(saveKey, JSON.stringify({
+                todo: _todo,
+                tabs: _tabs,
+                pics: _pics
+            }));
+            console.log("saved");
+        }
+
+        const last = JSON.parse(localStorage.getItem(saveKey));
+        if (last && (last.todo || last.todo == "") && !`${last.todo}`.startsWith("!!!clear")) {
+            if (last.todo) _todo = last.todo;
+            if (last.pics) _pics = last.pics;
+            if (last.tabs) _tabs = last.tabs;
+
+            pics.innerHTML = _pics;
+            tabs.innerHTML = _tabs;
+            todo.textarea.value = _todo;
+            console.log("read last save");
+        }
+        todo.open.addEventListener("click", () => {
+            todo.show = true;
+            todo.host.style.display = "flex";
+            todo.textarea.focus();
+        });
+        todo.shut.addEventListener("click", () => {
+            todo.show = false;
+            todo.host.style.display = "none";
+
+            save();
+        });
+        todo.textarea.addEventListener("input", (e) => {
+            _todo = todo.textarea.value;
+        });
+        document.getElementById("save").addEventListener("click", () => {
+            save();
+        });
+        document.getElementById("open").addEventListener("click", () => {
+
+            const features = [
+                'location=no',
+                'menubar=no',
+                'toolbar=no',
+                'status=no',
+                'scrollbars=yes',
+                'resizable=yes',
+                'width=390',
+                'height=220'
+            ];
+
+            const newWindow = window.open(window.location.href, "dft", features.join(','));
+            if (!newWindow) {
+                alert('失败：内容被阻止');
+                throw new Error('No Window Object Existing');
+            }
+
+        });
+
+        document.getElementById("control").addEventListener(
+            "click",
+            (e) => {
+                if (!e.target.classList?.contains("btn")) return;
+                let classList = e.target.classList;
+                if (classList.contains("plus")) {
+                    if (classList.contains("tabs")) doAction("tabs", "plus");
+                    if (classList.contains("pics")) doAction("pics", "plus");
+                }
+                if (classList.contains("mins")) {
+                    if (classList.contains("tabs")) doAction("tabs", "mins");
+                    if (classList.contains("pics")) doAction("pics", "mins");
+                }
+            }
+        );
+    }
+</script>
+
+</html>
