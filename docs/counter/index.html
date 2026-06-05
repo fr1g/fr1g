@@ -99,6 +99,8 @@
             console.log("saved");
         }
 
+        window.addEventListener("keydown", (e) => {if(e.key == "s" && e.ctrlKey) {e.preventDefault(); save();}});
+
         const last = JSON.parse(localStorage.getItem(saveKey));
         if (last && (last.todo || last.todo == "") && !`${last.todo}`.startsWith("!!!clear")) {
             if (last.todo) _todo = last.todo;
