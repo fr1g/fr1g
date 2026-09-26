@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "sync": "npx @tailwindcss/cli -i ./tailwind.css -o ./output.css --watch"
+  },
+  "dependencies": {
+    "tailwindcss": "^4.1.15"
+  }
+}

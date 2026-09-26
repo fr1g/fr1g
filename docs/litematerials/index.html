@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Materials Better, Litematica!</title>
+    <link rel="stylesheet" href="output.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>        
+        tailwind.config = { darkMode: 'class' }
+        console.log('tailwind play cdn is used as a follower of newest layout, meanwhile the site do got a fallback written tailwind css inside.')
+    </script>
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <link rel="manifest" href="./manifest.json" />
+    <meta name="keywords" content="minecraft,litematica,schematica,minecraft-tools,frig,feiron-iguista,build,minecraft-architecture,build-materials,minecraft-items,list-tool,mc工具,建筑物品清单,mc建筑,minecraft-item-calculator,潜影盒计算器">
+    <meta name="description" content="Litematerials是用于将Litematica/Schematica导出TXT格式放置物品清单更清晰展示并能计算物品需要的潜影盒大概数量的工具。">
+    <script>
+        var Results = '', max = -1;
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("./service-worker.js");
+        }
+    </script>
+    <style>
+        .reverse{
+            filter: invert(0.9);
+        }
+        #inputed::file-selector-button{
+            border-radius: .5rem;
+            border-color: rgba(175, 175, 175, 0.29);
+            opacity: .8;
+            transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 100ms;
+        }
+        #inputed::file-selector-button:hover{
+            opacity: .9;
+        }
+        #inputed::file-selector-button:active{
+            opacity: .7;
+        }
+
+        *{
+            user-select: none;
+        }
+    </style>
+    <script>
+        const RunDarkCheck = () => {
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            }
+        }
+        RunDarkCheck();
+        var Instance = {
+            Title: '',
+            Data: [],
+            Raw: '',
+            Table: '',
+            FileInstance: null
+        }
+
+    </script>
+</head>
+<body class="bg-zinc-200 dark:bg-zinc-800 text-zinc-950 dark:text-zinc-50 transition p-1.5 md:p-3">
+    <h1 class="absolute -top-10" style="font-size: 0;">Show Materials Better, Litematica! <a href="#" id="LINKHANDLER" target="_blank">~</a></h1>
+    <i id="start" class ></i>
+    <div class="container mx-auto rounded-lg shadow-lg bg-zinc-50 dark:bg-zinc-900 p-3 w-full m-8 mt-16 hover:shadow-xl transition ">
+        <h2 id="ttl" class="mb-3.5 mt-1 p-3 text-3xl font-semibold indent-1">untitled</h2>
+        <div class="grid grid-cols-5 gap-0 m-5" id="insert">
+
+
+            <div class="col-span-full">
+                <h2 class="text-5xl align-bottom mb-5 font-bold font-serif">Litematerials <img src="./favicon.png" alt="icon" width="3.9%" class="inline-block rounded-full -translate-y-1.5"></h2>
+                <h3 class="first-letter:text-2xl first-letter:font-semibold text-xl">选择一个本地的由LiteMatica导出/写入的 “放置材料列表” txt文件，或者输入指向该文件的在线副本的链接来开始。这个工具处理任务完全在本地进行。</h3>
+                <p> <br>
+                    一般而言，简体中文的导出文件可以直接按照默认的编码（GB18030）打开。暂时还不支持自己输入编码的名称，因为我没写也不打算写一个编码名称匹配（用于防止有的小可爱忘记输入横杠[-]，或者大小写乱输。我不知道乱输的话JS本身能不能猜测正确。） 目前已经支持了GB18030、UTF-8、Big-5.<br><br>
+                    · 在选择完本地文件后记得点GO来加载（在线文件填了链接后是点GET）
+                    · 你可以将你的在线TXT分析结果通过【ŠAR】分享键来复制链接到剪贴板。<br>
+                    · 页面上的分析结果将在你刷新/关闭标签页/关闭浏览器后消失。你可以用一些截图工具来保存这种更便于阅读的表格，或者直接把你的分享链接存起来。<br>
+                    · 物品名称跟随你导出文件的内容，而后者跟随游戏本身的本地化翻译文本。也就是说，如果你使用梗体中文语言包，那么导出的也是梗体。展示在这里的也是梗体。<br>
+                    · 上文很好地解释了为什么下方的潜影盒计算器不能自动推测单个堆叠上限。因为我没空为全部翻译文本打表然后匹配物品ID。倘若哪天LiteMatica导出文件也带物品ID了，那我必然（或许）会做堆叠上限猜测。<br>
+                    · 红色的【RE】按钮会重置全局显示，包括计算器的。<br>
+                    <br>另外，不得不说一句，<br>
+                    <span class="text-lg font-semibold">法棍真可爱UwU~</span>
+
+                    <br>
+                    <br>
+                    <hr>
+                </p>
+
+            </div>
+
+            
+        </div>
+
+        <div class="upl mt-3.5 p-3" id="uploadContainer">
+            <h3 class="text-xl font-semibold indent-2 my-1.5">选择TXT文件并选择它的编码：</h3>
+            <div class="formwrap px-1.5">
+                <form action="" id="solver">
+                    <input type="file" name="txt" id="inputed" required accept=".txt" class="shadow-sm rounded-lg border-2" />
+                    <label for="decode" class="pl-1.5">DECODING with: </label>
+                    <select name="decode" id="decode" required class="shadow-sm border-2 bg-transparent rounded-lg px-2 py-1 mx-1">
+                        <option class="bg-transparent" value="gb18030">GB18030(zh-HanS)</option>
+                        <option class="bg-transparent" value="utf-8">UTF-8</option>
+                        <option class="bg-transparent" value="big5">Big5(zh-HanT)</option>
+                    </select>
+                    <button type="submit" class="rounded-lg border shadow-sm hover:shadow-md active:shadow transition bg-emerald-500 bg-opacity-70 hover:bg-opacity-60 active:bg-opacity-50 px-3 py-1  mx-1 font-semibold" title="展示">GO</button>
+                    <span class="rounded-lg border shadow-sm hover:shadow-md active:shadow transition bg-yellow-500 bg-opacity-70 hover:bg-opacity-60 active:bg-opacity-50 px-3 py-1.5 mx-1  font-semibold" id="db" title="切换深浅色模式。按住ctrl点击来跟随系统。">DARK</span>
+                    <span onclick="Reset()" class="rounded-lg border shadow-sm hover:shadow-md active:shadow transition bg-red-500 bg-opacity-70 hover:bg-opacity-60 active:bg-opacity-50 px-3 py-1.5 mx-1  font-semibold" title="重置">RE</span>
+                </form>
+            </div>
+
+            <h3 class="text-xl font-semibold indent-2 mt-2 mb-0.5">
+                或者使用在线文件：<br>
+                <span class="text-sm font-normal opacity-75 pl-2.5 align-top">- 只要它在浏览器地址框里输入并访问后展示的是纯文本那就可以放在这里尝试获取。</span>
+                <i class="hidden from-indigo-400 via-purple-400 to-pink-400 bg-gradient-to-r"></i>
+            </h3>
+            <div class="formwrap px-1.5 ">
+                <form action="" id="bylink">
+                    <div class="flex">
+                        <input required type="url" class="border-2 block grow shadow-sm bg-transparent rounded-lg px-2 py-1 mx-1" name="link" id="link" placeholder="输入完整的链接。" />
+                        <button id="linkbutton" onclick="IsThisAValidUrl()" type="submit" class=" block rounded-lg border shadow-sm hover:shadow-md active:shadow transition bg-blue-400 bg-opacity-70 hover:bg-opacity-60 active:bg-opacity-50 px-3 py-1  mx-1 font-semibold" title="获取">GET</button>
+                        <span onclick="CheckLink()" class="rounded-lg block  border shadow-sm hover:shadow-md active:shadow transition bg-indigo-300 bg-opacity-70 hover:bg-opacity-60 active:bg-opacity-50 px-3 py-1.5 mx-1  font-semibold" title="检查">CHK</span>
+                        <span onclick="Share()" class="rounded-lg block  border shadow-sm hover:shadow-md active:shadow transition bg-lime-300 bg-opacity-70 hover:bg-opacity-60 active:bg-opacity-50 px-3 py-1.5 mx-1  font-semibold" title="分享">ŠAR</span>    
+                    </div>
+                </form>
+                <p class="text-sm font-normal opacity-70 pl-1 pt-0.5">- 无论哪个方式都需要在上面选择一个编码。默认是简体中文GB18030，已经帮你选好了。另外，分享功能(ŠAR)仅支持在线文件。</p>
+            </div>
+
+            <h3 class="text-xl font-semibold indent-2 mt-2 mb-0.5">
+                盒子计算器（半自动）：<br>
+                <span class="text-sm font-normal opacity-75 pl-2.5 align-top">- 你得手动为物品指定堆叠数量，默认是64。如果你恰好加载了一个列表，那么在物品总需求处输入#+&lt;本页列表中的编号&gt;即可调用物品的名称和数量。比如：#1 代表你列表中第一个物品。或者输入#a来选中全部材料进行计算，选中全列表的计算可能会让界面卡顿片刻，计算结果会在结束后复制到剪贴板并在“F12-控制台”输出。这里只计算总需求，而不会减去已经持有量。</span>
+            </h3>
+            <div class="formwrap px-1.5 ">
+                <h6 class="mb-1.5">物品：<span id="got-item-name" class="text-lg font-semibold">?</span></h6>
+                <form id="calc-form" action="">
+                    <label for="require">需求总量</label>
+                    <input type="text" class="border-2 shadow-sm bg-transparent rounded-lg px-2 py-1 mx-1" id="require" required />
+                    <label for="multiplier">单组堆叠</label>
+                    <input type="number" required value="64" id="multiplier" class="border-2 shadow-sm bg-transparent rounded-lg px-2 py-1 mx-1" />
+                    <span>：需求(<span id="actuallyNeed">?</span>)总共是 <span class="text-lg font-semibold" id="sets">?</span> 组，相当于 <span class="text-lg font-semibold" id="boxes">?</span> 个盒子。</span>
+                    <br><br>
+                    <button id="calc" type="submit" class="rounded-lg border shadow-sm hover:shadow-md active:shadow transition bg-fuchsia-400 bg-opacity-70 hover:bg-opacity-60 active:bg-opacity-50 px-3 py-1  mx-1 font-semibold" title="计算并将结果复制到剪贴板。">CALC</button>
+                    <span onclick="ClearCalculator()" class="rounded-lg border shadow-sm hover:shadow-md active:shadow transition bg-pink-200 bg-opacity-70 hover:bg-opacity-60 active:bg-opacity-50 px-3 py-1.5 mx-1  font-semibold" title="清空">ERAS</span>    
+                </form>
+            </div>
+
+            <script>
+                var CalculateInstance = {
+                    Total: -1,
+                    Stack: 1,
+                    Sets: '?',
+                    Boxes: '?',
+                    Item: '?',
+
+                    _use_box: '', 
+                    _use_slots: '', 
+                    _stacks: ''
+
+                }
+                // 出于懒得翻的原因所以在这里直接写了
+                var require = document.getElementById('require'),
+                    multiplier = document.getElementById('multiplier'),
+                    iactual = document.getElementById('actuallyNeed'),
+                    iitem = document.getElementById('got-item-name'),
+                    isets = document.getElementById('sets'),
+                    iboxs = document.getElementById('boxes'),
+                    calcForm = document.getElementById('calc-form'),
+                    slotName = '格',
+                    setName = '组',
+                    withName = '又',
+                    asName = '即',
+                    singleName = '个';
+
+                const ClearCalculator = () => {
+                    calcForm.reset();
+
+                    CalculateInstance = {
+                        Total: -1,
+                        Stack: 1,
+                        Sets: '?',
+                        Boxes: '?',
+                        Item: '?',
+
+                        _use_box: '', 
+                        _use_slots: '', 
+                        _stacks: ''
+
+                    }
+
+                    isets.innerHTML = CalculateInstance.Sets;
+                    iboxs.innerHTML = CalculateInstance.Boxes;
+                    iitem.innerHTML = CalculateInstance.Item;
+
+                    iactual.innerHTML = '?';
+
+                    max = -1;
+                    Results = '';
+
+                    PushToast('已清空。');
+
+                }
+
+                calcForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    CalculateInstance.Stack = parseInt(multiplier.value);
+                    if((CalculateInstance.Total == -1 & require.value != '#a') || CalculateInstance.Stack <= 0) {
+                        PushToast('无效值', 'err');
+                        return;
+                    }
+                    if(require.value != '#a') {
+                        CalculateInstance = Calculate(CalculateInstance);
+                        isets.innerHTML = CalculateInstance.Sets;
+                        iboxs.innerHTML = CalculateInstance.Boxes;
+
+                        let _tmp = TextResultGenerator(CalculateInstance);
+                        window.navigator.clipboard.writeText(_tmp);
+                        PushToast(`已经将结果描述文本复制到了剪贴板。预览：<br>${_tmp}`, 'bg-green-600', 3, 5600);
+                    }else{
+                        if(max == -1){
+                            PushToast('失败：没有加载物品列表', 'err');
+                            return;
+                        }
+                        PushToast(`即将开始计算全列表内容。列表总项目数量：${max}`, 'bg-purple-400', 300);
+                        for(let index = 1; index <= max; index++){
+                            let row = document.getElementsByClassName(`item-id-${index}`);
+                            let itemName = row[1].innerHTML, itemRequire = parseInt(row[2].innerHTML);
+                            Results += `- [ ] ${TextResultGenerator(Calculate(CalcInstFact(itemRequire, itemName))).replace('。', '；')}\n`;
+                        }
+                        let titlename = document.getElementById('ttl').innerHTML;
+                        let actualName = `${titlename.includes("'") ? (titlename.substring((titlename.indexOf("'") + 1), (titlename.lastIndexOf("'")))) : titlename}`;
+                        let now = new Date();
+                        let _tmp = `项目【${actualName}】的材料计算结果：\n\n==========
+                        ${Results.replaceAll(`项目【${actualName}】的材料 `, '')}
+                        \n==========
+                        生成于：${now.toLocaleString('en-US', {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'})}
+                        `.replaceAll('                        ', '');
+                        window.navigator.clipboard.writeText(_tmp);
+                        PushToast(`已经将结果描述文本复制到了剪贴板。<br>每一个条目都是按照Markdown Todo List语法在开头留有未勾选标记。你可以把它粘贴到苹果备忘录或typora来当作待办清单来用。`, 'bg-green-600', 600, 5600);
+                        console.groupCollapsed(`全表计算结果 （${now.toLocaleString('en-US', {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'})}）`);
+                        console.log(_tmp);
+                        console.groupEnd();
+                    }
+                });
+                    
+                function TextResultGenerator(instance){
+                    let titlename = document.getElementById('ttl').innerHTML;
+                    return `项目【${titlename.includes("'") ? (titlename.substring((titlename.indexOf("'") + 1), (titlename.lastIndexOf("'")))) : titlename}】的材料 “${instance.Item}”：总计需求 [${instance.Total}] 个，等于 [${((instance._use_slots - 1) < 1 ? (instance.Stack == 1 ? 1 : 0) : (instance.Stack == 1 ? instance._use_slots : instance._use_slots - 1))}] 组${((instance._use_slots - 1)) < 1 ? asName : (instance.Stack == 1 ? asName : withName)} [${instance.Stack == 1 ? instance._use_slots : (instance.Total % instance.Stack)}${singleName}] 个，需要使用 [${Math.ceil(instance._use_box)}] 个盒子装载。`;
+                }
+
+                require.addEventListener('change', (e) => {
+                    let isQuery = e.target.value.toString().includes('#');
+                    if(isQuery){
+                        if(Instance.FileInstance == null){
+                            PushToast('无效值：没有加载物品列表', 'err');
+                            return;
+                        }else if(e.target.value.toString() == '#a'){
+                            PushToast('选中全列表的计算将会让界面卡顿片刻。<br>在点击CALC后将会开始运算，并在结束后将结果复制到剪贴板。', 'warn');
+                            iitem.innerHTML = '#全列表计算';
+                            return;
+                        }
+                        else{
+                            let searching = e.target.value.toString().replace('#', ''),
+                                elements = document.getElementsByClassName(`item-id-${searching}`);
+                            if(elements.length < 4) {
+                                PushToast(`无效值：物品列表中不存在序号，或无法转换：${searching}`, 'err');
+                                return;
+                            }
+                            CalculateInstance.Item = elements[1].innerHTML;
+                            CalculateInstance.Total = parseInt(elements[2].innerHTML);
+                            // console.log(CalculateInstance)
+                        }
+                    } else {
+                        CalculateInstance.Item = '?';
+                        try {
+                            CalculateInstance.Total = parseInt(require.value);
+                            if(`${parseInt(require.value)}` == 'NaN') {
+                                PushToast(`无效值：无法转换为正整数：${require.value}`, 'err');
+                                return;
+                            }
+                        } catch (ex) {
+                            console.error(ex);
+                            PushToast(`无效值：无法转换为正整数：${require.value}`, 'err');
+                            return;
+                        }
+                    }
+
+                    CalculateInstance.Stack = parseInt(multiplier.value);
+
+                    iitem.innerHTML = CalculateInstance.Item;
+                    iactual.innerHTML = CalculateInstance.Total;
+                });
+
+
+                const Calculate = (instance) => { // total 128 items for 64 per stack equals 2 (2) stacks and require 1 box
+                    instance._stacks = (instance.Total / instance.Stack).toFixed(3);
+
+                    instance._use_slots = Math.ceil(instance._stacks);
+                    instance._use_box = (instance._use_slots / 27).toFixed(2);
+
+                    instance.Sets = `${instance._stacks} [${((instance._use_slots - 1) < 1 ? (instance.Stack == 1 ? 1 : 0) : (instance.Stack == 1 ? instance._use_slots : instance._use_slots - 1))}${setName}, ${((instance._use_slots - 1)) < 1 ? asName : (instance.Stack == 1 ? asName : withName)}${instance.Stack == 1 ? instance._use_slots : (instance.Total % instance.Stack)}${singleName}](${instance._use_slots}${slotName})`;
+                    instance.Boxes = `${instance._use_box} (${Math.ceil(instance._use_box)})`;
+                    return instance;
+                }
+
+                const CalcInstFact = (total = -1, item = '', stack = 64, sets = '', boxes = '', useBox = '', useSlots = '', stacks = '') => {
+                    return {
+                        Total: total,
+                        Stack: stack,
+                        Sets: sets,
+                        Boxes: boxes,
+                        Item: item,
+
+                        _use_box: useBox, 
+                        _use_slots: useSlots, 
+                        _stacks: stacks
+
+                    }
+                }
+            </script>
+
+
+        </div>
+    </div>
+    <h6 class="text-center my-6 px-1.5 text-sm opacity-50">
+        由于Litematica导出的文本文件太难看了所以做了个这玩意。这整个东西的实现方法都很简单粗暴，也没有什么优化。<br>
+        另外，你应该用电脑看这个网页。Handwork by Feiron Iguista!<br>
+        另外，<a class="transition-all text-blue-500 hover:text-blue-400 active:text-blue-600" target="_blank" href="https://gio.kami.su/">主站这里有法棍的自我介绍（英文）</a><br>
+        <a class="transition-all text-blue-500 hover:text-blue-400 active:text-blue-600" target="_blank" href="https://github.com/fr1g/fr1g/blob/main/docs/litematerials/index.html">在Github查看本页源代码 》</a>
+    </h6>
+
+    <!-- POPUP TOAST -->
+    <div id="popup-container select-none">
+        <div class="PopUpToastArea fixed w-full m-2 text-center bottom-0 pb-3" id="pa">
+            <!-- -->
+        </div>
+        <style>
+            :root{
+                --toast-span: .78s;
+                --toast-pos: 21vh;
+                /* POPUP TOAST CONFIGURATION */
+            }
+
+            .shine{
+                background-color: rgba(255, 255, 233, 0.5555555555555555514) !important;
+            }
+        
+            input{
+                outline: 0;
+            }
+        
+            .toast-initial{
+                transform: translateY(var(--toast-pos));
+                animation: cubic-bezier(0.075, 0.82, 0.165, 1) popupAnimate var(--toast-span) forwards;
+        
+            }
+
+            .toast-leave{
+                animation: cubic-bezier(0.075, 0.82, 0.165, 1) popupLeave var(--toast-span) forwards;
+
+            }
+        
+            @keyframes popupAnimate {
+                0%{
+                    transform: translateY(var(--toast-pos));
+                }
+                100%{
+                    transform: translateY(calc(-1 * var(--toast-pos)));
+                }
+            }
+
+            @keyframes popupLeave{
+                0%{
+                    transform: translateY(calc(-1 * var(--toast-pos)));
+                }
+                100%{
+                    transform: translateY(calc(var(--toast-pos) * 1.2));
+                }
+            }
+        </style>
+        <script>
+            const PopUpToastContainerClass = "toast-initial fixed p-3 #COLOR# border opacity-95 shadow-xl hover:shadow-2xl rounded-lg mx-auto max-w-max left-0 right-0 inline-block";
+            const PopUpToastInnerClass = "block px-2.5 mx-auto font-semibold text-lg";
+            var PopupArea = document.getElementById('pa');
+        
+            function PushToast(str, ucolor = "bg-emerald-400", later = 0, disappear = 3200){
+                let color = ucolor;
+                setTimeout(() => {
+                    switch(color){
+                        case "normal":
+                            // do nothing on the color
+                            break;
+                        case "warn":
+                            color = "bg-orange-400";
+                            break;
+                        case "err":
+                            color = "bg-rose-400";
+                            break;
+                        default:
+                            break;
+                    }
+                    let containerC;
+                    // if(color.includes(' ')){
+                    //     console.log('found space')
+                    // }else 
+                    containerC = PopUpToastContainerClass.replace('#COLOR#', color);
+                    let nPopToast = document.createElement('div');
+                    let nPopToastText = document.createElement('p');
+                    nPopToastText.innerHTML = str;
+                    nPopToast.appendChild(nPopToastText);
+                    for(let ii of containerC.split(" ")){
+                        nPopToast.classList.add(ii);
+                    }
+                    for(let ii of PopUpToastInnerClass.split(" ")){
+                        nPopToastText.classList.add(ii);
+                    }
+                    PopupArea.appendChild(nPopToast);
+        
+                    setTimeout(() => {
+                        nPopToast.classList.replace('toast-initial', 'toast-leave')
+                    }, disappear);
+                    setTimeout(() => {
+                        PopupArea.removeChild(nPopToast);
+                        delete nPopToast;
+                    }, 787 + disappear);
+        
+                }, later);
+            };
+            
+        </script>
+    </div>
+
+    <div id="controller" class="bottom-0 right-1 fixed p-3.5">
+        <div class="flex gap-1.5 m-1.5 mx-auto my-auto w-full h-full">
+            <a id="installer" href="https://gio.kami.su/assets/litematerials-installer.exe" class="bg-amber-400 px-2.5 transition shadow rounded-lg block opacity-75 hover:opacity-95 active:opacity-85 dark:opacity-75 dark:hover:opacity-95 dark:active:opacity-85 py-0.5" download="litematerials-taurized-install.exe">下载安装版 (Windows)</a>
+            <div class="bg-sky-400 px-2.5 transition shadow rounded-lg opacity-75 hover:opacity-95 active:opacity-85 dark:opacity-75 dark:hover:opacity-95 dark:active:opacity-85 py-0.5" onclick="Scroll('start')">开头</div>
+            <div class="bg-emerald-400 px-2.5 transition shadow rounded-lg opacity-75 hover:opacity-95 active:opacity-85 dark:opacity-75 dark:hover:opacity-95 dark:active:opacity-85 py-0.5" onclick="Scroll('end')">结尾</div>
+        </div>
+    </div>
+
+    <div class="h-1 w-1 opacity-0 mb-80" ></div>
+    <i id="end" class ></i>
+</body>
+
+<script>// +----------+-------+---------+--------------+ [1]: name [3]: main
+    const Scroll = (id) => {
+        let to = document.getElementById(id);
+        window.scrollTo({top: to.offsetTop, behavior: "smooth"});
+        delete to;
+        return;
+    }
+
+    const SeparatorMatcher = /[+][-]+[+][-]+[+][-]+[+][-]+[+]/;
+    var uploader = document.getElementById('inputed'),
+        insert = document.getElementById('insert'),
+        TitleArea = document.getElementById('ttl'),
+        inlink = document.getElementById('link'),
+        linkBtn = document.getElementById('linkbutton'),
+        reader = new FileReader(),
+        req = new XMLHttpRequest(); // ?cnm 
+
+    // inlink.addEventListener('change', (e) => {
+
+    // });
+
+    document.getElementById('solver').addEventListener('submit', (e) => {
+        e.preventDefault();
+        reader.readAsText(Instance.FileInstance, document.getElementById('decode').value);
+        // RunMainProcess();
+    });
+
+    document.getElementById('db').addEventListener('click', (e) => {
+        if(e.ctrlKey){
+            localStorage.removeItem('theme');
+            PushToast('由于你点击按钮时候按住了【唱跳Rap篮球】（也就是ctrl键）<br>所以深色模式现在重新跟随你的浏览器设置了。', 'dark:bg-stone-700 bg-stone-400', 1, 3456);
+            RunDarkCheck();
+        }else Dark();
+    });
+
+    document.getElementById('bylink').addEventListener('submit', (e) => {
+        e.preventDefault();
+        if(IsThisAValidUrl())
+        try{        
+            let file = getFileFromUrl(inlink.value, 'got.txt').then(_ => {
+                Instance.FileInstance = _;
+                reader.readAsText(Instance.FileInstance, document.getElementById('decode').value);
+
+            }).catch(ex => {
+                console.error(ex);
+                PushToast('获取失败', 'err');
+            });
+        }catch(ex){
+            console.error(ex);
+            PushToast('获取失败', 'err');
+        }
+        // req.open('get', inlink.value);
+        // req.onreadystatechange = (ee) => {
+        //     if(req.readyState == 4) {
+        //         console.log(req.response)
+        //         let _tmp = req.response,
+        //         encoder = new TextEncoder(document.getElementById('decode').value), decoder = new TextDecoder(document.getElementById('decode').value);
+        //         console.log(encoder)
+        //         console.log(decoder)
+        //         _tmp = encoder.encode(_tmp);
+        //         Instance.Raw = decoder.decode(_tmp);
+        //         console.log(Instance.Raw)
+        //         RunSpliter(Instance.Raw);
+        //         ApplyHTML();
+        //     }
+        // } 锟斤拷！！！
+        // req.send();
+        
+    });
+// try by link: https://gio.kami.su/litematerials/uploaded/material_list_2024-02-22_00.10.58.txt
+
+    uploader.addEventListener('change', (e) => {
+        Instance.FileInstance = e.target.files[0];
+    });
+    reader.addEventListener('load', (e) => {
+        Instance.Raw = e.currentTarget.result;
+        RunSpliter(Instance.Raw);
+        ApplyHTML();
+    });
+
+    function getFileFromUrl(url, fileName) {
+        PushToast('正在尝试获取在线文件', 'bg-blue-300', 1, 3000)
+        return new Promise(async (resolve, reject) => {
+            const response = await fetch(url).catch(ex => {console.error(ex); PushToast('获取失败：链接错误', 'err');});
+            const blob = await response.blob().catch(ex => {console.error(ex); PushToast('获取失败：内容非预期', 'err');});
+            let file = new File([blob], fileName, { type: 'text/plain' });
+            resolve(file);
+        }).catch(ex => {
+            console.error(ex);
+            PushToast('获取失败', 'err');
+        }); // method copied from https://segmentfault.com/a/1190000044026984  THANK YOU VERY MUCH FOR YOU SAVED ME FROM KUNJINKAO.
+    }
+
+    const IsThisAValidUrl = () => {
+        if(inlink.value.includes('%') ?? false){
+            console.log('converting');
+            inlink.value = decodeURIComponent(inlink.value);
+        }
+        if(inlink.value.match(/https?:\/\/[-a-z0-9]+(\.[-a-z0-9]+)*\.[a-zA-Z]{2,}\/[-a-zA-Z0-9_:@&?=+,.!/~*'%$]*/) ?? false){
+            return true;
+        }else {
+            PushToast('这是个链接？必须是【https://】开头然后接上一段网址！', 'warn', 1, 5000);
+            return false; 
+        }
+
+    }
+
+    const CheckLink = () => {
+        if(IsThisAValidUrl()){
+            PushToast('看起来这是个链接。<br>你需要在3秒后弹出的窗口里检查其是否仅包含文本。', 'bg-indigo-500', 1, 6000);
+            document.getElementById('LINKHANDLER').setAttribute('href', inlink.value);
+            setTimeout(() => {
+                document.getElementById('LINKHANDLER').click();
+            }, 4567);
+        }
+    }
+
+    const RunSpliter = (txt) => {
+        let _tmp = txt.replaceAll(' ', '').split(SeparatorMatcher);
+        Instance.Title = _tmp[1].replaceAll('|', ' ').replace("'", " '");
+        Instance.Table = _tmp[3];
+        Instance.Data = Instance.Table.replace('\r\n|').split('|\r\n|');
+    }
+
+    const Dark = () => {
+        if(document.documentElement.classList.contains('dark')){
+            document.documentElement.classList.remove('dark');
+            localStorage.theme = 'light';
+
+        }else{
+            document.documentElement.classList.add('dark');
+            localStorage.theme = 'dark';
+        }
+    }
+
+    const Reset = () => {
+        Instance = {
+            Title: '',
+            Data: [],
+            Raw: '',
+            Table: '',
+            FileInstance: null
+        };
+        insert.innerHTML = `
+            <div class="col-span-full">
+                <h2 class="text-5xl align-bottom mb-5 font-bold font-serif">Litematerials <img src="./favicon.png" alt="icon" width="3.9%" class="inline-block rounded-full -translate-y-1.5"></h2>
+                <h3 class="first-letter:text-2xl first-letter:font-semibold text-xl">选择一个本地的由LiteMatica导出/写入的 “放置材料列表” txt文件，或者输入指向该文件的在线副本的链接来开始。这个工具处理任务完全在本地进行。</h3>
+                <p> <br>
+                    一般而言，简体中文的导出文件可以直接按照默认的编码（GB18030）打开。暂时还不支持自己输入编码的名称，因为我没写也不打算写一个编码名称匹配（用于防止有的小可爱忘记输入横杠[-]，或者大小写乱输。我不知道乱输的话JS本身能不能猜测正确。） 目前已经支持了GB18030、UTF-8、Big-5.<br><br>
+                    · 在选择完本地文件后记得点GO来加载（在线文件填了链接后是点GET）
+                    · 你可以将你的在线TXT分析结果通过【ŠAR】分享键来复制链接到剪贴板。<br>
+                    · 页面上的分析结果将在你刷新/关闭标签页/关闭浏览器后消失。你可以用一些截图工具来保存这种更便于阅读的表格，或者直接把你的分享链接存起来。<br>
+                    · 物品名称跟随你导出文件的内容，而后者跟随游戏本身的本地化翻译文本。也就是说，如果你使用梗体中文语言包，那么导出的也是梗体。展示在这里的也是梗体。<br>
+                    · 上文很好地解释了为什么下方的潜影盒计算器不能自动推测单个堆叠上限。因为我没空为全部翻译文本打表然后匹配物品ID。倘若哪天LiteMatica导出文件也带物品ID了，那我必然（或许）会做堆叠上限猜测。<br>
+                    · 红色的【RE】按钮会重置全局显示，包括计算器的。<br>
+                    <br>另外，不得不说一句，<br>
+                    <span class="text-lg font-semibold">法棍真可爱UwU~</span>
+
+                    <br>
+                    <br>
+                    <hr>
+                </p>
+
+            </div>
+        `;
+        document.getElementById('solver').reset();
+        document.getElementById('bylink').reset();
+        
+        ClearCalculator();
+
+        TitleArea.innerHTML = 'untitled';
+        window.history.pushState({type: 'reset'}, '', `${(window.location.href.toString().includes('?') ? `${window.location.href}`.substring(0, `${window.location.href}`.indexOf('?')) : window.location.href)}`);
+        // localStorage.removeItem('theme');
+        // ?
+        setTimeout(() => {
+            Scroll('start');
+        }, 369);
+    }
+    
+    const ApplyHTML = () => {
+        TitleArea.innerHTML = Instance.Title;
+        insert.innerHTML = `
+                <div class="text-xl font-semibold pb-3 indent-2">编号</div>
+                <div class="text-xl font-semibold pb-3 indent-2">项目</div>
+                <div class="text-xl font-semibold pb-3 indent-2">总计</div>
+                <div class="text-xl font-semibold pb-3 indent-2">缺少</div>
+                <div class="text-xl font-semibold pb-3 indent-2">持有</div>`;
+        let sign = -1;
+        for(let each of Instance.Data){
+            sign++;
+            if(sign == 0) continue;
+            let split = each.split('|');
+
+            insert.innerHTML += `
+            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2 border-zinc-300/50 item-id-${sign}">${sign    }</div>
+            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2 border-zinc-300/50 item-id-${sign}">${split[0]}</div>
+            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2 border-zinc-300/50 item-id-${sign}">${split[1]}</div>
+            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2 border-zinc-300/50 item-id-${sign}">${split[2]}</div>
+            <div class="p-1.5 px-2.5 my-1 border-l-2 border-t-2 border-zinc-300/50 item-id-${sign}">${split[3]}</div>`;
+
+        }
+        insert.innerHTML += '<div class="border-t-2 col-span-full border-zinc-300/50"> </div>';
+        PushToast('完成');
+        max = sign;
+    }
+
+    const Share = () => {
+        let share = `${(window.location.href.toString().includes('?') ? `${window.location.href}`.substring(0, `${window.location.href}`.indexOf('?')) : window.location.href)}?xxcharset=${document.getElementById('decode').value}&&xxlink=${inlink.value ?? 'unset'}`;
+        PushToast('成功复制到了剪贴板。<br>如果没有，那么就把浏览器现在的地址栏复制走。', 'bg-lime-400', 1, 3210);
+        window.history.pushState({type: 'share'}, '', share);
+        navigator.clipboard.writeText(share);
+    }
+
+window.onload = () => {
+    let params = (`${window.location.href}`.substring(`${window.location.href}`.indexOf('?'))).replace('?', '').split('&&');
+    // process on params certainly
+    if(params[0] == window.location.href) return;
+    else {
+        let charset = 'gb18030', linking = null;
+        for(param of params){
+            if(param.includes('xxcharset=')){
+                charset = param.replace('xxcharset=', '');
+            }
+            if(param.includes('xxlink=')){
+                linking = param.replace('xxlink=', '');
+            }
+            if(param.includes('download')){
+                PushToast('链接参数：即将开始下载：安装版');
+                setTimeout(() => {
+                    document.getElementById('installer').click();
+                }, 1000);
+            }
+        }
+        inlink.value = linking;
+        document.getElementById('decode').value = charset;
+        if(linking != null && linking != 'unset') linkBtn.click();
+        console.log(`link params info: charset: ${charset}; link: ${linking}`);
+
+    }
+    // function ProcessPresetTarget(){
+    //     console.log(params == window.location.href)
+    // }()
+
+}
+
+setTimeout(() => {
+    PushToast('页面可作为应用安装<br>(如果浏览器支持)', 'from-indigo-400 via-purple-400 to-pink-400 bg-gradient-to-r', 1, 3697);
+}, 888);
+</script>
+</html>
